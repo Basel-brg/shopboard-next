@@ -253,12 +253,35 @@ export function toProduct(api: ApiProduct): Product {
   };
 }
 
+export const API_PRODUCTS_RAW: readonly ApiProduct[] = [
+  { id: 1, title: 'حقيبة مكتب توت جلدية (Leather Tote Bag)', category_name: 'Bags', price_cents: 8900, in_stock: true },
+  { id: 2, title: 'حقيبة ظهر قماشية كانفاس (Canvas Backpack)', category_name: 'Bags', price_cents: 4900, in_stock: true },
+  { id: 3, title: 'حقيبة كتف مدمجة (Mini Crossbody Bag)', category_name: 'Bags', price_cents: 3900, in_stock: false },
+  { id: 4, title: 'حذاء سنيكرز أبيض مريح (White Sneakers)', category_name: 'Shoes', price_cents: 7500, in_stock: true },
+  { id: 5, title: 'حذاء رياضي مرن للاستوديو (Running Shoes)', category_name: 'Shoes', price_cents: 11000, in_stock: true },
+  { id: 6, title: 'حذاء لوفر سويد كلاسيكي (Suede Loafers)', category_name: 'Shoes', price_cents: 9500, in_stock: true },
+  { id: 7, title: 'وشاح صوف ميرينو دافئ (Wool Scarf)', category_name: 'Accessories', price_cents: 2500, in_stock: true },
+  { id: 8, title: 'ساعة مكتب فضية أنيقة (Silver Watch)', category_name: 'Accessories', price_cents: 15000, in_stock: true },
+  { id: 9, title: 'نظارة استوديو واقية (Sunglasses)', category_name: 'Accessories', price_cents: 3500, in_stock: false },
+  { id: 10, title: 'حقيبة سفر دافل جلدية (Travel Duffel Bag)', category_name: 'Bags', price_cents: 12000, in_stock: true },
+  { id: 11, title: 'حذاء مطري مقاوم للماء (Rain Boots)', category_name: 'Shoes', price_cents: 6000, in_stock: true },
+  { id: 12, title: 'حزام جلد طبيعي بإبزيم نحاسي (Leather Belt)', category_name: 'Accessories', price_cents: 3000, in_stock: true },
+];
+
+export const API_PRODUCTS: readonly Product[] = API_PRODUCTS_RAW.map(toProduct);
+
+export const ALL_PRODUCTS: readonly Product[] = [...PRODUCTS, ...API_PRODUCTS];
+
 export async function fetchRemoteProducts(endpoint: string = '/api/products'): Promise<Product[]> {
-  const json = await apiClient<{ items: ApiProduct[]; total: number }>(endpoint);
-  if (!json.items) return [];
-  return json.items.map(toProduct);
+  try {
+    const json = await apiClient<{ items: ApiProduct[]; total: number }>(endpoint);
+    if (!json.items) return [...API_PRODUCTS];
+    return json.items.map(toProduct);
+  } catch {
+    return [...API_PRODUCTS];
+  }
 }
 
 export async function fetchProducts(): Promise<readonly Product[]> {
-  return PRODUCTS;
+  return ALL_PRODUCTS;
 }

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
 import type { Product, ProductFilterOptions, LoadState, SortOption } from '../products.types';
-import { PRODUCTS, fetchRemoteProducts } from '../products.api';
+import { ALL_PRODUCTS, fetchRemoteProducts } from '../products.api';
 import { filterProducts } from '../products.logic';
 import { useToast } from '../../../shared/components/Toast/ToastContext';
 
@@ -34,7 +34,7 @@ const DEFAULT_FILTERS: ProductFilterOptions = {
 const ProductsContext = createContext<ProductsContextValue | undefined>(undefined);
 
 export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [allProducts, setAllProducts] = useState<Product[]>([...PRODUCTS]);
+  const [allProducts, setAllProducts] = useState<Product[]>([...ALL_PRODUCTS]);
   const [filters, setFilters] = useState<ProductFilterOptions>(DEFAULT_FILTERS);
   const [activeTestState, setActiveTestState] = useState<string>('success');
   const [customLoadState, setCustomLoadState] = useState<LoadState | null>(null);

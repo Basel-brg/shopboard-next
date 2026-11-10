@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { PRODUCTS } from '@/modules/products/products.api';
+import { ALL_PRODUCTS } from '@/modules/products/products.api';
 import { getDiscountPercent } from '@/modules/products/products.logic';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/shared/components/Footer/Footer';
@@ -14,7 +14,7 @@ interface ProductDetailPageProps {
 
 export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const product = PRODUCTS.find((p) => String(p.id) === id);
+  const product = ALL_PRODUCTS.find((p) => String(p.id) === id);
 
   if (!product) {
     return {
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { id } = await params;
-  const product = PRODUCTS.find((p) => String(p.id) === id);
+  const product = ALL_PRODUCTS.find((p) => String(p.id) === id);
 
   if (!product) {
     notFound();
