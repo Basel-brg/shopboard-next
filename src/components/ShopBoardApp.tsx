@@ -19,9 +19,6 @@ export function ShopBoardApp() {
       {/* First Viewport: Comp-1 Atelier Rail & Hero Stage */}
       <ProductsHero
         onOpenDeskStudio={() => {}}
-        onOpenOrders={() => {}}
-        onOpenAuth={() => {}}
-        onToggleCart={() => {}}
         cartCount={cartState.count}
         cartTotal={cartState.total}
         userName={user?.name}

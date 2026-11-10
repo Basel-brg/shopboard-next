@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
 import type { Product, ProductFilterOptions, LoadState, SortOption } from '../products.types';
-import { ALL_PRODUCTS, fetchRemoteProducts } from '../products.api';
+import { PRODUCTS, ALL_PRODUCTS, fetchRemoteProducts } from '../products.api';
 import { filterProducts } from '../products.logic';
 import { useToast } from '../../../shared/components/Toast/ToastContext';
 
@@ -124,8 +124,10 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try {
       const remote = await fetchRemoteProducts();
       if (remote.length > 0) {
-        setAllProducts([...PRODUCTS, ...remote]);
-        showToast(`تم استيراد ${remote.length} منتجات بنجاح من API`);
+        const existingIds = new Set(PRODUCTS.map((p) => p.id));
+        const newItems = remote.filter((p) => !existingIds.has(p.id));
+        setAllProducts([...PRODUCTS, ...newItems]);
+        showToast(`تم تحديث ${remote.length} منتجات بنجاح من API`);
       } else {
         showToast('لم يتم العثور على منتجات إضافية من API');
       }
