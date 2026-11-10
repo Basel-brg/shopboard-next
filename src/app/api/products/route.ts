@@ -7,3 +7,4 @@ export async function GET() {
     total: API_PRODUCTS_RAW.length,
   });
 }
+

@@ -135,3 +135,4 @@ For detailed technical explanations on why each component was built that way, pu
 ## 📄 License
 
 MIT © 2026 ShopBoard Atelier.
+

@@ -20,12 +20,9 @@ interface OrdersContextValue {
   loadState: LoadState;
   filters: OrderFilterOptions;
   summary: OrdersSummary;
-  isOrdersModalOpen: boolean;
   selectedOrder: Order | null;
   confirmedOrder: Order | null;
   activeTestState: string;
-  openOrdersModal: () => void;
-  closeOrdersModal: () => void;
   openOrderDetails: (order: Order) => void;
   closeOrderDetails: () => void;
   closeOrderConfirmed: () => void;
@@ -59,7 +56,6 @@ export const OrdersProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [filters, setFilters] = useState<OrderFilterOptions>(DEFAULT_FILTERS);
   const [activeTestState, setActiveTestState] = useState<string>('live');
   const [customLoadState, setCustomLoadState] = useState<LoadState | null>(null);
-  const [isOrdersModalOpen, setIsOrdersModalOpen] = useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [confirmedOrder, setConfirmedOrder] = useState<Order | null>(null);
   const { showToast } = useToast();
@@ -91,9 +87,6 @@ export const OrdersProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
     return { status: 'success', data: filteredOrders };
   }, [customLoadState, allOrders.length, filteredOrders]);
-
-  const openOrdersModal = useCallback(() => setIsOrdersModalOpen(true), []);
-  const closeOrdersModal = useCallback(() => setIsOrdersModalOpen(false), []);
 
   const openOrderDetails = useCallback((order: Order) => {
     setSelectedOrder(order);
@@ -187,12 +180,9 @@ export const OrdersProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         loadState,
         filters,
         summary,
-        isOrdersModalOpen,
         selectedOrder,
         confirmedOrder,
         activeTestState,
-        openOrdersModal,
-        closeOrdersModal,
         openOrderDetails,
         closeOrderDetails,
         closeOrderConfirmed,
