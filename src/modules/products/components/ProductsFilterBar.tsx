@@ -1,8 +1,12 @@
 'use client';
+
 import React from 'react';
 import type { CategoryType, SortOption, Product } from '../products.types';
 import { CATEGORIES } from '../products.api';
 import { IconSearch } from '../../../shared/components/Icons/Icons';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 interface ProductsFilterBarProps {
   categories: readonly CategoryType[];
@@ -53,11 +57,11 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
             <label htmlFor="search-input" className="sr-only">
               البحث عن معدات المكتب
             </label>
-            <div className="search-box">
-              <span className="search-icon">
-                <IconSearch size={20} />
+            <div className="search-box relative flex items-center">
+              <span className="search-icon absolute right-3 pointer-events-none text-[var(--muted-umeboshi)]">
+                <IconSearch size={18} />
               </span>
-              <input
+              <Input
                 type="search"
                 id="search-input"
                 name="q"
@@ -66,15 +70,21 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
                 autoComplete="off"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
+                className="pr-10 pl-20 h-11 bg-white border-[var(--bamboo-border)] focus-visible:ring-[var(--charcoal-ink)]"
               />
-              <button type="submit" className="search-submit" aria-label="تنفيذ البحث">
+              <Button
+                type="submit"
+                size="sm"
+                className="absolute left-1.5 h-8 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)] px-3 text-xs"
+                aria-label="تنفيذ البحث"
+              >
                 بحث
-              </button>
+              </Button>
             </div>
           </div>
         </form>
 
-        <nav className="categories-nav" aria-label="تصنيفات معدات المكتب" id="categories-nav">
+        <nav className="categories-nav flex flex-wrap gap-2" aria-label="تصنيفات معدات المكتب" id="categories-nav">
           {categories.map((cat) => {
             const count =
               cat === 'الكل'
@@ -83,31 +93,46 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
             const isActive = selectedCategory === cat;
 
             return (
-              <button
+              <Button
                 key={cat}
                 type="button"
-                className={`category-btn ${isActive ? 'is-active' : ''}`}
+                variant={isActive ? 'default' : 'outline'}
+                size="sm"
+                className={`h-9 px-3 gap-2 rounded-full cursor-pointer font-medium transition-all ${
+                  isActive
+                    ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] hover:bg-[var(--charcoal-deep)] shadow-xs'
+                    : 'bg-[var(--washi-cream)] border-[var(--bamboo-border)] text-[var(--charcoal-ink)] hover:bg-white'
+                }`}
                 data-category={cat}
                 aria-pressed={isActive}
                 onClick={() => onSelectCategory(cat)}
               >
                 <span>{cat}</span>
-                <span className="category-count">{count}</span>
-              </button>
+                <Badge
+                  variant="secondary"
+                  className={`h-5 min-w-5 px-1.5 text-[10px] font-mono rounded-full ${
+                    isActive
+                      ? 'bg-white/20 text-[var(--washi-ivory)]'
+                      : 'bg-black/5 text-[var(--muted-umeboshi)]'
+                  }`}
+                >
+                  {count}
+                </Badge>
+              </Button>
             );
           })}
         </nav>
       </div>
 
       <form
-        className="filters-row"
+        className="filters-row flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[var(--bamboo-border)]"
         id="filters-form"
         noValidate
         onSubmit={(e) => e.preventDefault()}
       >
-        <div className="form-field price-filter-field">
-          <label htmlFor="price-range-input" className="filter-label">
-            الحد الأقصى للسعر: <strong id="price-range-output">{maxPrice} ر.س</strong>
+        <div className="form-field price-filter-field flex items-center gap-3">
+          <label htmlFor="price-range-input" className="filter-label text-xs font-semibold text-[var(--charcoal-ink)] whitespace-nowrap">
+            الحد الأقصى للسعر: <strong id="price-range-output" className="font-mono text-[var(--charcoal-ink)]">{maxPrice} ر.س</strong>
           </label>
           <input
             type="range"
@@ -123,11 +148,12 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
             step="50"
             value={maxPrice}
             onChange={(e) => onPriceChange(Number(e.target.value))}
+            className="accent-[var(--charcoal-ink)] cursor-pointer h-1.5 w-32 sm:w-44 bg-[var(--bamboo-border)] rounded-lg appearance-none"
           />
         </div>
 
-        <div className="form-field sort-filter-field">
-          <label htmlFor="sort-select" className="filter-label">
+        <div className="form-field sort-filter-field flex items-center gap-2">
+          <label htmlFor="sort-select" className="filter-label text-xs font-semibold text-[var(--charcoal-ink)] whitespace-nowrap">
             ترتيب حسب:
           </label>
           <select
@@ -141,6 +167,7 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
                 onSortChange(val);
               }
             }}
+            className="h-9 rounded-md border border-[var(--bamboo-border)] bg-white px-3 text-xs text-[var(--charcoal-ink)] focus:outline-none focus:ring-1 focus:ring-[var(--charcoal-ink)] cursor-pointer"
           >
             <option value="default">الافتراضي (ترتيب الكتالوج)</option>
             <option value="price-asc">السعر: الأقل أولاً</option>

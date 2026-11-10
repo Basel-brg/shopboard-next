@@ -1,9 +1,11 @@
 'use client';
+
 import React from 'react';
 import type { Order } from '../orders.types';
 import { getOrderStatusBadge, formatOrderDate } from '../orders.logic';
-import { Modal } from '../../../shared/components/Modal/Modal';
-import { IconClose } from '../../../shared/components/Icons/Icons';
+import { Modal } from '@/components/ui/modal';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 interface OrderDetailsModalProps {
   order: Order | null;
@@ -19,104 +21,98 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ order, onC
     <Modal
       isOpen={Boolean(order)}
       onClose={onClose}
-      id="order-details-modal"
-      className="modal-dialog order-details-dialog"
-      aria-labelledby="order-details-title"
+      size="lg"
+      title="تفاصيل الفاتورة والطلب"
+      description={`تاريخ الطلب: ${formatOrderDate(order.createdAt)}`}
+      footer={
+        <Button className="w-full bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)] cursor-pointer" onClick={onClose}>
+          إغلاق النافذة
+        </Button>
+      }
     >
-      <div className="modal-card order-details-card">
-        <header className="modal-header">
-          <h3 id="order-details-title">تفاصيل الفاتورة والطلب</h3>
-          <button
-            type="button"
-            className="icon-close-btn"
-            onClick={onClose}
-            aria-label="إغلاق تفاصيل الطلب"
-          >
-            <IconClose size={20} />
-          </button>
-        </header>
+      <div className="space-y-4">
+        {/* Order Status & Number */}
+        <div className="flex items-center justify-between p-3.5 rounded-xl bg-black/5 dark:bg-white/5 border border-[var(--bamboo-border)]/50">
+          <div>
+            <span className="text-xs text-[var(--muted-umeboshi)] block">رقم الطلب</span>
+            <h3 className="text-base font-bold font-mono text-[var(--charcoal-ink)] dark:text-[var(--foreground)]" dir="ltr">
+              #{order.orderNumber}
+            </h3>
+          </div>
+          <Badge variant="outline" className={`order-status-badge text-xs px-2.5 py-1 ${badge.className}`}>
+            {badge.icon} {badge.label}
+          </Badge>
+        </div>
 
-        <div id="order-details-body" className="order-details-content">
-          <div className="order-modal-header-meta">
-            <div className="modal-ref-group">
-              <span className="ref-label">رقم الطلب</span>
-              <h3 className="ref-number" dir="ltr">
-                #{order.orderNumber}
-              </h3>
-              <span className="ref-date">{formatOrderDate(order.createdAt)}</span>
-            </div>
-            <span className={`order-status-badge ${badge.className}`}>
-              {badge.icon} {badge.label}
-            </span>
+        {/* Details Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-[family-name:var(--font-ibm-plex)]">
+          <div className="p-3.5 rounded-xl border border-[var(--bamboo-border)]/60 bg-white/70 dark:bg-black/20 space-y-1.5">
+            <h4 className="font-bold text-sm text-[var(--charcoal-ink)] dark:text-[var(--foreground)] mb-2 font-[family-name:var(--font-readex)]">
+              بيانات المستلم والشحن
+            </h4>
+            <p>
+              <strong className="text-[var(--muted-umeboshi)]">الاسم:</strong> {order.customerName}
+            </p>
+            <p>
+              <strong className="text-[var(--muted-umeboshi)]">الهاتف:</strong> <span dir="ltr">{order.customerPhone}</span>
+            </p>
+            <p>
+              <strong className="text-[var(--muted-umeboshi)]">المدينة:</strong> {order.customerCity}
+            </p>
+            {order.trackingNumber && (
+              <p>
+                <strong className="text-[var(--muted-umeboshi)]">رقم الشحنة:</strong> <span dir="ltr">{order.trackingNumber}</span>
+              </p>
+            )}
           </div>
 
-          <div className="order-modal-details-grid">
-            <div className="detail-box">
-              <h4>بيانات المستلم والشحن</h4>
-              <p>
-                <strong>الاسم:</strong> {order.customerName}
-              </p>
-              <p>
-                <strong>الهاتف:</strong> <span dir="ltr">{order.customerPhone}</span>
-              </p>
-              <p>
-                <strong>المدينة:</strong> {order.customerCity}
-              </p>
-              {order.trackingNumber && (
-                <p>
-                  <strong>رقم الشحنة:</strong> <span dir="ltr">{order.trackingNumber}</span>
-                </p>
-              )}
-            </div>
-
-            <div className="detail-box">
-              <h4>بيانات الدفع والملخص</h4>
-              <p>
-                <strong>طريقة الدفع:</strong> {order.paymentMethod}
-              </p>
-              <p>
-                <strong>المجموع الفرعي:</strong> {order.subtotal} ر.س
-              </p>
-              <p>
-                <strong>الخصم:</strong> {order.discount > 0 ? `-${order.discount} ر.س` : '0 ر.س'}
-              </p>
-              <p>
-                <strong>رسوم الشحن:</strong>{' '}
-                {order.shipping === 0 ? 'مجاني' : `${order.shipping} ر.س`}
-              </p>
-              <p className="final-total">
-                <strong>المبلغ الصافي:</strong> <span>{order.total} ر.س</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="order-modal-items">
-            <h4>قائمة العناصر ({order.items.length})</h4>
-            <div className="modal-items-list">
-              {order.items.map((it, idx) => (
-                <div key={idx} className="modal-item-row">
-                  <img
-                    src={it.image || '/assets/products/keyboard.jpg'}
-                    alt={it.name}
-                    width="54"
-                    height="54"
-                  />
-                  <div className="modal-item-info">
-                    <span className="modal-item-name">{it.name}</span>
-                    <span className="modal-item-pricing">
-                      {it.price} ر.س × {it.quantity} = <strong>{it.price * it.quantity} ر.س</strong>
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="p-3.5 rounded-xl border border-[var(--bamboo-border)]/60 bg-white/70 dark:bg-black/20 space-y-1.5">
+            <h4 className="font-bold text-sm text-[var(--charcoal-ink)] dark:text-[var(--foreground)] mb-2 font-[family-name:var(--font-readex)]">
+              بيانات الدفع والملخص
+            </h4>
+            <p>
+              <strong className="text-[var(--muted-umeboshi)]">طريقة الدفع:</strong> {order.paymentMethod}
+            </p>
+            <p>
+              <strong className="text-[var(--muted-umeboshi)]">المجموع الفرعي:</strong> {order.subtotal} ر.س
+            </p>
+            <p>
+              <strong className="text-[var(--muted-umeboshi)]">الخصم:</strong> {order.discount > 0 ? `-${order.discount} ر.س` : '0 ر.س'}
+            </p>
+            <p>
+              <strong className="text-[var(--muted-umeboshi)]">رسوم الشحن:</strong>{' '}
+              {order.shipping === 0 ? 'مجاني' : `${order.shipping} ر.س`}
+            </p>
+            <p className="pt-1 text-sm font-bold border-t border-[var(--bamboo-border)]/40 flex justify-between">
+              <span>المبلغ الصافي:</span> <span className="text-[var(--bamboo-green)] font-mono">{order.total} ر.س</span>
+            </p>
           </div>
         </div>
 
-        <div className="modal-actions-bar">
-          <button type="button" className="btn btn-primary btn-block" onClick={onClose}>
-            إغلاق
-          </button>
+        {/* Items List */}
+        <div>
+          <h4 className="font-bold text-sm text-[var(--charcoal-ink)] dark:text-[var(--foreground)] mb-2 font-[family-name:var(--font-readex)]">
+            قائمة العناصر ({order.items.length})
+          </h4>
+          <div className="space-y-2 max-h-56 overflow-y-auto">
+            {order.items.map((it, idx) => (
+              <div key={idx} className="flex items-center gap-3 p-2 rounded-xl bg-white/70 dark:bg-black/20 border border-[var(--bamboo-border)]/40">
+                <img
+                  src={it.image || '/assets/products/keyboard.jpg'}
+                  alt={it.name}
+                  width="48"
+                  height="48"
+                  className="rounded-lg object-cover"
+                />
+                <div className="flex-1 flex justify-between items-center text-xs">
+                  <span className="font-semibold text-[var(--charcoal-ink)] dark:text-[var(--foreground)]">{it.name}</span>
+                  <span className="text-[var(--muted-umeboshi)]">
+                    {it.price} ر.س × {it.quantity} = <strong className="text-[var(--charcoal-ink)] dark:text-[var(--foreground)] font-mono">{it.price * it.quantity} ر.س</strong>
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </Modal>

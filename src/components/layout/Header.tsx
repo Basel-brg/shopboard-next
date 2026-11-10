@@ -14,6 +14,7 @@ import {
   IconSettings,
   IconBox3D,
 } from '@/shared/components/Icons/Icons';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 export function Header() {
   const pathname = usePathname();
@@ -77,6 +78,9 @@ export function Header() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
+          {/* Dark / Light Mode Toggle */}
+          <ThemeToggle />
+
           {/* Orders Link */}
           <Link
             href="/orders"

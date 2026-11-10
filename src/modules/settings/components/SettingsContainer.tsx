@@ -5,6 +5,16 @@ import Link from 'next/link';
 import { useSettings } from '../context/useSettings';
 import { useAuth } from '../../auth/context/useAuth';
 import { IconCheck, IconSettings } from '../../../shared/components/Icons/Icons';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import type { AtelierAmbiance } from '../settings.types';
 
 export const SettingsContainer: React.FC = () => {
@@ -65,195 +75,178 @@ export const SettingsContainer: React.FC = () => {
         </p>
       </div>
 
-      {/* Tabs Navigation */}
+      {/* Tabs Navigation (shadcn button variants) */}
       <div className="flex flex-wrap items-center gap-2 border-b border-[var(--bamboo-border)] pb-3 mb-8">
-        <button
+        <Button
           type="button"
+          variant={activeTab === 'profile' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('profile')}
-          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
-            activeTab === 'profile'
-              ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] shadow-xs'
-              : 'text-[var(--charcoal-ink)]/70 hover:bg-black/5'
-          }`}
         >
           الملف الشخصي والعنوان
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
+          variant={activeTab === 'atelier' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('atelier')}
-          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
-            activeTab === 'atelier'
-              ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] shadow-xs'
-              : 'text-[var(--charcoal-ink)]/70 hover:bg-black/5'
-          }`}
         >
           تفضيلات استوديو أكاري 3D
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
+          variant={activeTab === 'notifications' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('notifications')}
-          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
-            activeTab === 'notifications'
-              ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] shadow-xs'
-              : 'text-[var(--charcoal-ink)]/70 hover:bg-black/5'
-          }`}
         >
           الإشعارات والتنبيهات
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
+          variant={activeTab === 'system' ? 'default' : 'ghost'}
           onClick={() => setActiveTab('system')}
-          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
-            activeTab === 'system'
-              ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] shadow-xs'
-              : 'text-[var(--charcoal-ink)]/70 hover:bg-black/5'
-          }`}
         >
           إدارة الحساب والنظام
-        </button>
+        </Button>
       </div>
 
       {/* Tab 1: Profile & Delivery Address */}
       {activeTab === 'profile' && (
         <form onSubmit={handleProfileSubmit} className="space-y-6">
-          <div className="p-6 rounded-2xl bg-[var(--washi-cream)] border border-[var(--bamboo-border)] shadow-xs space-y-5">
-            <h2 className="text-lg font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-              بيانات المستلم والتواصل
-            </h2>
+          <Card>
+            <CardHeader>
+              <CardTitle>بيانات المستلم والتواصل</CardTitle>
+              <CardDescription>البيانات المستخدمة في الفواتير وتسليم الطلبات</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="settings-name" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                    الاسم الكامل:
+                  </label>
+                  <Input
+                    type="text"
+                    id="settings-name"
+                    value={profileForm.name}
+                    hasError={Boolean(profileErrors.name)}
+                    onChange={(e) => {
+                      setProfileForm((p) => ({ ...p, name: e.target.value }));
+                      if (profileErrors.name) setProfileErrors((p) => ({ ...p, name: '' }));
+                    }}
+                  />
+                  {profileErrors.name && (
+                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.name}</p>
+                  )}
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="settings-name" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                  الاسم الكامل:
-                </label>
-                <input
-                  type="text"
-                  id="settings-name"
-                  value={profileForm.name}
-                  onChange={(e) => {
-                    setProfileForm((p) => ({ ...p, name: e.target.value }));
-                    if (profileErrors.name) setProfileErrors((p) => ({ ...p, name: '' }));
-                  }}
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                />
-                {profileErrors.name && (
-                  <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.name}</p>
-                )}
+                <div>
+                  <label htmlFor="settings-email" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                    البريد الإلكتروني:
+                  </label>
+                  <Input
+                    type="email"
+                    id="settings-email"
+                    dir="ltr"
+                    value={profileForm.email}
+                    hasError={Boolean(profileErrors.email)}
+                    onChange={(e) => {
+                      setProfileForm((p) => ({ ...p, email: e.target.value }));
+                      if (profileErrors.email) setProfileErrors((p) => ({ ...p, email: '' }));
+                    }}
+                  />
+                  {profileErrors.email && (
+                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.email}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="settings-phone" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                    رقم الجوال:
+                  </label>
+                  <Input
+                    type="tel"
+                    id="settings-phone"
+                    dir="ltr"
+                    placeholder="0501234567"
+                    value={profileForm.phone}
+                    hasError={Boolean(profileErrors.phone)}
+                    onChange={(e) => {
+                      setProfileForm((p) => ({ ...p, phone: e.target.value }));
+                      if (profileErrors.phone) setProfileErrors((p) => ({ ...p, phone: '' }));
+                    }}
+                  />
+                  {profileErrors.phone && (
+                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.phone}</p>
+                  )}
+                </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div>
-                <label htmlFor="settings-email" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                  البريد الإلكتروني:
-                </label>
-                <input
-                  type="email"
-                  id="settings-email"
-                  dir="ltr"
-                  value={profileForm.email}
-                  onChange={(e) => {
-                    setProfileForm((p) => ({ ...p, email: e.target.value }));
-                    if (profileErrors.email) setProfileErrors((p) => ({ ...p, email: '' }));
-                  }}
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                />
-                {profileErrors.email && (
-                  <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.email}</p>
-                )}
+          <Card>
+            <CardHeader>
+              <CardTitle>عنوان التوصيل الافتراضي في المملكة</CardTitle>
+              <CardDescription>العنوان الذي ستشحن إليه طلباتك تلقائياً</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="settings-city" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                    المدينة:
+                  </label>
+                  <Input
+                    type="text"
+                    id="settings-city"
+                    value={profileForm.city}
+                    hasError={Boolean(profileErrors.city)}
+                    onChange={(e) => {
+                      setProfileForm((p) => ({ ...p, city: e.target.value }));
+                      if (profileErrors.city) setProfileErrors((p) => ({ ...p, city: '' }));
+                    }}
+                  />
+                  {profileErrors.city && (
+                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.city}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="settings-district" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                    الحي:
+                  </label>
+                  <Input
+                    type="text"
+                    id="settings-district"
+                    value={profileForm.district}
+                    onChange={(e) => setProfileForm((p) => ({ ...p, district: e.target.value }))}
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label htmlFor="settings-street" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                    الشارع والعمارة / الرمز البريدي:
+                  </label>
+                  <Input
+                    type="text"
+                    id="settings-street"
+                    value={profileForm.streetAddress}
+                    onChange={(e) => setProfileForm((p) => ({ ...p, streetAddress: e.target.value }))}
+                    placeholder="مثال: طريق الملك فهد، مبنى 14"
+                  />
+                </div>
               </div>
-
-              <div>
-                <label htmlFor="settings-phone" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                  رقم الجوال:
-                </label>
-                <input
-                  type="tel"
-                  id="settings-phone"
-                  dir="ltr"
-                  placeholder="0501234567"
-                  value={profileForm.phone}
-                  onChange={(e) => {
-                    setProfileForm((p) => ({ ...p, phone: e.target.value }));
-                    if (profileErrors.phone) setProfileErrors((p) => ({ ...p, phone: '' }));
-                  }}
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                />
-                {profileErrors.phone && (
-                  <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.phone}</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-[var(--washi-cream)] border border-[var(--bamboo-border)] shadow-xs space-y-5">
-            <h2 className="text-lg font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-              عنوان التوصيل الافتراضي في المملكة
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="settings-city" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                  المدينة:
-                </label>
-                <input
-                  type="text"
-                  id="settings-city"
-                  value={profileForm.city}
-                  onChange={(e) => {
-                    setProfileForm((p) => ({ ...p, city: e.target.value }));
-                    if (profileErrors.city) setProfileErrors((p) => ({ ...p, city: '' }));
-                  }}
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                />
-                {profileErrors.city && (
-                  <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{profileErrors.city}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="settings-district" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                  الحي:
-                </label>
-                <input
-                  type="text"
-                  id="settings-district"
-                  value={profileForm.district}
-                  onChange={(e) => setProfileForm((p) => ({ ...p, district: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="settings-street" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                  الشارع والعمارة / الرمز البريدي:
-                </label>
-                <input
-                  type="text"
-                  id="settings-street"
-                  value={profileForm.streetAddress}
-                  onChange={(e) => setProfileForm((p) => ({ ...p, streetAddress: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                  placeholder="مثال: طريق الملك فهد، مبنى 14"
-                />
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           <div className="flex items-center justify-between pt-2">
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] font-semibold text-sm hover:bg-[var(--charcoal-deep)] transition-all shadow-xs cursor-pointer"
-            >
+            <Button type="submit" size="lg" className="gap-2">
               <IconCheck size={18} />
               <span>حفظ تعديلات الملف الشخصي</span>
-            </button>
+            </Button>
 
             {saveSuccess && (
-              <span className="text-xs text-[var(--bamboo-green)] font-semibold animate-fade-in">
+              <Badge variant="green" className="text-xs font-semibold animate-fade-in">
                 ✓ تم حفظ التغييرات بنجاح
-              </span>
+              </Badge>
             )}
           </div>
         </form>
@@ -261,17 +254,14 @@ export const SettingsContainer: React.FC = () => {
 
       {/* Tab 2: Atelier 3D Preferences */}
       {activeTab === 'atelier' && (
-        <div className="space-y-6">
-          <div className="p-6 rounded-2xl bg-[var(--washi-cream)] border border-[var(--bamboo-border)] shadow-xs space-y-6">
-            <div>
-              <h2 className="text-lg font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)] mb-1">
-                طابع وإضاءة الاستوديو (Atelier Ambiance)
-              </h2>
-              <p className="text-xs text-[var(--muted-umeboshi)]">
-                اختر الجو المعماري واللوني المفضل لديك داخل الاستوديو ثلاثي الأبعاد.
-              </p>
-            </div>
-
+        <Card>
+          <CardHeader>
+            <CardTitle>طابع وإضاءة الاستوديو (Atelier Ambiance)</CardTitle>
+            <CardDescription>
+              اختر الجو المعماري واللوني المفضل لديك داخل الاستوديو ثلاثي الأبعاد.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
                 {
@@ -361,18 +351,18 @@ export const SettingsContainer: React.FC = () => {
                 />
               </label>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Tab 3: Notifications */}
       {activeTab === 'notifications' && (
-        <div className="space-y-6">
-          <div className="p-6 rounded-2xl bg-[var(--washi-cream)] border border-[var(--bamboo-border)] shadow-xs space-y-4">
-            <h2 className="text-lg font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-              قنوات الإشعارات وتتبع الطلبات
-            </h2>
-
+        <Card>
+          <CardHeader>
+            <CardTitle>قنوات الإشعارات وتتبع الطلبات</CardTitle>
+            <CardDescription>التحكم في وصول التحديثات عبر البريد والرسائل القصيرة</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
             <label className="flex items-center justify-between cursor-pointer border-b border-[var(--bamboo-border)]/40 pb-4">
               <div>
                 <span className="block text-sm font-semibold text-[var(--charcoal-ink)]">
@@ -423,18 +413,18 @@ export const SettingsContainer: React.FC = () => {
                 className="h-5 w-5 rounded border-[var(--bamboo-border)] text-[var(--charcoal-ink)] focus:ring-[var(--charcoal-ink)] cursor-pointer"
               />
             </label>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Tab 4: System & Account Management */}
       {activeTab === 'system' && (
-        <div className="space-y-6">
-          <div className="p-6 rounded-2xl bg-[var(--washi-cream)] border border-[var(--bamboo-border)] shadow-xs space-y-5">
-            <h2 className="text-lg font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-              إدارة الحساب والبيانات المخزنة
-            </h2>
-
+        <Card>
+          <CardHeader>
+            <CardTitle>إدارة الحساب والبيانات المخزنة</CardTitle>
+            <CardDescription>الإجراءات المتقدمة وإعادة الضبط</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
             <div className="p-4 rounded-xl bg-white border border-[var(--bamboo-border)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <span className="block text-sm font-semibold text-[var(--charcoal-ink)]">
@@ -444,12 +434,9 @@ export const SettingsContainer: React.FC = () => {
                   يمكنك مراجعة جميع فواتيرك وتتبع شحناتك في صفحة الطلبات المخصصة.
                 </span>
               </div>
-              <Link
-                href="/orders"
-                className="px-4 py-2 rounded-lg bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] text-xs font-semibold hover:bg-[var(--charcoal-deep)] transition-all"
-              >
-                الانتقال لصفحة طلباتي ←
-              </Link>
+              <Button asChild size="sm">
+                <Link href="/orders">الانتقال لصفحة طلباتي ←</Link>
+              </Button>
             </div>
 
             <div className="p-4 rounded-xl bg-white border border-[var(--bamboo-border)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -461,13 +448,14 @@ export const SettingsContainer: React.FC = () => {
                   إعادة ضبط جميع خيارات الاستوديو والإشعارات إلى قيمها الأصلية.
                 </span>
               </div>
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={resetSettings}
-                className="px-4 py-2 rounded-lg border border-[var(--bamboo-border)] text-xs font-semibold text-[var(--charcoal-ink)] hover:bg-black/5 transition-all cursor-pointer"
               >
                 استعادة الضبط الافتراضي
-              </button>
+              </Button>
             </div>
 
             {user && (
@@ -480,19 +468,19 @@ export const SettingsContainer: React.FC = () => {
                     أنت مسجل الدخول حالياً بحساب: {user.name} ({user.email})
                   </span>
                 </div>
-                <button
+                <Button
                   type="button"
+                  variant="destructive"
+                  size="sm"
                   onClick={logout}
-                  className="px-4 py-2 rounded-lg bg-[var(--vermilion-seal)] text-white text-xs font-semibold hover:opacity-90 transition-all cursor-pointer"
                 >
                   تسجيل الخروج
-                </button>
+                </Button>
               </div>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
 };
-

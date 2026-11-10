@@ -14,9 +14,6 @@ import {
 
 interface ProductsHeroProps {
   onOpenDeskStudio: () => void;
-  onOpenOrders: () => void;
-  onOpenAuth: () => void;
-  onToggleCart: () => void;
   cartCount: number;
   cartTotal: number;
   userName?: string;
@@ -25,9 +22,6 @@ interface ProductsHeroProps {
 
 export const ProductsHero: React.FC<ProductsHeroProps> = ({
   onOpenDeskStudio,
-  onOpenOrders,
-  onOpenAuth,
-  onToggleCart,
   cartCount,
   cartTotal,
   userName,

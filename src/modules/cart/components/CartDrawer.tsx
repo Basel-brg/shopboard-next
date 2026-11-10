@@ -206,7 +206,7 @@ export const CartDrawer: React.FC = () => {
               </form>
 
               {/* Checkout Form */}
-              <CheckoutForm cartState={state} onSubmitOrder={handleOrderSubmit} />
+              <CheckoutForm onSubmitOrder={handleOrderSubmit} />
             </>
           )}
         </div>

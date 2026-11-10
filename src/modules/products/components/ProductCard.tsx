@@ -4,6 +4,8 @@ import Link from 'next/link';
 import type { Product } from '../products.types';
 import { getDiscountPercent } from '../products.logic';
 import { IconStar, IconPlus } from '../../../shared/components/Icons/Icons';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface ProductCardProps {
   product: Product;
@@ -17,18 +19,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
   return (
     <article className="product-card" data-id={product.id}>
       <figure className="product-media">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="product-img"
-          loading="lazy"
-          width="400"
-          height="300"
-        />
+        <Link href={`/products/${product.id}`} className="block w-full h-full">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product-img"
+            loading="lazy"
+            width="400"
+            height="300"
+          />
+        </Link>
 
-        <div className="product-badges">
-          {product.tag && <span className="badge-editorial">{product.tag}</span>}
-          {discountPct > 0 && <span className="badge-discount">خصم {discountPct}%</span>}
+        <div className="product-badges flex gap-1.5 absolute top-3 right-3 z-10">
+          {product.tag && <Badge variant="editorial">{product.tag}</Badge>}
+          {discountPct > 0 && <Badge variant="discount">خصم {discountPct}%</Badge>}
         </div>
 
         <Link
@@ -89,7 +93,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
           </ul>
         )}
 
-        <div className="product-price-row">
+        <div className="product-price-row flex items-center justify-between mt-auto pt-3">
           <div className="product-price">
             <div className="price-current">
               <span className="amount">{product.price}</span>
@@ -100,16 +104,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
             )}
           </div>
 
-          <button
+          <Button
             type="button"
-            className="btn btn-add-cart"
+            size="sm"
+            className="gap-1.5"
             data-add-id={product.id}
             onClick={() => onAddToCart(product)}
             aria-label={`أضف ${product.name} إلى السلة`}
           >
-            <IconPlus size={16} />
+            <IconPlus size={15} />
             <span>أضف للسلة</span>
-          </button>
+          </Button>
         </div>
       </div>
     </article>

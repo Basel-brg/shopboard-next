@@ -8,6 +8,10 @@ import { useOrders } from '../../orders/context/useOrders';
 import { CartItemRow } from './CartItemRow';
 import { CheckoutForm } from './CheckoutForm';
 import { IconBag, IconTrash } from '@/shared/components/Icons/Icons';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 export function CartPageContainer() {
   const router = useRouter();
@@ -58,7 +62,7 @@ export function CartPageContainer() {
 
   if (state.items.length === 0) {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center p-8 text-center bg-[var(--washi-cream)] rounded-2xl border border-[var(--bamboo-border)]">
+      <Card className="flex min-h-[50vh] flex-col items-center justify-center p-8 text-center bg-[var(--washi-cream)] border-[var(--bamboo-border)]">
         <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--bamboo-tan)]/20 text-[var(--charcoal-ink)]">
           <IconBag size={36} />
         </div>
@@ -68,14 +72,13 @@ export function CartPageContainer() {
         <p className="mt-2 text-sm text-[var(--muted-umeboshi)] max-w-sm font-[family-name:var(--font-ibm-plex)]">
           لم تقم بإضافة أي قطع من أثاث أو إكسسوارات الأتيليه بعد.
         </p>
-        <Link
-          href="/products"
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--charcoal-ink)] px-6 py-2.5 text-sm font-semibold text-[var(--washi-ivory)] hover:bg-[var(--charcoal-deep)] transition-all shadow-sm"
-        >
-          <span>←</span>
-          <span>تصفح كتالوج الأتيليه</span>
-        </Link>
-      </div>
+        <Button asChild className="mt-6 gap-2 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)]">
+          <Link href="/products">
+            <span>←</span>
+            <span>تصفح كتالوج الأتيليه</span>
+          </Link>
+        </Button>
+      </Card>
     );
   }
 
@@ -84,17 +87,24 @@ export function CartPageContainer() {
       {/* Items Section (Right side in RTL) */}
       <div className="lg:col-span-7 space-y-6">
         <div className="flex items-center justify-between pb-4 border-b border-[var(--bamboo-border)]">
-          <h2 className="text-xl font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-            المنتجات المحددة ({state.count})
-          </h2>
-          <button
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
+              المنتجات المحددة
+            </h2>
+            <Badge variant="secondary" className="font-mono">
+              {state.count}
+            </Badge>
+          </div>
+          <Button
             type="button"
+            variant="ghost"
+            size="sm"
             onClick={clearCart}
-            className="inline-flex items-center gap-1.5 text-xs text-[var(--vermilion-seal)] hover:underline cursor-pointer"
+            className="text-xs text-[var(--vermilion-seal)] hover:text-[var(--vermilion-seal)] hover:bg-[var(--vermilion-seal)]/10 gap-1.5 cursor-pointer h-8"
           >
             <IconTrash size={14} />
             <span>تفريغ السلة بالكامل</span>
-          </button>
+          </Button>
         </div>
 
         {/* Items List */}
@@ -110,52 +120,58 @@ export function CartPageContainer() {
         </ul>
 
         {/* Coupon Code Section */}
-        <div className="p-4 rounded-xl border border-[var(--bamboo-border)] bg-[var(--washi-cream)]">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--muted-umeboshi)] mb-3">
-            قسيمة التخفيض أو الرمز الترويجي
-          </h3>
-          {state.appliedCoupon ? (
-            <div className="flex items-center justify-between p-3 rounded-lg border border-[var(--bamboo-green)] bg-[var(--bamboo-green)]/10 text-[var(--bamboo-green)]">
-              <span className="text-sm font-bold font-mono">
-                كوبون نشط: {state.appliedCoupon.code} ({state.appliedCoupon.percent}% خصم)
-              </span>
-              <button
-                type="button"
-                onClick={removeCoupon}
-                className="text-xs text-[var(--vermilion-seal)] hover:underline cursor-pointer"
-              >
-                إلغاء
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleApplyCoupon} className="flex gap-2">
-              <input
-                type="text"
-                placeholder="أدخل رمز الكوبون (مثل: AKARI10)"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                className="flex-1 rounded-lg border border-[var(--bamboo-border)] bg-white px-3.5 py-2 text-sm text-[var(--charcoal-ink)] focus:outline-none focus:ring-1 focus:ring-[var(--charcoal-ink)]"
-              />
-              <button
-                type="submit"
-                className="rounded-lg bg-[var(--charcoal-ink)] px-5 py-2 text-xs font-bold text-[var(--washi-ivory)] hover:bg-[var(--charcoal-deep)] transition-colors cursor-pointer"
-              >
-                تطبيق
-              </button>
-            </form>
-          )}
-        </div>
+        <Card className="border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-none">
+          <CardContent className="p-4 space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--muted-umeboshi)]">
+              قسيمة التخفيض أو الرمز الترويجي
+            </h3>
+            {state.appliedCoupon ? (
+              <div className="flex items-center justify-between p-3 rounded-lg border border-[var(--bamboo-green)] bg-[var(--bamboo-green)]/10 text-[var(--bamboo-green)]">
+                <span className="text-sm font-bold font-mono">
+                  كوبون نشط: {state.appliedCoupon.code} ({state.appliedCoupon.percent}% خصم)
+                </span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={removeCoupon}
+                  className="h-7 text-xs text-[var(--vermilion-seal)] hover:text-[var(--vermilion-seal)] hover:bg-[var(--vermilion-seal)]/10"
+                >
+                  إلغاء
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleApplyCoupon} className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder="أدخل رمز الكوبون (مثل: AKARI10)"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  className="flex-1 bg-white border-[var(--bamboo-border)]"
+                />
+                <Button
+                  type="submit"
+                  className="bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)] px-5 text-xs font-bold"
+                >
+                  تطبيق
+                </Button>
+              </form>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* Summary & Checkout Section (Left side in RTL) */}
       <div className="lg:col-span-5 space-y-6">
         {/* Order Totals Card */}
-        <div className="p-6 rounded-2xl border border-[var(--bamboo-border)] bg-[var(--washi-cream)] space-y-4 shadow-xs">
-          <h3 className="text-lg font-bold text-[var(--charcoal-ink)] pb-3 border-b border-[var(--bamboo-border)] font-[family-name:var(--font-readex)]">
-            ملخص الحساب
-          </h3>
+        <Card className="border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-xs">
+          <CardHeader className="pb-3 border-b border-[var(--bamboo-border)]">
+            <CardTitle className="text-lg font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
+              ملخص الحساب
+            </CardTitle>
+          </CardHeader>
 
-          <div className="space-y-2 text-sm font-[family-name:var(--font-ibm-plex)]">
+          <CardContent className="pt-4 space-y-3 text-sm font-[family-name:var(--font-ibm-plex)]">
             <div className="flex justify-between text-[var(--muted-umeboshi)]">
               <span>المجموع الفرعي:</span>
               <span className="font-mono font-semibold text-[var(--charcoal-ink)]">
@@ -174,7 +190,9 @@ export function CartPageContainer() {
               <span>الشحن والتوصيل:</span>
               <span className="font-mono">
                 {state.shipping === 0 ? (
-                  <span className="text-[var(--bamboo-green)] font-semibold">شحن مجاني</span>
+                  <Badge variant="secondary" className="bg-[var(--bamboo-green)]/15 text-[var(--bamboo-green)] font-semibold">
+                    شحن مجاني
+                  </Badge>
                 ) : (
                   `${state.shipping} ر.س`
                 )}
@@ -187,12 +205,12 @@ export function CartPageContainer() {
                 {state.total} ر.س
               </span>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Embedded Checkout Form */}
         <div className="p-6 rounded-2xl border border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-xs">
-          <CheckoutForm cartState={state} onSubmitOrder={handleOrderSubmit} />
+          <CheckoutForm onSubmitOrder={handleOrderSubmit} />
         </div>
       </div>
     </div>

@@ -5,6 +5,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/useAuth';
 import { validateInput } from '../../../shared/validation/validation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
 
 export const AuthPageContainer: React.FC = () => {
   const router = useRouter();
@@ -64,257 +73,248 @@ export const AuthPageContainer: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-12 sm:py-16">
-      <div className="p-6 sm:p-8 rounded-3xl bg-[var(--washi-cream)] border border-[var(--bamboo-border)] shadow-sm">
+    <div className="max-w-md w-full mx-auto px-4 py-12 sm:py-16">
+      <Card className="rounded-3xl border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-sm overflow-hidden">
         {/* Header */}
-        <div className="text-center mb-8">
-          <span className="inline-block p-3 rounded-2xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] mb-4 text-xl">
+        <CardHeader className="text-center pt-8 pb-4">
+          <div className="inline-flex self-center p-3 rounded-2xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] mb-3 text-xl shadow-xs">
             🏛️
-          </span>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
+          </div>
+          <CardTitle className="text-2xl font-bold tracking-tight text-[var(--charcoal-ink)]">
             {isAuthenticated ? 'حسابك في ShopBoard' : 'بوابة أتيليه ShopBoard'}
-          </h1>
-          <p className="text-xs text-[var(--muted-umeboshi)] mt-1 font-[family-name:var(--font-ibm-plex)]">
+          </CardTitle>
+          <CardDescription className="text-xs text-[var(--muted-umeboshi)] mt-1">
             {isAuthenticated
               ? 'مرحباً بك في لوحة تحكم حسابك ومشترياتك المكتبية'
               : 'سجل دخولك لمتابعة طلباتك وحفظ تصاميم مكتبك في الاستوديو'}
-          </p>
-        </div>
+          </CardDescription>
+        </CardHeader>
 
-        {!isAuthenticated ? (
-          <div>
-            {/* Tabs */}
-            <div className="flex border-b border-[var(--bamboo-border)] mb-6">
-              <button
-                type="button"
-                className={`flex-1 pb-3 text-sm font-semibold transition-all cursor-pointer ${
-                  activeTab === 'login'
-                    ? 'border-b-2 border-[var(--charcoal-ink)] text-[var(--charcoal-ink)]'
-                    : 'text-[var(--charcoal-ink)]/50 hover:text-[var(--charcoal-ink)]'
-                }`}
-                onClick={() => setActiveTab('login')}
-              >
-                تسجيل الدخول
-              </button>
-              <button
-                type="button"
-                className={`flex-1 pb-3 text-sm font-semibold transition-all cursor-pointer ${
-                  activeTab === 'register'
-                    ? 'border-b-2 border-[var(--charcoal-ink)] text-[var(--charcoal-ink)]'
-                    : 'text-[var(--charcoal-ink)]/50 hover:text-[var(--charcoal-ink)]'
-                }`}
-                onClick={() => setActiveTab('register')}
-              >
-                إنشاء حساب جديد
-              </button>
-            </div>
+        <CardContent className="p-6 pt-2">
+          {!isAuthenticated ? (
+            <div>
+              {/* Tab Switcher */}
+              <div className="flex border-b border-[var(--bamboo-border)] mb-6">
+                <button
+                  type="button"
+                  className={`flex-1 pb-3 text-sm font-semibold transition-all cursor-pointer ${
+                    activeTab === 'login'
+                      ? 'border-b-2 border-[var(--charcoal-ink)] text-[var(--charcoal-ink)]'
+                      : 'text-[var(--charcoal-ink)]/50 hover:text-[var(--charcoal-ink)]'
+                  }`}
+                  onClick={() => setActiveTab('login')}
+                >
+                  تسجيل الدخول
+                </button>
+                <button
+                  type="button"
+                  className={`flex-1 pb-3 text-sm font-semibold transition-all cursor-pointer ${
+                    activeTab === 'register'
+                      ? 'border-b-2 border-[var(--charcoal-ink)] text-[var(--charcoal-ink)]'
+                      : 'text-[var(--charcoal-ink)]/50 hover:text-[var(--charcoal-ink)]'
+                  }`}
+                  onClick={() => setActiveTab('register')}
+                >
+                  إنشاء حساب جديد
+                </button>
+              </div>
 
-            {/* Login Form */}
-            {activeTab === 'login' ? (
-              <form onSubmit={handleLoginSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="auth-page-login-email" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                    البريد الإلكتروني:
-                  </label>
-                  <input
-                    type="email"
-                    id="auth-page-login-email"
-                    dir="ltr"
-                    required
-                    placeholder="name@example.com"
-                    value={loginEmail}
-                    onChange={(e) => {
-                      setLoginEmail(e.target.value);
-                      if (loginErrors.email) setLoginErrors((p) => ({ ...p, email: '' }));
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                  />
-                  {loginErrors.email && (
-                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{loginErrors.email}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="auth-page-login-password" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                    كلمة المرور:
-                  </label>
-                  <input
-                    type="password"
-                    id="auth-page-login-password"
-                    dir="ltr"
-                    required
-                    placeholder="••••••••"
-                    value={loginPassword}
-                    onChange={(e) => {
-                      setLoginPassword(e.target.value);
-                      if (loginErrors.password) setLoginErrors((p) => ({ ...p, password: '' }));
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                  />
-                  {loginErrors.password && (
-                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{loginErrors.password}</p>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between text-xs pt-1">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={loginRemember}
-                      onChange={(e) => setLoginRemember(e.target.checked)}
-                      className="rounded border-[var(--bamboo-border)] text-[var(--charcoal-ink)] focus:ring-[var(--charcoal-ink)]"
+              {/* Login Form */}
+              {activeTab === 'login' ? (
+                <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="auth-page-login-email" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                      البريد الإلكتروني:
+                    </label>
+                    <Input
+                      type="email"
+                      id="auth-page-login-email"
+                      dir="ltr"
+                      required
+                      placeholder="name@example.com"
+                      value={loginEmail}
+                      hasError={Boolean(loginErrors.email)}
+                      onChange={(e) => {
+                        setLoginEmail(e.target.value);
+                        if (loginErrors.email) setLoginErrors((p) => ({ ...p, email: '' }));
+                      }}
                     />
-                    <span className="text-[var(--charcoal-ink)]">تذكر بياناتي</span>
-                  </label>
-                </div>
+                    {loginErrors.email && (
+                      <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{loginErrors.email}</p>
+                    )}
+                  </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-3 rounded-xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] font-semibold text-sm hover:bg-[var(--charcoal-deep)] transition-all shadow-xs cursor-pointer mt-4"
-                >
-                  تسجيل الدخول إلى حسابك
-                </button>
-              </form>
-            ) : (
-              /* Register Form */
-              <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="auth-page-register-name" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                    الاسم الكامل:
-                  </label>
-                  <input
-                    type="text"
-                    id="auth-page-register-name"
-                    required
-                    placeholder="عبدالله السعد"
-                    value={registerName}
-                    onChange={(e) => {
-                      setRegisterName(e.target.value);
-                      if (registerErrors.name) setRegisterErrors((p) => ({ ...p, name: '' }));
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                  />
-                  {registerErrors.name && (
-                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.name}</p>
-                  )}
-                </div>
+                  <div>
+                    <label htmlFor="auth-page-login-password" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                      كلمة المرور:
+                    </label>
+                    <Input
+                      type="password"
+                      id="auth-page-login-password"
+                      dir="ltr"
+                      required
+                      placeholder="••••••••"
+                      value={loginPassword}
+                      hasError={Boolean(loginErrors.password)}
+                      onChange={(e) => {
+                        setLoginPassword(e.target.value);
+                        if (loginErrors.password) setLoginErrors((p) => ({ ...p, password: '' }));
+                      }}
+                    />
+                    {loginErrors.password && (
+                      <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{loginErrors.password}</p>
+                    )}
+                  </div>
 
-                <div>
-                  <label htmlFor="auth-page-register-email" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                    البريد الإلكتروني:
-                  </label>
-                  <input
-                    type="email"
-                    id="auth-page-register-email"
-                    dir="ltr"
-                    required
-                    placeholder="name@example.com"
-                    value={registerEmail}
-                    onChange={(e) => {
-                      setRegisterEmail(e.target.value);
-                      if (registerErrors.email) setRegisterErrors((p) => ({ ...p, email: '' }));
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                  />
-                  {registerErrors.email && (
-                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.email}</p>
-                  )}
-                </div>
+                  <div className="flex items-center justify-between text-xs pt-1">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={loginRemember}
+                        onChange={(e) => setLoginRemember(e.target.checked)}
+                        className="rounded border-[var(--bamboo-border)] text-[var(--charcoal-ink)] focus:ring-[var(--charcoal-ink)]"
+                      />
+                      <span className="text-[var(--charcoal-ink)]">تذكر بياناتي</span>
+                    </label>
+                  </div>
 
-                <div>
-                  <label htmlFor="auth-page-register-phone" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                    رقم الجوال:
-                  </label>
-                  <input
-                    type="tel"
-                    id="auth-page-register-phone"
-                    dir="ltr"
-                    placeholder="0501234567"
-                    value={registerPhone}
-                    onChange={(e) => {
-                      setRegisterPhone(e.target.value);
-                      if (registerErrors.phone) setRegisterErrors((p) => ({ ...p, phone: '' }));
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                  />
-                  {registerErrors.phone && (
-                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.phone}</p>
-                  )}
-                </div>
+                  <Button type="submit" size="lg" className="w-full mt-4">
+                    تسجيل الدخول إلى حسابك
+                  </Button>
+                </form>
+              ) : (
+                /* Register Form */
+                <form onSubmit={handleRegisterSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="auth-page-register-name" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                      الاسم الكامل:
+                    </label>
+                    <Input
+                      type="text"
+                      id="auth-page-register-name"
+                      required
+                      placeholder="عبدالله السعد"
+                      value={registerName}
+                      hasError={Boolean(registerErrors.name)}
+                      onChange={(e) => {
+                        setRegisterName(e.target.value);
+                        if (registerErrors.name) setRegisterErrors((p) => ({ ...p, name: '' }));
+                      }}
+                    />
+                    {registerErrors.name && (
+                      <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.name}</p>
+                    )}
+                  </div>
 
-                <div>
-                  <label htmlFor="auth-page-register-password" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1">
-                    كلمة المرور:
-                  </label>
-                  <input
-                    type="password"
-                    id="auth-page-register-password"
-                    dir="ltr"
-                    required
-                    placeholder="6 خانات على الأقل"
-                    value={registerPassword}
-                    onChange={(e) => {
-                      setRegisterPassword(e.target.value);
-                      if (registerErrors.password) setRegisterErrors((p) => ({ ...p, password: '' }));
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--bamboo-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--charcoal-ink)]"
-                  />
-                  {registerErrors.password && (
-                    <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.password}</p>
-                  )}
-                </div>
+                  <div>
+                    <label htmlFor="auth-page-register-email" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                      البريد الإلكتروني:
+                    </label>
+                    <Input
+                      type="email"
+                      id="auth-page-register-email"
+                      dir="ltr"
+                      required
+                      placeholder="name@example.com"
+                      value={registerEmail}
+                      hasError={Boolean(registerErrors.email)}
+                      onChange={(e) => {
+                        setRegisterEmail(e.target.value);
+                        if (registerErrors.email) setRegisterErrors((p) => ({ ...p, email: '' }));
+                      }}
+                    />
+                    {registerErrors.email && (
+                      <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.email}</p>
+                    )}
+                  </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-3 rounded-xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] font-semibold text-sm hover:bg-[var(--charcoal-deep)] transition-all shadow-xs cursor-pointer mt-4"
-                >
-                  إنشاء الحساب وبدء التجربة
-                </button>
-              </form>
-            )}
-          </div>
-        ) : (
-          /* Authenticated User View */
-          <div className="space-y-6 text-center">
-            <div className="p-5 rounded-2xl bg-white border border-[var(--bamboo-border)]">
-              <span className="text-3xl mb-2 block">👤</span>
-              <h2 className="text-lg font-bold text-[var(--charcoal-ink)]">{user?.name}</h2>
-              <p className="text-xs text-[var(--muted-umeboshi)] mt-1" dir="ltr">
-                {user?.email}
-              </p>
-              {user?.phone && (
-                <p className="text-xs text-[var(--muted-umeboshi)] mt-0.5" dir="ltr">
-                  {user.phone}
-                </p>
+                  <div>
+                    <label htmlFor="auth-page-register-phone" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                      رقم الجوال:
+                    </label>
+                    <Input
+                      type="tel"
+                      id="auth-page-register-phone"
+                      dir="ltr"
+                      placeholder="0501234567"
+                      value={registerPhone}
+                      hasError={Boolean(registerErrors.phone)}
+                      onChange={(e) => {
+                        setRegisterPhone(e.target.value);
+                        if (registerErrors.phone) setRegisterErrors((p) => ({ ...p, phone: '' }));
+                      }}
+                    />
+                    {registerErrors.phone && (
+                      <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.phone}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="auth-page-register-password" className="block text-xs font-semibold text-[var(--charcoal-ink)] mb-1.5">
+                      كلمة المرور:
+                    </label>
+                    <Input
+                      type="password"
+                      id="auth-page-register-password"
+                      dir="ltr"
+                      required
+                      placeholder="6 خانات على الأقل"
+                      value={registerPassword}
+                      hasError={Boolean(registerErrors.password)}
+                      onChange={(e) => {
+                        setRegisterPassword(e.target.value);
+                        if (registerErrors.password) setRegisterErrors((p) => ({ ...p, password: '' }));
+                      }}
+                    />
+                    {registerErrors.password && (
+                      <p className="text-xs text-[var(--vermilion-seal)] mt-1 font-medium">{registerErrors.password}</p>
+                    )}
+                  </div>
+
+                  <Button type="submit" size="lg" className="w-full mt-4">
+                    إنشاء الحساب وبدء التجربة
+                  </Button>
+                </form>
               )}
             </div>
+          ) : (
+            /* Authenticated User View */
+            <div className="space-y-6 text-center">
+              <div className="p-5 rounded-2xl bg-white border border-[var(--bamboo-border)]">
+                <span className="text-3xl mb-2 block">👤</span>
+                <h2 className="text-lg font-bold text-[var(--charcoal-ink)]">{user?.name}</h2>
+                <p className="text-xs text-[var(--muted-umeboshi)] mt-1" dir="ltr">
+                  {user?.email}
+                </p>
+                {user?.phone && (
+                  <p className="text-xs text-[var(--muted-umeboshi)] mt-0.5" dir="ltr">
+                    {user.phone}
+                  </p>
+                )}
+              </div>
 
-            <div className="space-y-3">
-              <Link
-                href="/settings"
-                className="w-full py-2.5 px-4 rounded-xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[var(--charcoal-deep)] transition-all shadow-xs"
-              >
-                ⚙️ إدارة الملف الشخصي والإعدادات
-              </Link>
+              <div className="space-y-3">
+                <Button asChild size="lg" className="w-full">
+                  <Link href="/settings">⚙️ إدارة الملف الشخصي والإعدادات</Link>
+                </Button>
 
-              <Link
-                href="/orders"
-                className="w-full py-2.5 px-4 rounded-xl border border-[var(--bamboo-border)] bg-white text-[var(--charcoal-ink)] font-semibold text-sm flex items-center justify-center gap-2 hover:bg-black/5 transition-all"
-              >
-                📦 استعراض سجل طلباتي
-              </Link>
+                <Button asChild variant="outline" size="lg" className="w-full">
+                  <Link href="/orders">📦 استعراض سجل طلباتي</Link>
+                </Button>
 
-              <button
-                type="button"
-                onClick={logout}
-                className="w-full py-2.5 px-4 rounded-xl border border-red-200 text-[var(--vermilion-seal)] text-sm font-semibold hover:bg-red-50 transition-all cursor-pointer"
-              >
-                تسجيل الخروج من الحساب
-              </button>
+                <Button
+                  variant="destructive"
+                  size="default"
+                  className="w-full"
+                  onClick={logout}
+                >
+                  تسجيل الخروج من الحساب
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };

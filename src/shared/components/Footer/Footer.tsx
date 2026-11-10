@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useToast } from '../Toast/ToastContext';
 import { validateInput } from '../../validation/validation';
 
@@ -48,6 +49,30 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
             متجر متخصص في الأجهزة التقنية الاحترافية ومعدات المكتب المختارة بعناية، مستوحى من حرفية
             ورق الواشي ودفء خشب البلوط والنحاس.
           </p>
+        </div>
+
+        <div className="footer-col">
+          <h3 className="footer-heading">صفحات المتجر</h3>
+          <ul className="footer-links">
+            <li>
+              <Link href="/products">جميع معدات المكتب</Link>
+            </li>
+            <li>
+              <Link href="/desk-builder">استوديو تكوين المكتب 3D</Link>
+            </li>
+            <li>
+              <Link href="/orders">سجل طلباتي وتتبع الشحنات</Link>
+            </li>
+            <li>
+              <Link href="/cart">سلة المشتريات وإنهاء الطلب</Link>
+            </li>
+            <li>
+              <Link href="/settings">إعدادات الحساب وتفضيلات الأتيليه</Link>
+            </li>
+            <li>
+              <Link href="/auth">تسجيل الدخول وبوابة العضوية</Link>
+            </li>
+          </ul>
         </div>
 
         <div className="footer-col">

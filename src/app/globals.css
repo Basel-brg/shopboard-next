@@ -1,5 +1,53 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-washi-ivory: #f2eada;
+  --color-washi-cream: #f6efe1;
+  --color-paper-ash: #eae5d8;
+  --color-well-ash: #e5dfd2;
+  --color-bamboo-tan: #ccb693;
+  --color-bamboo-border: #d4be9b;
+  --color-rib-shadow: #c3b5a2;
+  --color-charcoal-ink: #252522;
+  --color-charcoal-deep: #12100f;
+  --color-muted-umeboshi: #686358;
+  --color-vermilion-seal: #c23828;
+  --color-bamboo-green: #2e6f40;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  --font-sans: 'IBM Plex Sans Arabic', 'Readex Pro', sans-serif;
+  --font-display: 'Readex Pro', 'IBM Plex Sans Arabic', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
 @layer base {
   :root {
     /* Akari Workshop Palette Tokens */
@@ -50,6 +98,50 @@
     --font-display: 'Readex Pro', 'IBM Plex Sans Arabic', sans-serif;
     --font-sans: 'IBM Plex Sans Arabic', 'Readex Pro', sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  .dark {
+    /* Akari Night Workshop Palette Tokens */
+    --washi-ivory: #12100f;
+    --washi-cream: #1a1816;
+    --paper-ash: #23201d;
+    --well-ash: #2b2824;
+    --bamboo-tan: #b89d75;
+    --bamboo-border: #38342e;
+    --rib-shadow: #2a2723;
+    --charcoal-ink: #f2eada;
+    --charcoal-deep: #f6efe1;
+    --muted-umeboshi: #a39c8e;
+    --vermilion-seal: #e04a37;
+    --bamboo-green: #3ea058;
+
+    --background: #12100f;
+    --foreground: #f2eada;
+
+    --card: #1a1816;
+    --card-foreground: #f2eada;
+
+    --popover: #1a1816;
+    --popover-foreground: #f2eada;
+
+    --primary: #f2eada;
+    --primary-foreground: #12100f;
+
+    --secondary: #2b2824;
+    --secondary-foreground: #f2eada;
+
+    --muted: #23201d;
+    --muted-foreground: #a39c8e;
+
+    --accent: #332f2a;
+    --accent-foreground: #f2eada;
+
+    --destructive: #e04a37;
+    --destructive-foreground: #f2eada;
+
+    --border: #38342e;
+    --input: #38342e;
+    --ring: #ccb693;
   }
 
   *,

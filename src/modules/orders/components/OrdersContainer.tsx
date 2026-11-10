@@ -6,6 +6,10 @@ import { useOrders } from '../context/useOrders';
 import { OrderCard } from './OrderCard';
 import { OrderDetailsModal } from './OrderDetailsModal';
 import { IconOrders, IconSearch } from '../../../shared/components/Icons/Icons';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import type { OrderStatus } from '../orders.types';
 
 type FilterStatus = 'all' | OrderStatus;
@@ -70,51 +74,49 @@ export const OrdersContainer: React.FC = () => {
 
       case 'error':
         return (
-          <div className="state-feedback-card state-error" role="alert">
-            <div className="state-icon">⚠️</div>
-            <h3 className="state-title">فشل في جلب سجل الطلبات</h3>
-            <p className="state-desc">{loadState.message}</p>
-            <button
+          <Card className="p-8 text-center" role="alert">
+            <div className="text-3xl mb-3">⚠️</div>
+            <h3 className="text-lg font-bold text-[var(--charcoal-ink)] mb-1">فشل في جلب سجل الطلبات</h3>
+            <p className="text-xs text-[var(--muted-umeboshi)] mb-4">{loadState.message}</p>
+            <Button
               type="button"
-              className="btn btn-primary"
               onClick={() => setTestState('live')}
             >
               إعادة المحاولة (Try Again)
-            </button>
-          </div>
+            </Button>
+          </Card>
         );
 
       case 'empty':
         if (loadState.reason === 'no-orders') {
           return (
-            <div className="state-feedback-card state-empty">
-              <div className="state-icon">📦</div>
-              <h3 className="state-title">لا توجد طلبات سابقة حتى الآن</h3>
-              <p className="state-desc">
+            <Card className="p-8 text-center">
+              <div className="text-3xl mb-3">📦</div>
+              <h3 className="text-lg font-bold text-[var(--charcoal-ink)] mb-1">لا توجد طلبات سابقة حتى الآن</h3>
+              <p className="text-xs text-[var(--muted-umeboshi)] mb-6">
                 لم تقم بإتمام أي طلبات شراء بعد. اختر منتجاتك من المتجر وجهّز مكتبك الآن!
               </p>
-              <Link href="/products" className="btn btn-primary">
-                تصفح المنتجات وبدء التسوق
-              </Link>
-            </div>
+              <Button asChild size="lg">
+                <Link href="/products">تصفح المنتجات وبدء التسوق</Link>
+              </Button>
+            </Card>
           );
         }
         return (
-          <div className="state-feedback-card state-empty-filter">
-            <div className="state-icon">🔍</div>
-            <h3 className="state-title">لا توجد طلبات مطابقة للبحث أو الفلتر</h3>
-            <p className="state-desc">جرّب البحث برقم طلب آخر أو تغيير تصنيف حالة الطلب.</p>
-            <button
-              type="button"
-              className="btn btn-outline"
+          <Card className="p-8 text-center">
+            <div className="text-3xl mb-3">🔍</div>
+            <h3 className="text-lg font-bold text-[var(--charcoal-ink)] mb-1">لا توجد طلبات مطابقة للبحث أو الفلتر</h3>
+            <p className="text-xs text-[var(--muted-umeboshi)] mb-6">جرّب البحث برقم طلب آخر أو تغيير تصنيف حالة الطلب.</p>
+            <Button
+              variant="outline"
               onClick={() => {
                 setSearchQuery('');
                 setStatusFilter('all');
               }}
             >
               إعادة ضبط الفلاتر
-            </button>
-          </div>
+            </Button>
+          </Card>
         );
 
       case 'success':
@@ -147,9 +149,9 @@ export const OrdersContainer: React.FC = () => {
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
                 سجل طلباتي
               </h1>
-              <span className="count-badge">
+              <Badge variant="outline" className="text-xs font-bold">
                 {filteredOrders.length} طلبات
-              </span>
+              </Badge>
             </div>
           </div>
           <p className="text-sm text-[var(--muted-umeboshi)] font-[family-name:var(--font-ibm-plex)]">
@@ -157,58 +159,54 @@ export const OrdersContainer: React.FC = () => {
           </p>
         </div>
 
-        <Link
-          href="/products"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--bamboo-border)] bg-[var(--washi-cream)] text-sm font-semibold text-[var(--charcoal-ink)] hover:bg-black/5 transition-all self-start sm:self-auto"
-        >
-          متابعة التسوق في المتجر ←
-        </Link>
+        <Button asChild variant="outline">
+          <Link href="/products">متابعة التسوق في المتجر ←</Link>
+        </Button>
       </div>
 
-      {/* KPI Stats Strip */}
-      <div className="orders-kpi-strip mb-8">
-        <div className="kpi-box">
-          <span className="kpi-label">إجمالي المشتريات</span>
-          <strong className="kpi-val">
-            {summary.totalSpent.toLocaleString('ar-SA')} ر.س
-          </strong>
-        </div>
-        <div className="kpi-box">
-          <span className="kpi-label">طلبات نشطة / في الطريق</span>
-          <strong className="kpi-val">
-            {summary.activeOrders}
-          </strong>
-        </div>
+      {/* KPI Stats Strip with shadcn Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <Card className="p-4 sm:p-5">
+          <CardContent className="p-0 flex flex-col">
+            <span className="text-xs text-[var(--muted-umeboshi)] font-medium mb-1">إجمالي المشتريات</span>
+            <strong className="text-xl sm:text-2xl font-bold text-[var(--charcoal-ink)]">
+              {summary.totalSpent.toLocaleString('ar-SA')} ر.س
+            </strong>
+          </CardContent>
+        </Card>
+        <Card className="p-4 sm:p-5">
+          <CardContent className="p-0 flex flex-col">
+            <span className="text-xs text-[var(--muted-umeboshi)] font-medium mb-1">طلبات نشطة / في الطريق</span>
+            <strong className="text-xl sm:text-2xl font-bold text-[var(--bamboo-green)]">
+              {summary.activeOrders}
+            </strong>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Search and Filters Bar */}
-      <div className="orders-controls-bar mb-8">
-        <div className="orders-search-wrap">
-          <label htmlFor="page-orders-search" className="sr-only">
-            البحث في الطلبات
-          </label>
-          <div className="relative w-full flex items-center">
-            <span className="absolute right-3 text-[var(--muted-umeboshi)] pointer-events-none">
-              <IconSearch size={18} />
-            </span>
-            <input
-              type="search"
-              id="page-orders-search"
-              className="orders-search-input pr-10"
-              placeholder="بحث برقم الطلب، المدينة، أو اسم المنتج..."
-              value={filters.searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+      {/* Search and Filters Bar with shadcn Input */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-8">
+        <div className="relative flex-1 flex items-center">
+          <span className="absolute right-3.5 text-[var(--muted-umeboshi)] pointer-events-none">
+            <IconSearch size={18} />
+          </span>
+          <Input
+            type="search"
+            id="page-orders-search"
+            className="pr-10"
+            placeholder="بحث برقم الطلب، المدينة، أو اسم المنتج..."
+            value={filters.searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
 
-        <div className="orders-filter-wrap">
+        <div className="sm:w-56">
           <label htmlFor="page-orders-status" className="sr-only">
             حالة الطلب
           </label>
           <select
             id="page-orders-status"
-            className="orders-select"
+            className="flex h-10 w-full rounded-xl border border-[var(--bamboo-border)] bg-white px-3.5 py-2 text-sm text-[var(--charcoal-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--charcoal-ink)] cursor-pointer"
             value={filters.status}
             onChange={(e) => {
               const val = e.target.value;

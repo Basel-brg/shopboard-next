@@ -2,6 +2,8 @@
 import React from 'react';
 import type { Order } from '../orders.types';
 import { getOrderStatusBadge, formatOrderDate } from '../orders.logic';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 
 interface OrderCardProps {
   order: Order;
@@ -15,8 +17,8 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, onViewDetails, onCa
   const itemCount = order.items.reduce((acc, it) => acc + it.quantity, 0);
 
   return (
-    <article className="order-card" data-order-id={order.id}>
-      <header className="order-card-header">
+    <Card className="order-card overflow-hidden" data-order-id={order.id}>
+      <CardHeader className="order-card-header p-4 pb-2">
         <div className="order-title-group">
           <span className="order-num" dir="ltr">
             #{order.orderNumber}
@@ -27,9 +29,9 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, onViewDetails, onCa
           <span aria-hidden="true">{badge.icon}</span>
           <span>{badge.label}</span>
         </span>
-      </header>
+      </CardHeader>
 
-      <div className="order-card-body">
+      <CardContent className="order-card-body p-4 pt-2">
         <div className="order-items-strip">
           {order.items.slice(0, 3).map((item, idx) => (
             <div key={idx} className="order-item-thumb" title={`${item.name} (${item.quantity})`}>
@@ -63,36 +65,34 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, onViewDetails, onCa
             </span>
           )}
         </div>
-      </div>
+      </CardContent>
 
-      <footer className="order-card-footer">
+      <CardFooter className="order-card-footer p-4 pt-2 flex items-center justify-between border-t border-[var(--bamboo-border)]/40 mt-2">
         <div className="order-total-block">
-          <span className="total-label">المجموع الإجمالي</span>
-          <strong className="total-val">{order.total} ر.س</strong>
+          <span className="total-label text-xs text-[var(--muted-umeboshi)] block">المجموع الإجمالي</span>
+          <strong className="total-val text-base font-bold text-[var(--charcoal-ink)]">{order.total} ر.س</strong>
         </div>
-        <div className="order-card-actions">
-          <button
+        <div className="order-card-actions flex gap-2">
+          <Button
             type="button"
-            className="btn btn-outline btn-sm btn-order-details"
-            data-action="details"
-            data-id={order.id}
+            variant="outline"
+            size="sm"
             onClick={() => onViewDetails(order)}
           >
             عرض التفاصيل
-          </button>
+          </Button>
           {canCancel && (
-            <button
+            <Button
               type="button"
-              className="btn btn-outline-danger btn-sm btn-order-cancel"
-              data-action="cancel"
-              data-id={order.id}
+              variant="destructive"
+              size="sm"
               onClick={() => onCancelOrder(order.id)}
             >
               إلغاء الطلب
-            </button>
+            </Button>
           )}
         </div>
-      </footer>
-    </article>
+      </CardFooter>
+    </Card>
   );
 };
