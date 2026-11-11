@@ -63,9 +63,6 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
             <li>
               <Link href="/cart">سلة المشتريات وإنهاء الطلب</Link>
             </li>
-            <li>
-              <Link href="/settings">إعدادات الحساب وتفضيلات الأتيليه</Link>
-            </li>
           </ul>
         </div>
 

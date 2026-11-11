@@ -10,7 +10,6 @@ import {
   IconOrders,
   IconStore,
   IconHome,
-  IconSettings,
 } from '@/shared/components/Icons/Icons';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 
@@ -23,7 +22,6 @@ export function Header() {
     { href: '/products', label: 'المتجر والمنتجات', icon: IconStore },
     { href: '/orders', label: 'طلباتي', icon: IconOrders },
     { href: '/cart', label: 'السلة', icon: IconCart },
-    { href: '/settings', label: 'الإعدادات', icon: IconSettings },
   ];
 
   return (

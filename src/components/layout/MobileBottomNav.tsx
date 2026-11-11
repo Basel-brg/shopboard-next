@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Grid3X3, ShoppingBag, User } from 'lucide-react';
+import { Home, Grid3X3, ShoppingBag, ClipboardList } from 'lucide-react';
 import { useCart } from '@/modules/cart/context/useCart';
 
 export function MobileBottomNav() {
@@ -24,17 +24,17 @@ export function MobileBottomNav() {
       isActive: pathname.startsWith('/products'),
     },
     {
+      href: '/orders',
+      label: 'طلباتي',
+      icon: ClipboardList,
+      isActive: pathname.startsWith('/orders'),
+    },
+    {
       href: '/cart',
       label: 'السلة',
       icon: ShoppingBag,
       isActive: pathname.startsWith('/cart'),
       badge: cartState.count > 0 ? cartState.count : undefined,
-    },
-    {
-      href: '/settings',
-      label: 'حسابي',
-      icon: User,
-      isActive: pathname.startsWith('/settings') || pathname.startsWith('/orders'),
     },
   ];
 
