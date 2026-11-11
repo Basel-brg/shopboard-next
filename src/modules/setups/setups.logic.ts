@@ -36,3 +36,4 @@ export function filterSetups(
   }
   return setups.filter((s) => s.category === category);
 }
+

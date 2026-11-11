@@ -107,3 +107,4 @@ export const GIFT_ITEMS: readonly GiftItem[] = [
 export async function fetchAllGifts(): Promise<readonly GiftItem[]> {
   return GIFT_ITEMS;
 }
+

@@ -45,7 +45,16 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
           <h3 className="footer-heading">صفحات المتجر</h3>
           <ul className="footer-links">
             <li>
-              <Link href="/products">جميع معدات المكتب</Link>
+              <Link href="/">الرئيسية</Link>
+            </li>
+            <li>
+              <Link href="/setups">بيئات العمل (Shop The Look)</Link>
+            </li>
+            <li>
+              <Link href="/gift-guide">دليل هدايا المكاتب</Link>
+            </li>
+            <li>
+              <Link href="/products">جميع المنتجات والكتالوج</Link>
             </li>
             <li>
               <Link href="/cart">سلة المشتريات وإنهاء الطلب</Link>

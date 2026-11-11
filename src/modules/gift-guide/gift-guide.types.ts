@@ -17,3 +17,4 @@ export interface GiftFilterOptions {
   tier?: BudgetTier | 'all';
   persona?: RecipientPersona;
 }
+

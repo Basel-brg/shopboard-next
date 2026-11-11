@@ -68,7 +68,7 @@ export function ModernHeroBanner({ onExploreClick }: ModernHeroBannerProps = {})
           <div className="relative z-10 p-2 transition-transform duration-300 hover:scale-105">
             <Link href="/setups/developer-station" className="block relative group">
               <img
-                src="/assets/products/curved-monitor.jpg"
+                src="/assets/setups/developer-station.jpg"
                 alt="محطة المطور الخارقة"
                 className="w-full max-w-[340px] sm:max-w-[420px] aspect-4/3 object-cover rounded-3xl shadow-xl border border-[var(--border)] transition-transform duration-500 group-hover:scale-102"
               />

@@ -88,3 +88,4 @@ describe('filterSetups', () => {
     expect(filterSetups(mockSetups, 'الكل').length).toBe(2);
   });
 });
+

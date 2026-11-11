@@ -26,3 +26,4 @@ export interface SetupBundleCalculation {
   discountAmount: number;
   finalPrice: number;
 }
+

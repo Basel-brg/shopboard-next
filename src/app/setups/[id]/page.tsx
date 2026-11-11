@@ -53,3 +53,4 @@ export default async function SetupDetailPage({ params }: SetupDetailPageProps) 
     </div>
   );
 }
+

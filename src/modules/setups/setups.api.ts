@@ -10,7 +10,7 @@ export const DESK_SETUPS: readonly DeskSetup[] = [
     categoryLabel: 'بيئة المطورين',
     description:
       'بيئة عمل برمجية مصممة للتركيز العميق في كتابة الأكواد وجلسات العمل الماراثونية. تعتمد على شاشة منحنية عريضة مريحة للنظر ولوحة مفاتيح ميكانيكية متوافقة مع Mac و Windows.',
-    image: '/assets/products/curved-monitor.jpg',
+    image: '/assets/setups/developer-station.jpg',
     bundleDiscountPct: 15,
     tags: ['برمجة وتطوير', 'شاشة عريضة', 'عزل ضوضاء', 'راحة المعصم'],
     vibe: 'أسود كربوني ورمادي حجري هادئ',
@@ -30,7 +30,7 @@ export const DESK_SETUPS: readonly DeskSetup[] = [
     categoryLabel: 'استوديو الإبداع',
     description:
       'مساحة استوديو بصرية دافئة تجمع بين دفء خشب البلوط الطبيعي وإضاءة النحاس المعماري الخالية من الوميض، مع سماعات عزل نشط للمونتاج وتدقيق الصوت.',
-    image: '/assets/products/lamp.jpg',
+    image: '/assets/setups/creator-studio.jpg',
     bundleDiscountPct: 12,
     tags: ['تصميم ومونتاج', 'إضاءة دافئة 3000K', 'خشب بلوط', 'نحاس مصمت'],
     vibe: 'خشب طبيعي ونحاس مصقول دافئ',
@@ -49,7 +49,7 @@ export const DESK_SETUPS: readonly DeskSetup[] = [
     categoryLabel: 'بساطة التركيز',
     description:
       'أقل عدد ممكن من القطع بأعلى درجات الجودة والمتانة. مكتب نظيف تماماً من الكابلات يعزز صفاء الذهن والتفكير الاستراتيجي الهادئ.',
-    image: '/assets/products/brass-organizer.jpg',
+    image: '/assets/setups/zen-minimalist.jpg',
     bundleDiscountPct: 10,
     tags: ['بساطة يابانية', 'مكتب خالٍ من الكابلات', 'نحاس مصمت', 'تنظيم سريع'],
     vibe: 'عاجي طبيعي ولمسات نحاسية ناعمة',
@@ -68,7 +68,7 @@ export const DESK_SETUPS: readonly DeskSetup[] = [
     categoryLabel: 'مكاتب تنفيذية',
     description:
       'محطة إدارة شاملة مزودة بمنصة توصيل Hub سريعة لكافة الأجهزة، مع رف شاشة عريض وحامل نحاسي لتنظيم القرطاسية والمستندات بأسلوب قيادي راقٍ.',
-    image: '/assets/products/monitor-stand.jpg',
+    image: '/assets/setups/executive-command.jpg',
     bundleDiscountPct: 15,
     tags: ['محطة تحكم', 'توصيل شاشات متعددة', 'فخامة خشب البلوط', 'جاهز للمؤتمرات'],
     vibe: 'فخامة رسمية مع حرفية يابانية',
@@ -89,3 +89,4 @@ export async function fetchSetupById(id: string): Promise<DeskSetup | null> {
   const found = DESK_SETUPS.find((s) => s.id === id);
   return found || null;
 }
+
