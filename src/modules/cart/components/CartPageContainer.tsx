@@ -70,7 +70,7 @@ export function CartPageContainer() {
         )}
 
         <div className="py-20 text-center max-w-md mx-auto space-y-6">
-          <div className="w-20 h-20 mx-auto rounded-3xl bg-[var(--accent)] text-[var(--accent-coral)] flex items-center justify-center shadow-xs">
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-[var(--accent-coral-soft)] text-[var(--accent-coral)] border border-[var(--accent-coral)]/20 flex items-center justify-center shadow-xs">
             <ShoppingBag className="w-10 h-10" />
           </div>
 
@@ -86,13 +86,13 @@ export function CartPageContainer() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Link
               href="/setups"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[var(--accent-coral)] text-white text-xs sm:text-sm font-bold shadow-xs hover:opacity-90 transition-opacity"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[var(--accent-coral)] text-white text-xs sm:text-sm font-bold shadow-xs hover:opacity-90 transition-opacity whitespace-nowrap"
             >
               استكشف بيئات العمل (Shop The Look)
             </Link>
             <Link
               href="/products"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] text-xs sm:text-sm font-semibold hover:bg-[var(--accent)] transition-colors"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] text-xs sm:text-sm font-semibold hover:bg-[var(--secondary)] transition-colors whitespace-nowrap"
             >
               تصفح كتالوج ShopBoard
             </Link>
@@ -150,7 +150,7 @@ export function CartPageContainer() {
               <h2 className="text-lg font-bold font-readex text-[var(--foreground)]">
                 المنتجات المحددة
               </h2>
-              <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--accent)] text-[var(--accent-coral)]">
+              <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--accent-coral-soft)] text-[var(--accent-coral)] border border-[var(--accent-coral)]/20">
                 {state.count}
               </span>
             </div>

@@ -245,7 +245,7 @@ export function GiftGuideView({ initialGifts }: GiftGuideViewProps) {
       <section className="rounded-3xl border border-[var(--border)] bg-gradient-to-r from-[var(--card)] to-[var(--accent)]/30 p-6 sm:p-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-right">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent)] text-[var(--accent-coral)] text-xs font-bold">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-coral-soft)] text-[var(--accent-coral)] border border-[var(--accent-coral)]/30 text-xs font-bold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>تجربة إهداء متكاملة</span>
             </span>

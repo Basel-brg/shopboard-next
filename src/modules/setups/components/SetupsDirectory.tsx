@@ -88,7 +88,7 @@ export function SetupsDirectory({ initialSetups }: SetupsDirectoryProps) {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-start gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--accent)] text-[var(--accent-coral)]">
+            <div className="p-2.5 rounded-xl bg-[var(--accent-coral-soft)] text-[var(--accent-coral)]">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
@@ -100,7 +100,7 @@ export function SetupsDirectory({ initialSetups }: SetupsDirectoryProps) {
           </div>
 
           <div className="p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-start gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--accent)] text-[var(--accent-coral)]">
+            <div className="p-2.5 rounded-xl bg-[var(--accent-coral-soft)] text-[var(--accent-coral)]">
               <Truck className="w-5 h-5" />
             </div>
             <div>
@@ -112,7 +112,7 @@ export function SetupsDirectory({ initialSetups }: SetupsDirectoryProps) {
           </div>
 
           <div className="p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-start gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--accent)] text-[var(--accent-coral)]">
+            <div className="p-2.5 rounded-xl bg-[var(--accent-coral-soft)] text-[var(--accent-coral)]">
               <RotateCcw className="w-5 h-5" />
             </div>
             <div>

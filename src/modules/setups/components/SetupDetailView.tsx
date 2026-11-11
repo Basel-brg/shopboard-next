@@ -59,18 +59,24 @@ export function SetupDetailView({ setup }: SetupDetailViewProps) {
   return (
     <div className="space-y-10">
       {/* Top Breadcrumb & Navigation */}
-      <div className="flex items-center justify-between gap-4">
-        <Link
-          href="/setups"
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--card)] hover:bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] text-xs font-semibold shadow-xs transition-colors"
-        >
-          <ArrowRight className="w-3.5 h-3.5" />
-          <span>العودة لجميع بيئات العمل</span>
-        </Link>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs">
+          <Link
+            href="/setups"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[var(--card)] hover:bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] font-semibold shadow-xs transition-colors"
+          >
+            <ArrowRight className="w-3.5 h-3.5" />
+            <span>العودة لجميع بيئات العمل</span>
+          </Link>
+          <span className="text-[var(--border)]">/</span>
+          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--accent-coral-soft)] text-[var(--accent-coral)] border border-[var(--accent-coral)]/20 font-readex">
+            {setup.categoryLabel}
+          </span>
+        </div>
 
-        <span className="text-xs font-medium px-3 py-1 rounded-full bg-[var(--secondary)] text-[var(--accent-coral)] font-readex">
-          {setup.categoryLabel}
-        </span>
+        <div className="text-xs font-mono text-[var(--muted-foreground)] hidden sm:block">
+          {setup.subtitle}
+        </div>
       </div>
 
       {/* Main Grid: Left Setup Showcase & Right Bundle Configurator */}

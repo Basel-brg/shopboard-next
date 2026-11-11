@@ -6,7 +6,7 @@ import { Gift, ArrowLeft } from 'lucide-react';
 
 export function HomeGiftGuidePromo() {
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-r from-[var(--card)] via-[var(--accent)]/40 to-[var(--card)] p-6 sm:p-8 lg:p-10 shadow-xs">
+    <section className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-r from-[var(--card)] via-[var(--accent-coral-soft)]/50 to-[var(--card)] p-6 sm:p-8 lg:p-10 shadow-xs">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
         <div className="space-y-3 text-center lg:text-right max-w-xl">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--card)] text-[var(--accent-coral)] border border-[var(--border)] text-xs font-bold">

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles, Layers, Gift } from 'lucide-react';
+import { ArrowLeft, Layers, Gift } from 'lucide-react';
 
 interface ModernHeroBannerProps {
   onExploreClick?: () => void;
@@ -14,11 +14,6 @@ export function ModernHeroBanner({ onExploreClick }: ModernHeroBannerProps = {})
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-12">
         {/* Right Content (RTL Leading) */}
         <div className="flex-1 text-center lg:text-right space-y-4 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--card)]/90 backdrop-blur-xs border border-[var(--border)] text-xs font-bold text-[var(--accent-coral)] shadow-xs">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>بيئات عمل متناسقة | Shop The Look</span>
-          </div>
-
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-readex text-[var(--foreground)] tracking-tight leading-[1.2]">
             صمم بيئة عملك المثالية <br />
             <span className="text-[var(--accent-coral)]">بحزم منسقة هندسياً</span>
@@ -81,7 +76,7 @@ export function ModernHeroBanner({ onExploreClick }: ModernHeroBannerProps = {})
                     محطة المطور الخارقة
                   </span>
                 </div>
-                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[var(--accent)] text-[var(--accent-coral)]">
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[var(--accent-coral-soft)] text-[var(--accent-coral)] border border-[var(--accent-coral)]/30 font-sans">
                   خصم 15%
                 </span>
               </div>

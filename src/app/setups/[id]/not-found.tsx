@@ -5,7 +5,7 @@ import { ArrowLeft, Layers } from 'lucide-react';
 export default function SetupNotFound() {
   return (
     <div className="container mx-auto px-4 py-20 text-center max-w-xl">
-      <div className="inline-flex p-4 rounded-3xl bg-[var(--accent)] text-[var(--accent-coral)] mb-4">
+      <div className="inline-flex p-4 rounded-3xl bg-[var(--accent-coral-soft)] text-[var(--accent-coral)] border border-[var(--accent-coral)]/20 mb-4">
         <Layers className="w-8 h-8" />
       </div>
       <h1 className="text-2xl font-bold font-readex text-[var(--foreground)] mb-2">

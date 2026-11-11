@@ -56,7 +56,7 @@ async function capture() {
 
           const filename = `${vp.name}-${p.name}-${theme}.png`;
           const filePath = path.join(SCREENSHOTS_DIR, filename);
-          await page.screenshot({ path: filePath, fullPage: false });
+          await page.screenshot({ path: filePath, fullPage: true });
           console.log(`Saved: ${filename}`);
         } catch (err) {
           console.error(`Failed ${url} (${vp.name}, ${theme}):`, err.message);

@@ -18,7 +18,7 @@ export function Header() {
 
   const navLinks = [
     { href: '/', label: 'الرئيسية', icon: IconHome },
-    { href: '/setups', label: 'بيئات العمل', icon: Layers, badge: 'وفر 15%' },
+    { href: '/setups', label: 'بيئات العمل', icon: Layers },
     { href: '/products', label: 'المنتجات', icon: IconStore },
     { href: '/gift-guide', label: 'دليل الهدايا', icon: Gift },
   ];
@@ -67,11 +67,6 @@ export function Header() {
               >
                 <Icon size={15} />
                 <span>{item.label}</span>
-                {item.badge && !isActive && (
-                  <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[var(--accent)] text-[var(--accent-coral)] border border-[var(--accent-coral)]/30">
-                    {item.badge}
-                  </span>
-                )}
               </Link>
             );
           })}

@@ -61,7 +61,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmitOrder }) => 
           <CardTitle className="text-lg sm:text-xl font-bold font-readex text-[var(--foreground)]">
             بيانات التوصيل والدفع
           </CardTitle>
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--accent-coral)] bg-[var(--accent)] px-2.5 py-1 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--accent-coral)] bg-[var(--accent-coral-soft)] border border-[var(--accent-coral)]/20 px-2.5 py-1 rounded-full">
             <Lock className="w-3 h-3" />
             <span>دفع آمن ومشفّر</span>
           </span>

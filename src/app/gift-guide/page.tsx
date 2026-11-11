@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Gift, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { fetchAllGifts } from '@/modules/gift-guide/gift-guide.api';
 import { GiftGuideView } from '@/modules/gift-guide/components/GiftGuideView';
 import { Header } from '@/components/layout/Header';
@@ -38,10 +38,6 @@ export default async function GiftGuidePage() {
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="max-w-3xl space-y-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent)] text-[var(--accent-coral)] text-xs font-bold">
-                <Gift className="w-3.5 h-3.5" />
-                <span>أفكار هدايا استثنائية لسطح المكتب</span>
-              </span>
               <h1 className="text-2xl sm:text-4xl font-extrabold font-readex text-[var(--foreground)] tracking-tight">
                 دليل هدايا المكاتب الفاخرة
               </h1>

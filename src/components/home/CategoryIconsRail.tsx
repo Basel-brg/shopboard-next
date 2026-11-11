@@ -90,7 +90,7 @@ export function CategoryIconsRail() {
                   className={`p-2.5 rounded-2xl transition-all ${
                     isSelected
                       ? 'bg-white/20 text-white'
-                      : 'bg-[var(--accent)] text-[var(--accent-coral)] group-hover:scale-110'
+                      : 'bg-[var(--accent-coral-soft)] text-[var(--accent-coral)] group-hover:scale-110'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
