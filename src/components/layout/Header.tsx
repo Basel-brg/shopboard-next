@@ -12,7 +12,6 @@ import {
   IconStore,
   IconHome,
   IconSettings,
-  IconBox3D,
 } from '@/shared/components/Icons/Icons';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 
@@ -24,7 +23,6 @@ export function Header() {
   const navLinks = [
     { href: '/', label: 'الرئيسية', icon: IconHome },
     { href: '/products', label: 'المتجر والمنتجات', icon: IconStore },
-    { href: '/desk-builder', label: 'استوديو 3D', icon: IconBox3D },
     { href: '/orders', label: 'طلباتي', icon: IconOrders },
     { href: '/cart', label: 'السلة', icon: IconCart },
     { href: '/settings', label: 'الإعدادات', icon: IconSettings },

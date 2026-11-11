@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { Package, Search } from 'lucide-react';
 import { useOrders } from '../context/useOrders';
 import { OrderCard } from './OrderCard';
 import { OrderDetailsModal } from './OrderDetailsModal';
@@ -91,7 +92,9 @@ export const OrdersContainer: React.FC = () => {
         if (loadState.reason === 'no-orders') {
           return (
             <Card className="p-8 text-center">
-              <div className="text-3xl mb-3">📦</div>
+              <div className="flex justify-center text-[var(--muted-foreground)] mb-3">
+                <Package className="w-10 h-10" />
+              </div>
               <h3 className="text-lg font-bold text-[var(--charcoal-ink)] mb-1">لا توجد طلبات سابقة حتى الآن</h3>
               <p className="text-xs text-[var(--muted-umeboshi)] mb-6">
                 لم تقم بإتمام أي طلبات شراء بعد. اختر منتجاتك من المتجر وجهّز مكتبك الآن!
@@ -104,7 +107,9 @@ export const OrdersContainer: React.FC = () => {
         }
         return (
           <Card className="p-8 text-center">
-            <div className="text-3xl mb-3">🔍</div>
+            <div className="flex justify-center text-[var(--muted-foreground)] mb-3">
+              <Search className="w-10 h-10" />
+            </div>
             <h3 className="text-lg font-bold text-[var(--charcoal-ink)] mb-1">لا توجد طلبات مطابقة للبحث أو الفلتر</h3>
             <p className="text-xs text-[var(--muted-umeboshi)] mb-6">جرّب البحث برقم طلب آخر أو تغيير تصنيف حالة الطلب.</p>
             <Button

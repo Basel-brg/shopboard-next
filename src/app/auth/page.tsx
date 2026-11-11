@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function AuthPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--washi-ivory)]">
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <Header />
 
       <main className="flex-1 w-full flex items-center justify-center">

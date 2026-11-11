@@ -10,27 +10,27 @@ export const STATUS_META: Record<OrderStatus, StatusBadgeInfo> = {
   pending: {
     label: 'قيد الانتظار',
     className: 'status-pending',
-    icon: '⏳',
+    icon: '',
   },
   processing: {
     label: 'قيد التجهيز',
     className: 'status-processing',
-    icon: '📦',
+    icon: '',
   },
   shipped: {
     label: 'تم الشحن',
     className: 'status-shipped',
-    icon: '🚚',
+    icon: '',
   },
   delivered: {
     label: 'تم التوصيل',
     className: 'status-delivered',
-    icon: '✅',
+    icon: '',
   },
   cancelled: {
     label: 'ملغي',
     className: 'status-cancelled',
-    icon: '❌',
+    icon: '',
   },
 };
 
@@ -39,7 +39,7 @@ export function getOrderStatusBadge(status: OrderStatus): StatusBadgeInfo {
     STATUS_META[status] || {
       label: status,
       className: 'status-unknown',
-      icon: '📋',
+      icon: '',
     }
   );
 }

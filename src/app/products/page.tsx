@@ -10,21 +10,21 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--washi-ivory)]">
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <Header />
 
       {/* Catalog Header Banner */}
-      <section className="border-b border-[var(--bamboo-border)] bg-[var(--washi-cream)] py-10 px-4 sm:px-6 lg:px-8">
+      <section className="border-b border-[var(--border)] bg-[var(--card)] py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <nav className="text-xs text-[var(--muted-umeboshi)] mb-2 font-mono" aria-label="مسار التنقل">
+          <nav className="text-xs text-[var(--muted-foreground)] mb-2 font-mono" aria-label="مسار التنقل">
             <span className="opacity-70">الرئيسية</span>
             <span className="mx-2">/</span>
-            <span className="font-semibold text-[var(--charcoal-ink)]">الكتالوج الكامل</span>
+            <span className="font-semibold text-[var(--foreground)]">الكتالوج الكامل</span>
           </nav>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-readex">
             مجموعة أثاث الأتيليه
           </h1>
-          <p className="mt-2 text-base text-[var(--muted-umeboshi)] max-w-2xl font-[family-name:var(--font-ibm-plex)]">
+          <p className="mt-1.5 text-xs sm:text-sm text-[var(--muted-foreground)] max-w-2xl font-sans">
             معدات مكتبية منتقاة بعناية فائقة تجمع بين المتانة التكتيكية وهدوء الأتيليه الياباني.
           </p>
         </div>

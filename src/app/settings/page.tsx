@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function SettingsPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--washi-ivory)]">
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <Header />
 
       <main className="flex-1 w-full">

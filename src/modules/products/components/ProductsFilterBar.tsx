@@ -70,12 +70,12 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
                 autoComplete="off"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="pr-10 pl-20 h-11 bg-white border-[var(--bamboo-border)] focus-visible:ring-[var(--charcoal-ink)]"
+                className="pr-10 pl-20 h-11 bg-white dark:bg-[#1f1d1a] border border-[var(--border)] rounded-full focus-visible:ring-[var(--accent-coral)]"
               />
               <Button
                 type="submit"
                 size="sm"
-                className="absolute left-1.5 h-8 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)] px-3 text-xs"
+                className="absolute left-1.5 h-8 bg-[var(--accent-coral)] hover:bg-[#d95232] text-white px-3.5 text-xs rounded-full shadow-xs"
                 aria-label="تنفيذ البحث"
               >
                 بحث
@@ -98,10 +98,10 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
                 type="button"
                 variant={isActive ? 'default' : 'outline'}
                 size="sm"
-                className={`h-9 px-3 gap-2 rounded-full cursor-pointer font-medium transition-all ${
+                className={`h-9 px-3.5 gap-2 rounded-full cursor-pointer font-medium transition-all ${
                   isActive
-                    ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] hover:bg-[var(--charcoal-deep)] shadow-xs'
-                    : 'bg-[var(--washi-cream)] border-[var(--bamboo-border)] text-[var(--charcoal-ink)] hover:bg-white'
+                    ? 'bg-[var(--accent-coral)] text-white hover:bg-[#d95232] shadow-xs'
+                    : 'bg-white dark:bg-[#1f1d1a] border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--secondary)]'
                 }`}
                 data-category={cat}
                 aria-pressed={isActive}
@@ -112,8 +112,8 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
                   variant="secondary"
                   className={`h-5 min-w-5 px-1.5 text-[10px] font-mono rounded-full ${
                     isActive
-                      ? 'bg-white/20 text-[var(--washi-ivory)]'
-                      : 'bg-black/5 text-[var(--muted-umeboshi)]'
+                      ? 'bg-white/25 text-white'
+                      : 'bg-black/5 dark:bg-white/10 text-[var(--muted-foreground)]'
                   }`}
                 >
                   {count}

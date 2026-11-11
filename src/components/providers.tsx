@@ -8,6 +8,7 @@ import { ProductsProvider } from '@/modules/products/context/ProductsContext';
 import { OrdersProvider } from '@/modules/orders/context/OrdersContext';
 import { SettingsProvider } from '@/modules/settings/context/SettingsContext';
 import { GlobalModals } from './layout/GlobalModals';
+import { MobileBottomNav } from './layout/MobileBottomNav';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -17,7 +18,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <CartProvider>
             <ProductsProvider>
               <OrdersProvider>
-                {children}
+                <div className="min-h-screen flex flex-col pb-16 lg:pb-0">
+                  {children}
+                </div>
+                <MobileBottomNav />
                 <GlobalModals />
               </OrdersProvider>
             </ProductsProvider>

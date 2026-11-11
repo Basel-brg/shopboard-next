@@ -1,5 +1,15 @@
 'use client';
 import React from 'react';
+import {
+  AlertTriangle,
+  RefreshCw,
+  Package,
+  Search,
+  FlaskConical,
+  CheckCircle2,
+  Clock,
+  XCircle,
+} from 'lucide-react';
 import { useProducts } from '../context/useProducts';
 import { useCart } from '../../cart/context/useCart';
 import { ProductsFilterBar } from './ProductsFilterBar';
@@ -35,16 +45,19 @@ export const ProductsContainer: React.FC = () => {
       case 'error':
         return (
           <div className="state-feedback-card state-error" role="alert">
-            <div className="state-icon">⚠️</div>
+            <div className="state-icon flex justify-center text-rose-500">
+              <AlertTriangle className="w-10 h-10" />
+            </div>
             <h3 className="state-title">فشل في الاتصال بالخادم</h3>
             <p className="state-desc">{loadState.message}</p>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-primary inline-flex items-center gap-2 justify-center"
               id="retry-btn"
               onClick={resetToDefault}
             >
-              🔄 إعادة المحاولة (Try Again)
+              <RefreshCw className="w-4 h-4" />
+              <span>إعادة المحاولة (Try Again)</span>
             </button>
           </div>
         );
@@ -53,23 +66,28 @@ export const ProductsContainer: React.FC = () => {
         if (loadState.reason === 'no-products') {
           return (
             <div className="state-feedback-card state-empty">
-              <div className="state-icon">📦</div>
+              <div className="state-icon flex justify-center text-[var(--muted-foreground)]">
+                <Package className="w-10 h-10" />
+              </div>
               <h3 className="state-title">لا توجد منتجات في المتجر حالياً</h3>
               <p className="state-desc">لم يرجع الخادم أي عناصر مسجلة في قاعدة البيانات.</p>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary inline-flex items-center gap-2 justify-center"
                 id="retry-btn"
                 onClick={resetToDefault}
               >
-                🔄 تحديث من الخادم (Try Again)
+                <RefreshCw className="w-4 h-4" />
+                <span>تحديث من الخادم (Try Again)</span>
               </button>
             </div>
           );
         } else {
           return (
             <div className="state-feedback-card state-empty">
-              <div className="state-icon">🔍</div>
+              <div className="state-icon flex justify-center text-[var(--muted-foreground)]">
+                <Search className="w-10 h-10" />
+              </div>
               <h3 className="state-title">لا توجد منتجات مطابقة لمعايير البحث</h3>
               <p className="state-desc">جرّب توسيع الحد الأقصى للسعر أو اختيار تصنيف آخر.</p>
               <button
@@ -140,7 +158,7 @@ export const ProductsContainer: React.FC = () => {
               }}
               onClick={fetchApiProducts}
             >
-              <span>🔄</span>
+              <RefreshCw className="w-3.5 h-3.5" />
               <span>سحب منتجات الـ API</span>
             </button>
             <p id="products-count" className="products-count" aria-live="polite">
@@ -151,51 +169,59 @@ export const ProductsContainer: React.FC = () => {
 
         {/* 4 UI States Interactive Test Toolbar */}
         <div className="state-test-toolbar" role="group" aria-label="اختبار حالات الواجهة الأربعة">
-          <span className="state-test-title">🧪 اختبار الحالات (4 States):</span>
+          <span className="state-test-title inline-flex items-center gap-1.5">
+            <FlaskConical className="w-3.5 h-3.5 text-[var(--accent-coral)]" />
+            <span>اختبار الحالات (4 States):</span>
+          </span>
           <button
             type="button"
-            className={`state-pill-btn ${activeTestState === 'success' ? 'is-active' : ''}`}
+            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'success' ? 'is-active' : ''}`}
             data-test-state="success"
             title="جلب طبيعي ناجح للبيانات"
             onClick={() => setTestState('success')}
           >
-            ✅ نجاح (Success)
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            <span>نجاح (Success)</span>
           </button>
           <button
             type="button"
-            className={`state-pill-btn ${activeTestState === 'loading' ? 'is-active' : ''}`}
+            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'loading' ? 'is-active' : ''}`}
             data-test-state="loading"
             title="تأخير 3 ثوان لرؤية السكيلتون"
             onClick={() => setTestState('loading')}
           >
-            ⏳ تحميل مؤقت (Loading)
+            <Clock className="w-3.5 h-3.5 text-amber-500" />
+            <span>تحميل مؤقت (Loading)</span>
           </button>
           <button
             type="button"
-            className={`state-pill-btn ${activeTestState === 'error' ? 'is-active' : ''}`}
+            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'error' ? 'is-active' : ''}`}
             data-test-state="error"
             title="محاكاة خطأ 500 مع زر إعادة المحاولة"
             onClick={() => setTestState('error')}
           >
-            ❌ خطأ 500 (Error + Try Again)
+            <XCircle className="w-3.5 h-3.5 text-rose-500" />
+            <span>خطأ 500 (Error + Try Again)</span>
           </button>
           <button
             type="button"
-            className={`state-pill-btn ${activeTestState === 'empty-products' ? 'is-active' : ''}`}
+            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'empty-products' ? 'is-active' : ''}`}
             data-test-state="empty-products"
             title="خادم بدون منتجات مسجلة"
             onClick={() => setTestState('empty-products')}
           >
-            📦 فارغ: خادم (Empty: No Products)
+            <Package className="w-3.5 h-3.5" />
+            <span>فارغ: خادم (Empty: No Products)</span>
           </button>
           <button
             type="button"
-            className={`state-pill-btn ${activeTestState === 'empty-match' ? 'is-active' : ''}`}
+            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'empty-match' ? 'is-active' : ''}`}
             data-test-state="empty-match"
             title="بحث بدون نتائج مطابقة"
             onClick={() => setTestState('empty-match')}
           >
-            🔍 فارغ: بحث (Empty: No Match)
+            <Search className="w-3.5 h-3.5" />
+            <span>فارغ: بحث (Empty: No Match)</span>
           </button>
         </div>
 

@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { Clock, Package, Truck, CheckCircle2, XCircle } from 'lucide-react';
 import type { Order } from '../orders.types';
 import { getOrderStatusBadge, formatOrderDate } from '../orders.logic';
 import { Button } from '@/components/ui/button';
@@ -25,8 +26,12 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, onViewDetails, onCa
           </span>
           <time className="order-date">{formatOrderDate(order.createdAt)}</time>
         </div>
-        <span className={`order-status-badge ${badge.className}`}>
-          <span aria-hidden="true">{badge.icon}</span>
+        <span className={`order-status-badge ${badge.className} inline-flex items-center gap-1.5`}>
+          {order.status === 'pending' && <Clock className="w-3.5 h-3.5" />}
+          {order.status === 'processing' && <Package className="w-3.5 h-3.5" />}
+          {order.status === 'shipped' && <Truck className="w-3.5 h-3.5" />}
+          {order.status === 'delivered' && <CheckCircle2 className="w-3.5 h-3.5" />}
+          {order.status === 'cancelled' && <XCircle className="w-3.5 h-3.5" />}
           <span>{badge.label}</span>
         </span>
       </CardHeader>

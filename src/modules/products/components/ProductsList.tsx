@@ -15,7 +15,12 @@ export const ProductsList: React.FC<ProductsListProps> = ({
   onAddToCart,
 }) => {
   return (
-    <div id="products-grid" className="products-grid" role="region" aria-live="polite">
+    <div
+      id="products-grid"
+      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"
+      role="region"
+      aria-live="polite"
+    >
       {products.map((product) => (
         <ProductCard
           key={product.id}

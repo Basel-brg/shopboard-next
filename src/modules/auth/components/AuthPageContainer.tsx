@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Building2, User, Settings, Package } from 'lucide-react';
 import { useAuth } from '../context/useAuth';
 import { validateInput } from '../../../shared/validation/validation';
 import { Button } from '@/components/ui/button';
@@ -77,8 +78,8 @@ export const AuthPageContainer: React.FC = () => {
       <Card className="rounded-3xl border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-sm overflow-hidden">
         {/* Header */}
         <CardHeader className="text-center pt-8 pb-4">
-          <div className="inline-flex self-center p-3 rounded-2xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] mb-3 text-xl shadow-xs">
-            🏛️
+          <div className="inline-flex self-center p-3 rounded-2xl bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] mb-3 shadow-xs">
+            <Building2 className="w-6 h-6 text-[var(--accent-coral)]" />
           </div>
           <CardTitle className="text-2xl font-bold tracking-tight text-[var(--charcoal-ink)]">
             {isAuthenticated ? 'حسابك في ShopBoard' : 'بوابة أتيليه ShopBoard'}
@@ -280,26 +281,34 @@ export const AuthPageContainer: React.FC = () => {
           ) : (
             /* Authenticated User View */
             <div className="space-y-6 text-center">
-              <div className="p-5 rounded-2xl bg-white border border-[var(--bamboo-border)]">
-                <span className="text-3xl mb-2 block">👤</span>
-                <h2 className="text-lg font-bold text-[var(--charcoal-ink)]">{user?.name}</h2>
-                <p className="text-xs text-[var(--muted-umeboshi)] mt-1" dir="ltr">
+              <div className="p-5 rounded-2xl bg-white dark:bg-[#1a1917] border border-[var(--border)]">
+                <span className="flex justify-center mb-2">
+                  <User className="w-10 h-10 text-[var(--accent-coral)]" />
+                </span>
+                <h2 className="text-lg font-bold text-[var(--foreground)]">{user?.name}</h2>
+                <p className="text-xs text-[var(--muted-foreground)] mt-1" dir="ltr">
                   {user?.email}
                 </p>
                 {user?.phone && (
-                  <p className="text-xs text-[var(--muted-umeboshi)] mt-0.5" dir="ltr">
+                  <p className="text-xs text-[var(--muted-foreground)] mt-0.5" dir="ltr">
                     {user.phone}
                   </p>
                 )}
               </div>
 
               <div className="space-y-3">
-                <Button asChild size="lg" className="w-full">
-                  <Link href="/settings">⚙️ إدارة الملف الشخصي والإعدادات</Link>
+                <Button asChild size="lg" className="w-full gap-2">
+                  <Link href="/settings">
+                    <Settings className="w-4 h-4" />
+                    <span>إدارة الملف الشخصي والإعدادات</span>
+                  </Link>
                 </Button>
 
-                <Button asChild variant="outline" size="lg" className="w-full">
-                  <Link href="/orders">📦 استعراض سجل طلباتي</Link>
+                <Button asChild variant="outline" size="lg" className="w-full gap-2">
+                  <Link href="/orders">
+                    <Package className="w-4 h-4" />
+                    <span>استعراض سجل طلباتي</span>
+                  </Link>
                 </Button>
 
                 <Button

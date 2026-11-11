@@ -1,11 +1,10 @@
 'use client';
-import React from 'react';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { Star, Heart, Plus, Check } from 'lucide-react';
 import type { Product } from '../products.types';
 import { getDiscountPercent } from '../products.logic';
-import { IconStar, IconPlus } from '../../../shared/components/Icons/Icons';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 interface ProductCardProps {
   product: Product;
@@ -14,107 +13,129 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
   const discountPct = getDiscountPercent(product.price, product.originalPrice);
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAddToCart(product);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1200);
+  };
+
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsWishlisted(!isWishlisted);
+  };
+
   return (
-    <article className="product-card" data-id={product.id}>
-      <figure className="product-media">
+    <article
+      className="group relative flex flex-col rounded-3xl bg-[var(--card)] border border-[var(--border)] overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all duration-200"
+      data-id={product.id}
+    >
+      {/* Product Media Area */}
+      <div className="relative w-full aspect-square bg-[#fbf9f5] dark:bg-[#25221e] overflow-hidden flex items-center justify-center p-3 sm:p-4">
         <Link href={`/products/${product.id}`} className="block w-full h-full">
           <img
             src={product.image}
             alt={product.name}
-            className="product-img"
+            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
-            width="400"
-            height="300"
+            width="320"
+            height="320"
           />
         </Link>
 
-        <div className="product-badges flex gap-1.5 absolute top-3 right-3 z-10">
-          {product.tag && <Badge variant="editorial">{product.tag}</Badge>}
-          {discountPct > 0 && <Badge variant="discount">خصم {discountPct}%</Badge>}
-        </div>
+        {/* Floating Discount Badge (Top Right in RTL) */}
+        {discountPct > 0 ? (
+          <span className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 rounded-full bg-[var(--accent-coral)] text-white text-[11px] font-bold shadow-xs">
+            خصم {discountPct}%-
+          </span>
+        ) : product.tag ? (
+          <span className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 rounded-full bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] text-[11px] font-semibold">
+            {product.tag}
+          </span>
+        ) : null}
 
-        <Link
-          href={`/products/${product.id}`}
-          className="quick-view-trigger"
-          data-quick-id={product.id}
-          aria-label={`معاينة تفاصيل ${product.name}`}
+        {/* Floating Wishlist Heart Button (Top Left in RTL) */}
+        <button
+          type="button"
+          onClick={toggleWishlist}
+          aria-label={isWishlisted ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
+          className={`absolute top-2.5 left-2.5 z-10 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-xs transition-colors shadow-xs cursor-pointer ${
+            isWishlisted
+              ? 'bg-[var(--accent-coral)] text-white'
+              : 'bg-white/90 dark:bg-black/60 text-[var(--muted-foreground)] hover:text-[var(--accent-coral)]'
+          }`}
         >
-          <svg
-            viewBox="0 0 24 24"
-            width={18}
-            height={18}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-          <span>عرض الصفحة</span>
-        </Link>
-      </figure>
+          <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-white' : ''}`} />
+        </button>
 
-      {product.isFromApi && (
-        <div className="product-api-notice">
-          <span className="api-pulse-indicator" aria-hidden="true" />
-          <span className="api-notice-text">قادم من الـ API</span>
-        </div>
-      )}
-
-      <div className="product-body">
-        <div className="product-meta-row">
-          <span className="product-cat">{product.category}</span>
-          <div className="product-rating" aria-label={`التقييم ${product.rating} من 5`}>
-            <span className="star-svg">
-              <IconStar size={14} />
-            </span>
-            <strong>{product.rating}</strong>
-            <span className="rating-count">({product.reviewsCount})</span>
+        {/* API Badge indicator */}
+        {product.isFromApi && (
+          <div className="absolute bottom-2 right-2.5 z-10 flex items-center gap-1 px-1.5 py-0.5 rounded bg-black/70 text-white text-[10px] backdrop-blur-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>API</span>
           </div>
+        )}
+      </div>
+
+      {/* Product Content Details */}
+      <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between gap-2.5">
+        <div>
+          {/* Rating */}
+          <div className="flex items-center gap-1.5 text-xs text-[var(--muted-foreground)] mb-1">
+            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+            <strong className="text-[var(--foreground)] font-semibold">{product.rating}</strong>
+            <span className="text-[11px]">({product.reviewsCount})</span>
+          </div>
+
+          {/* Product Name */}
+          <h3 className="text-sm sm:text-base font-bold font-readex text-[var(--foreground)] line-clamp-1 group-hover:text-[var(--accent-coral)] transition-colors">
+            <Link href={`/products/${product.id}`}>{product.name}</Link>
+          </h3>
+          <p className="text-xs text-[var(--muted-foreground)] line-clamp-1 mt-0.5">
+            {product.description}
+          </p>
         </div>
 
-        <h3 className="product-name">
-          <Link href={`/products/${product.id}`} className="transition-opacity hover:opacity-75">
-            {product.name}
-          </Link>
-        </h3>
-        <p className="product-desc">{product.description}</p>
-
-        {product.specs && product.specs.length > 0 && (
-          <ul className="product-specs" aria-label="أبرز المواصفات">
-            {product.specs.slice(0, 2).map((spec, idx) => (
-              <li key={idx}>{spec}</li>
-            ))}
-          </ul>
-        )}
-
-        <div className="product-price-row flex items-center justify-between mt-auto pt-3">
-          <div className="product-price">
-            <div className="price-current">
-              <span className="amount">{product.price}</span>
-              <span className="currency">ر.س</span>
+        {/* Price & Action Row */}
+        <div className="flex items-center justify-between pt-1 border-t border-[var(--border)]/60">
+          <div className="flex flex-col">
+            <div className="flex items-baseline gap-1">
+              <strong className="text-base sm:text-lg font-extrabold font-readex text-[var(--foreground)]">
+                {product.price}
+              </strong>
+              <span className="text-xs text-[var(--muted-foreground)] font-medium">ر.س</span>
             </div>
             {product.originalPrice && product.originalPrice > product.price && (
-              <s className="original-price">{product.originalPrice} ر.س</s>
+              <s className="text-xs text-[var(--muted-foreground)] line-through -mt-0.5">
+                {product.originalPrice} ر.س
+              </s>
             )}
           </div>
 
-          <Button
+          {/* Add to Cart Circular Action Button */}
+          <button
             type="button"
-            size="sm"
-            className="gap-1.5"
+            onClick={handleAddToCart}
             data-add-id={product.id}
-            onClick={() => onAddToCart(product)}
             aria-label={`أضف ${product.name} إلى السلة`}
+            className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-xs active:scale-95 ${
+              justAdded
+                ? 'bg-emerald-600 text-white'
+                : 'bg-[var(--accent-coral)] hover:bg-[#d95232] text-white hover:scale-105'
+            }`}
           >
-            <IconPlus size={15} />
-            <span>أضف للسلة</span>
-          </Button>
+            {justAdded ? (
+              <Check className="w-4 h-4" />
+            ) : (
+              <Plus className="w-4 h-4" strokeWidth={2.4} />
+            )}
+          </button>
         </div>
       </div>
     </article>
