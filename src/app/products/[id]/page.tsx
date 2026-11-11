@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   }
 
   return {
-    title: `${product.name} | ShopBoard أتيليه`,
+    title: `${product.name} | ShopBoard`,
     description: product.description,
     openGraph: {
       title: product.name,

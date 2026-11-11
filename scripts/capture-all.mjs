@@ -14,6 +14,9 @@ const VIEWPORTS = [
 
 const PAGES = [
   { path: '/', name: 'home' },
+  { path: '/setups', name: 'setups' },
+  { path: '/setups/developer-station', name: 'setup-detail' },
+  { path: '/gift-guide', name: 'gift-guide' },
   { path: '/products', name: 'products' },
   { path: '/products/1', name: 'product-detail' },
   { path: '/cart', name: 'cart' },

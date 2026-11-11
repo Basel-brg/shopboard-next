@@ -4,7 +4,7 @@ import { ProductsContainer } from '@/modules/products/components/ProductsContain
 import { Footer } from '@/shared/components/Footer/Footer';
 
 export const metadata: Metadata = {
-  title: 'كتالوج المنتجات | ShopBoard أتيليه',
+  title: 'كتالوج المنتجات | ShopBoard',
   description: 'تصفح تشكيلة الأثاث المكتبي، لوحات المفاتيح الميكانيكية، وأنظمة الإضاءة المعمارية الموزونة.',
 };
 
@@ -22,10 +22,10 @@ export default function ProductsPage() {
             <span className="font-semibold text-[var(--foreground)]">الكتالوج الكامل</span>
           </nav>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-readex">
-            مجموعة أثاث الأتيليه
+            مجموعة أثاث ومعدات ShopBoard
           </h1>
           <p className="mt-1.5 text-xs sm:text-sm text-[var(--muted-foreground)] max-w-2xl font-sans">
-            معدات مكتبية منتقاة بعناية فائقة تجمع بين المتانة التكتيكية وهدوء الأتيليه الياباني.
+            معدات مكتبية منتقاة بعناية فائقة تجمع بين المتانة التكتيكية والأناقة والعملية.
           </p>
         </div>
       </section>

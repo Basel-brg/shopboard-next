@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useToast } from '../Toast/ToastContext';
 import { validateInput } from '../../validation/validation';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 interface FooterProps {
   onSelectCategory?: (category: string) => void;
@@ -31,19 +32,8 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
     <footer className="store-footer">
       <div className="container footer-grid">
         <div className="footer-col">
-          <div
-            className="r-sidebar-brand"
-            style={{ position: 'static', justifyContent: 'flex-start' }}
-          >
-            <span className="vermilion-seal" aria-hidden="true">
-              شوب
-              <br />
-              بورد
-            </span>
-            <div className="brand-titles">
-              <span className="brand-en">ShopBoard</span>
-              <span className="brand-ar">شوب بورد</span>
-            </div>
+          <div className="mb-4">
+            <BrandLogo asLink size="md" />
           </div>
           <p className="footer-text">
             متجر متخصص في الأجهزة التقنية الاحترافية ومعدات المكتب المختارة بعناية، مستوحى من حرفية
@@ -64,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
         </div>
 
         <div className="footer-col">
-          <h3 className="footer-heading">أقسام الأتيليه</h3>
+          <h3 className="footer-heading">أقسام المتجر</h3>
           <ul className="footer-links">
             <li>
               <Link

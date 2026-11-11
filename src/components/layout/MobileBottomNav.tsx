@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Grid3X3, ShoppingBag } from 'lucide-react';
+import { Home, Layers, Grid3X3, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/modules/cart/context/useCart';
 
 export function MobileBottomNav() {
@@ -18,8 +18,14 @@ export function MobileBottomNav() {
       isActive: pathname === '/',
     },
     {
+      href: '/setups',
+      label: 'بيئات العمل',
+      icon: Layers,
+      isActive: pathname.startsWith('/setups'),
+    },
+    {
       href: '/products',
-      label: 'التصنيفات',
+      label: 'المنتجات',
       icon: Grid3X3,
       isActive: pathname.startsWith('/products'),
     },

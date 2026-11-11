@@ -1,4 +1,4 @@
-# ShopBoard — Minimalist E-Commerce Atelier (Next.js 15 Edition)
+# ShopBoard — Minimalist E-Commerce Store (Next.js 15 Edition)
 
 > An architectural, modern e-commerce atelier redesigned with an immersive mobile & laptop experience inspired by StyleNest, built with **Next.js 15 (App Router)**, **React 19**, **Tailwind CSS v4**, and **shadcn/ui**. Features 100% vector SVG icons, unified studio photography generated with Banana (Imagen 3), automatic square image framing, and native RTL Arabic typography.
 
@@ -138,4 +138,4 @@ For detailed technical explanations on why each component was built that way, pu
 
 ## 📄 License
 
-MIT © 2026 ShopBoard Atelier.
+MIT © 2026 ShopBoard.

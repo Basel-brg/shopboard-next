@@ -184,7 +184,7 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
         </div>
         <div className="flex items-center gap-2 p-3 rounded-2xl border border-[var(--border)] bg-[var(--card)]">
           <span className="w-2 h-2 rounded-full bg-[var(--accent-coral)] shrink-0" aria-hidden="true" />
-          <span>{product.warranty || 'ضمان سنتين شامل للأتيليه'}</span>
+          <span>{product.warranty || 'ضمان سنتين شامل من ShopBoard'}</span>
         </div>
       </div>
     </div>

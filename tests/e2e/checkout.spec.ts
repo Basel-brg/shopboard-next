@@ -93,9 +93,10 @@ test.describe('Checkout and Cart Flows', () => {
 
     const cartLink = page.getByRole('link', { name: /السلة/i }).first();
     await cartLink.click();
+    await expect(page).toHaveURL(/.*\/cart/);
 
-    // Find coupon input by its accessible label and fill valid coupon code
-    const couponInput = page.getByLabel(/رمز قسيمة التخفيض/i);
+    // Find coupon input by role and placeholder accessible name, then fill valid coupon code
+    const couponInput = page.getByRole('textbox', { name: /أدخل رمز الكوبون/i });
     await couponInput.fill('SHOP20');
 
     // Submit coupon form via button found by role
@@ -158,7 +159,7 @@ test.describe('Checkout and Cart Flows', () => {
     await expect(emptyHeading).toBeVisible();
 
     // Assert catalog browse link is visible
-    const browseCatalogLink = page.getByRole('link', { name: /تصفح كتالوج الأتيليه/i });
+    const browseCatalogLink = page.getByRole('link', { name: /تصفح كتالوج ShopBoard/i });
     await expect(browseCatalogLink).toBeVisible();
   });
 

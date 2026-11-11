@@ -72,12 +72,12 @@ export function CartPageContainer() {
             سلة المشتريات فارغة
           </h2>
           <p className="mt-2 text-sm text-[var(--muted-umeboshi)] max-w-sm font-[family-name:var(--font-ibm-plex)]">
-            لم تقم بإضافة أي قطع من أثاث أو إكسسوارات الأتيليه بعد.
+            لم تقم بإضافة أي قطع من أثاث أو إكسسوارات متجر ShopBoard بعد.
           </p>
           <Button asChild className="mt-6 gap-2 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)]">
             <Link href="/products">
               <span>←</span>
-              <span>تصفح كتالوج الأتيليه</span>
+              <span>تصفح كتالوج ShopBoard</span>
             </Link>
           </Button>
         </Card>
@@ -125,9 +125,12 @@ export function CartPageContainer() {
         {/* Coupon Code Section */}
         <Card className="border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-none">
           <CardContent className="p-4 space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--muted-umeboshi)]">
+            <label
+              htmlFor="coupon-code-input"
+              className="block text-xs font-bold uppercase tracking-wider text-[var(--muted-umeboshi)]"
+            >
               قسيمة التخفيض أو الرمز الترويجي
-            </h3>
+            </label>
             {state.appliedCoupon ? (
               <div className="flex items-center justify-between p-3 rounded-lg border border-[var(--bamboo-green)] bg-[var(--bamboo-green)]/10 text-[var(--bamboo-green)]">
                 <span className="text-sm font-bold font-mono">
@@ -146,9 +149,10 @@ export function CartPageContainer() {
             ) : (
               <form onSubmit={handleApplyCoupon} className="flex gap-2">
                 <Input
+                  id="coupon-code-input"
                   type="text"
-                  placeholder="أدخل رمز الكوبون (مثل: AKARI10)"
-                  aria-label="رمز قسيمة التخفيض"
+                  placeholder="أدخل رمز الكوبون (مثل: SHOP20)"
+                  aria-label="أدخل رمز الكوبون"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="flex-1 bg-white border-[var(--bamboo-border)]"

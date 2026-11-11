@@ -66,3 +66,4 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
     </Modal>
   );
 };
+

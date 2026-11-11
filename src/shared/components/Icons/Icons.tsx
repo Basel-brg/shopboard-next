@@ -6,20 +6,39 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
 
 export const IconLogo: React.FC<IconProps> = ({ size = 28, ...props }) => (
   <svg
-    viewBox="0 0 28 28"
+    viewBox="0 0 44 44"
     width={size}
     height={size}
     fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
     {...props}
   >
-    <path d="M6 7h16l-1.5 14.5a2 2 0 0 1-2 1.8H9.5a2 2 0 0 1-2-1.8L6 7Z" />
-    <path d="M10 7V5a4 4 0 0 1 8 0v2" />
-    <path d="M10 13a4 4 0 0 0 8 0" />
+    <rect width="44" height="44" rx="10" fill="var(--vermilion-seal, #ea5e3c)" />
+    <text
+      x="22"
+      y="16"
+      textAnchor="middle"
+      dominantBaseline="middle"
+      fill="#ffffff"
+      fontFamily="var(--font-readex), sans-serif"
+      fontWeight="700"
+      fontSize="12"
+    >
+      شوب
+    </text>
+    <text
+      x="22"
+      y="29"
+      textAnchor="middle"
+      dominantBaseline="middle"
+      fill="#ffffff"
+      fontFamily="var(--font-readex), sans-serif"
+      fontWeight="700"
+      fontSize="12"
+    >
+      بورد
+    </text>
   </svg>
 );
 

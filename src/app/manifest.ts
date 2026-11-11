@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'ShopBoard | أتيليه أكاري للأثاث المكتبي',
+    name: 'ShopBoard | شوب بورد للأثاث والمعدات المكتبية',
     short_name: 'ShopBoard',
     description: 'متجر وتجربة تفاعلية ثلاثية الأبعاد لتنسيق مساحات العمل المكتبية بأناقة وتناغم.',
     start_url: '/',

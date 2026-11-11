@@ -58,7 +58,7 @@ export const PRODUCTS: readonly Product[] = [
     warranty: 'ضمان سنتين شامل',
     image: '/assets/products/lamp.jpg',
     plateId: 'card-3',
-    tag: 'إصدار أتيليه',
+    tag: 'إصدار خاص',
   },
   {
     id: 4,

@@ -4,7 +4,7 @@ import { CartPageContainer } from '@/modules/cart/components/CartPageContainer';
 import { Footer } from '@/shared/components/Footer/Footer';
 
 export const metadata: Metadata = {
-  title: 'سلة المشتريات وإنهاء الطلب | ShopBoard أتيليه',
+  title: 'سلة المشتريات وإنهاء الطلب | ShopBoard',
   description: 'مراجعة المنتجات المختارة، تطبيق كوبونات الخصم، وتأكيد بيانات الشحن والدفع.',
 };
 
