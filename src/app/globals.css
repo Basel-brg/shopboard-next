@@ -66,6 +66,10 @@
     --vermilion-seal: #ea5e3c;
     --bamboo-green: #2e7d4a;
 
+    /* Accent & Brand Colors */
+    --accent-coral: #ea5e3c;
+    --accent-coral-soft: #fdf0ec;
+
     /* Semantic tokens */
     --background: #faf7f2;
     --foreground: #191817;
@@ -116,6 +120,8 @@
     --muted-umeboshi: #9e9688;
     --vermilion-seal: #f16947;
     --bamboo-green: #38a169;
+    --accent-coral: #ea5e3c;
+    --accent-coral-soft: #2a1a15;
 
     --background: #121110;
     --foreground: #f5f0e6;
@@ -163,6 +169,8 @@
     font-family: var(--font-sans);
     caret-color: var(--vermilion-seal);
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   body {
@@ -172,6 +180,7 @@
     font-family: var(--font-sans);
     line-height: 1.5;
     overflow-x: hidden;
+    max-width: 100vw;
     font-variant-numeric: tabular-nums;
   }
 }

@@ -178,6 +178,10 @@ src/modules/<feature-name>/
    - Strictly use stroke-based SVG vector icons (`lucide-react`) across all components, badges, and modals.
 6. **Zero `any` Policy**:
    - Use strict interfaces and runtime type guards (`if ('id' in item)`) across all modules.
+7. **The Never-Edit-Tests Rule**:
+   - Never modify or weaken existing test assertions when code breaks or changes occur.
+   - Tests define the immutable contract of what must be true.
+   - If a test fails, you must fix the implementation code to satisfy the test, never rewrite or relax the test to match broken behavior. Tests may only be edited if product requirements themselves are deliberately changed by human instruction.
 
 ---
 

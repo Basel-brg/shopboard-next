@@ -60,7 +60,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
         {/* Floating Discount Badge (Top Right in RTL) */}
         {discountPct > 0 ? (
           <span className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-full bg-[var(--accent-coral)] text-white text-[11px] font-bold shadow-xs">
-            خصم {discountPct}%-
+            خصم {discountPct}%
           </span>
         ) : product.tag ? (
           <span className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-full bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] text-[11px] font-semibold">

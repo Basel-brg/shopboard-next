@@ -75,58 +75,30 @@ export function Header() {
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Dark / Light Mode Toggle */}
           <ThemeToggle />
-
-          {/* Orders Link */}
-          <Link
-            href="/orders"
-            className={`inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--bamboo-border)] transition-colors ${
-              pathname.startsWith('/orders')
-                ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)]'
-                : 'bg-[var(--washi-cream)] text-[var(--charcoal-ink)] hover:bg-black/5'
-            }`}
-            aria-label="سجل الطلبات"
-          >
-            <IconOrders size={17} />
-            <span className="hidden sm:inline">طلباتي</span>
-          </Link>
-
-          {/* Settings Link */}
-          <Link
-            href="/settings"
-            className={`inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--bamboo-border)] transition-colors ${
-              pathname.startsWith('/settings')
-                ? 'bg-[var(--charcoal-ink)] text-[var(--washi-ivory)]'
-                : 'bg-[var(--washi-cream)] text-[var(--charcoal-ink)] hover:bg-black/5'
-            }`}
-            aria-label="الإعدادات وتفضيلات الحساب"
-          >
-            <IconSettings size={17} />
-            <span className="hidden sm:inline">الإعدادات</span>
-          </Link>
 
           {/* Auth Link */}
           <Link
             href={user ? '/settings' : '/auth'}
-            className="inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--bamboo-border)] bg-[var(--washi-cream)] text-[var(--charcoal-ink)] hover:bg-black/5 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--bamboo-border)] bg-[var(--washi-cream)] text-[var(--charcoal-ink)] hover:bg-black/5 transition-colors cursor-pointer"
             aria-label={user ? `حساب ${user.name}` : 'تسجيل الدخول'}
           >
-            <span className="h-2 w-2 rounded-full bg-[var(--bamboo-green)]" aria-hidden="true" />
-            <span className="max-w-[100px] truncate">{user ? user.name : 'دخول'}</span>
+            <span className="h-2 w-2 rounded-full bg-[var(--bamboo-green)] shrink-0" aria-hidden="true" />
+            <span className="max-w-[70px] sm:max-w-[100px] truncate">{user ? user.name : 'دخول'}</span>
           </Link>
 
           {/* Cart Link */}
           <Link
             href="/cart"
-            className="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] text-sm font-semibold hover:bg-[var(--charcoal-deep)] transition-all shadow-xs cursor-pointer"
+            className="relative inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg bg-[var(--charcoal-ink)] text-[var(--washi-ivory)] text-xs sm:text-sm font-semibold hover:bg-[var(--charcoal-deep)] transition-all shadow-xs cursor-pointer shrink-0"
             aria-label={`عربة التسوق، تحتوي على ${cartState.count} منتجات بقيمة ${cartState.total} ر.س`}
           >
-            <IconCart size={18} />
+            <IconCart size={17} />
             <span className="hidden sm:inline">السلة</span>
             <span
-              className="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full text-xs font-bold bg-[var(--vermilion-seal)] text-white"
+              className="inline-flex items-center justify-center min-w-[18px] h-4 sm:min-w-[20px] sm:h-5 px-1 rounded-full text-[10px] sm:text-xs font-bold bg-[var(--accent-coral)] text-white"
               aria-hidden="true"
             >
               {cartState.count}

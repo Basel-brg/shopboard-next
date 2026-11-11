@@ -88,14 +88,14 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             </div>
 
             {/* Badges Overlay */}
-            <div className="absolute top-7 right-7 flex flex-col gap-2">
+            <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-1.5 pointer-events-none">
               {discountPct > 0 && (
-                <span className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-[var(--accent-coral)] text-white shadow-xs">
-                  خصم {discountPct}%-
+                <span className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-[var(--accent-coral)] text-white shadow-sm">
+                  خصم {discountPct}%
                 </span>
               )}
               {product.tag && (
-                <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] shadow-xs">
+                <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] shadow-xs backdrop-blur-xs">
                   {product.tag}
                 </span>
               )}

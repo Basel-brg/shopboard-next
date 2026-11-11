@@ -3,7 +3,7 @@ import { calculateCartState, VALID_COUPONS } from '../../src/modules/cart/cart.l
 import type { CartItem } from '../../src/modules/cart/cart.types';
 
 describe('cart.logic', () => {
-  it('calculates subtotal, counts, and shipping accurately', () => {
+  it('cart subtotal under 300 SAR must charge 25 SAR shipping and calculate item count accurately', () => {
     const items: CartItem[] = [
       {
         id: 1,
@@ -25,7 +25,7 @@ describe('cart.logic', () => {
     expect(state.remainingForFreeShipping).toBe(100);
   });
 
-  it('unlocks free shipping when threshold is reached', () => {
+  it('cart subtotal reaching or exceeding 300 SAR threshold must unlock free shipping with zero charge', () => {
     const items: CartItem[] = [
       {
         id: 1,
@@ -45,7 +45,7 @@ describe('cart.logic', () => {
     expect(state.total).toBe(400);
   });
 
-  it('applies coupon discounts correctly', () => {
+  it('valid 20 percent coupon must discount the cart subtotal by 20 percent', () => {
     const items: CartItem[] = [
       {
         id: 1,

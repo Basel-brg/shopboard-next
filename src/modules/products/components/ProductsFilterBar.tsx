@@ -44,47 +44,45 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
   };
 
   return (
-    <section className="controls-panel" aria-label="خيارات البحث والتصفية والفرز">
-      <div className="controls-top-row">
+    <section className="mb-8 p-4 sm:p-6 rounded-3xl bg-[var(--card)] border border-[var(--border)] shadow-xs flex flex-col gap-5" aria-label="خيارات البحث والتصفية والفرز">
+      {/* Top Search & Categories Row */}
+      <div className="flex flex-col gap-4">
+        {/* Search Bar */}
         <form
-          className="search-form"
+          className="w-full max-w-xl mx-auto"
           id="search-form"
           role="search"
           onSubmit={handleSearchSubmit}
           noValidate
         >
-          <div className="form-field search-field-wrap">
-            <label htmlFor="search-input" className="sr-only">
-              البحث عن معدات المكتب
-            </label>
-            <div className="search-box relative flex items-center">
-              <span className="search-icon absolute right-3 pointer-events-none text-[var(--muted-umeboshi)]">
-                <IconSearch size={18} />
-              </span>
-              <Input
-                type="search"
-                id="search-input"
-                name="q"
-                aria-label="البحث عن معدات المكتب"
-                placeholder="ابحث عن لوحة مفاتيح، سماعة استوديو، مصباح نحاسي..."
-                autoComplete="off"
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                className="pr-10 pl-20 h-11 bg-white dark:bg-[#1f1d1a] border border-[var(--border)] rounded-full focus-visible:ring-[var(--accent-coral)]"
-              />
-              <Button
-                type="submit"
-                size="sm"
-                className="absolute left-1.5 h-8 bg-[var(--accent-coral)] hover:bg-[#d95232] text-white px-3.5 text-xs rounded-full shadow-xs"
-                aria-label="تنفيذ البحث"
-              >
-                بحث
-              </Button>
-            </div>
+          <div className="relative flex items-center w-full">
+            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--muted-foreground)]">
+              <IconSearch size={18} />
+            </span>
+            <Input
+              type="search"
+              id="search-input"
+              name="q"
+              aria-label="البحث عن معدات المكتب"
+              placeholder="ابحث عن لوحة مفاتيح، سماعة استوديو، حقيبة، ماوس..."
+              autoComplete="off"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="w-full pr-10 pl-20 h-11 bg-[var(--background)] border border-[var(--border)] rounded-full text-sm focus-visible:ring-[var(--accent-coral)]"
+            />
+            <Button
+              type="submit"
+              size="sm"
+              className="absolute left-1.5 top-1/2 -translate-y-1/2 h-8 bg-[var(--accent-coral)] hover:bg-[#d95232] text-white px-4 text-xs font-semibold rounded-full shadow-xs cursor-pointer"
+              aria-label="تنفيذ البحث"
+            >
+              بحث
+            </Button>
           </div>
         </form>
 
-        <nav className="categories-nav flex flex-wrap gap-2" aria-label="تصنيفات معدات المكتب" id="categories-nav">
+        {/* Categories Rail */}
+        <nav className="flex flex-wrap items-center justify-center gap-2 pt-1" aria-label="تصنيفات معدات المكتب" id="categories-nav">
           {categories.map((cat) => {
             const count =
               cat === 'الكل'
@@ -98,10 +96,10 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
                 type="button"
                 variant={isActive ? 'default' : 'outline'}
                 size="sm"
-                className={`h-9 px-3.5 gap-2 rounded-full cursor-pointer font-medium transition-all ${
+                className={`h-9 px-3.5 gap-2 rounded-full cursor-pointer font-medium text-xs sm:text-sm transition-all ${
                   isActive
-                    ? 'bg-[var(--accent-coral)] text-white hover:bg-[#d95232] shadow-xs'
-                    : 'bg-white dark:bg-[#1f1d1a] border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--secondary)]'
+                    ? 'bg-[var(--accent-coral)] text-white hover:bg-[#d95232] shadow-xs border-transparent'
+                    : 'bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--secondary)]'
                 }`}
                 data-category={cat}
                 aria-pressed={isActive}
@@ -124,15 +122,12 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
         </nav>
       </div>
 
-      <form
-        className="filters-row flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[var(--bamboo-border)]"
-        id="filters-form"
-        noValidate
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <div className="form-field price-filter-field flex items-center gap-3">
-          <label htmlFor="price-range-input" className="filter-label text-xs font-semibold text-[var(--charcoal-ink)] whitespace-nowrap">
-            الحد الأقصى للسعر: <strong id="price-range-output" className="font-mono text-[var(--charcoal-ink)]">{maxPrice} ر.س</strong>
+      {/* Bottom Filter Controls (Price Slider & Sorter) */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[var(--border)]">
+        {/* Price Slider */}
+        <div className="flex items-center gap-3">
+          <label htmlFor="price-range-input" className="text-xs font-semibold text-[var(--foreground)] whitespace-nowrap">
+            الحد الأقصى للسعر: <strong id="price-range-output" className="font-mono text-[var(--accent-coral)]">{maxPrice} ر.س</strong>
           </label>
           <input
             type="range"
@@ -148,12 +143,13 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
             step="50"
             value={maxPrice}
             onChange={(e) => onPriceChange(Number(e.target.value))}
-            className="accent-[var(--charcoal-ink)] cursor-pointer h-1.5 w-32 sm:w-44 bg-[var(--bamboo-border)] rounded-lg appearance-none"
+            className="accent-[var(--accent-coral)] cursor-pointer h-1.5 w-32 sm:w-44 bg-[var(--border)] rounded-lg appearance-none"
           />
         </div>
 
-        <div className="form-field sort-filter-field flex items-center gap-2">
-          <label htmlFor="sort-select" className="filter-label text-xs font-semibold text-[var(--charcoal-ink)] whitespace-nowrap">
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="sort-select" className="text-xs font-semibold text-[var(--foreground)] whitespace-nowrap">
             ترتيب حسب:
           </label>
           <select
@@ -167,7 +163,7 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
                 onSortChange(val);
               }
             }}
-            className="h-9 rounded-md border border-[var(--bamboo-border)] bg-white px-3 text-xs text-[var(--charcoal-ink)] focus:outline-none focus:ring-1 focus:ring-[var(--charcoal-ink)] cursor-pointer"
+            className="h-9 rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 text-xs font-medium text-[var(--foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-coral)] cursor-pointer"
           >
             <option value="default">الافتراضي (ترتيب الكتالوج)</option>
             <option value="price-asc">السعر: الأقل أولاً</option>
@@ -175,7 +171,7 @@ export const ProductsFilterBar: React.FC<ProductsFilterBarProps> = ({
             <option value="rating">الأعلى تقييماً</option>
           </select>
         </div>
-      </form>
+      </div>
     </section>
   );
 };

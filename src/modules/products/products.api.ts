@@ -210,16 +210,20 @@ export const CATEGORIES: readonly CategoryType[] = [
   'تنظيم المكتب',
 ];
 
-const PRODUCT_IMAGES = [
-  '/assets/products/brass-organizer.jpg',
-  '/assets/products/desk-mat.jpg',
-  '/assets/products/dock.jpg',
-  '/assets/products/headphones.jpg',
-  '/assets/products/keyboard.jpg',
-  '/assets/products/lamp.jpg',
-  '/assets/products/monitor-stand.jpg',
-  '/assets/products/mouse.jpg',
-];
+const API_PRODUCT_IMAGES: Record<number, string> = {
+  1: '/assets/products/api-leather-tote.jpg',
+  2: '/assets/products/api-canvas-backpack.jpg',
+  3: '/assets/products/api-crossbody-bag.jpg',
+  4: '/assets/products/api-white-sneakers.jpg',
+  5: '/assets/products/api-running-shoes.jpg',
+  6: '/assets/products/api-suede-loafers.jpg',
+  7: '/assets/products/api-wool-scarf.jpg',
+  8: '/assets/products/api-silver-watch.jpg',
+  9: '/assets/products/api-sunglasses.jpg',
+  10: '/assets/products/api-travel-duffel.jpg',
+  11: '/assets/products/api-rain-boots.jpg',
+  12: '/assets/products/api-leather-belt.jpg',
+};
 
 const CATEGORY_NAMES_AR: Record<string, string> = {
   Bags: 'تنظيم المكتب',
@@ -228,7 +232,7 @@ const CATEGORY_NAMES_AR: Record<string, string> = {
 };
 
 export function toProduct(api: ApiProduct): Product {
-  const image = PRODUCT_IMAGES[(api.id - 1) % PRODUCT_IMAGES.length];
+  const image = API_PRODUCT_IMAGES[api.id] || '/assets/products/api-leather-tote.jpg';
   const category = CATEGORY_NAMES_AR[api.category_name] || api.category_name;
 
   return {

@@ -12,7 +12,7 @@ Read this file before making any changes. If you learn something durable about t
 - **Component & UI System**: Tailwind CSS + shadcn/ui (Radix UI primitives) styled with the *Akari Desk Atelier* aesthetic design tokens (`:root` CSS variables: Warm Stone, Washi Ivory, Deep Emerald, Bamboo Tan, and Charcoal Ink).
 - **3D Graphics Engine**: Three.js via React Three Fiber (`@react-three/fiber`) & `@react-three/drei`, strictly isolated behind client boundaries (`'use client'`) and dynamically loaded with `ssr: false`.
 - **State Management**: Native React Context API + Custom Hooks for client-side state (Cart, Auth, Modals/Drawers). Zero external state libraries like Redux or Zustand.
-- **Testing**: Vitest + React Testing Library (Unit & Logic tests) & Playwright (Multi-browser E2E Tests).
+- **Testing**: Vitest + React Testing Library (`@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `jsdom`) & Playwright (Multi-browser E2E Tests with Chromium).
 - **Linter & Formatter**: ESLint 9 (Next.js core-web-vitals configuration) & Prettier with Husky + lint-staged pre-commit hooks.
 - **Localization**: Full RTL Arabic support (`<html lang="ar" dir="rtl">`), styled with Readex Pro and IBM Plex Sans Arabic.
 
@@ -58,8 +58,12 @@ shopboard-next/
 │       │   └── utils.ts          # shadcn cn() helper (clsx + tailwind-merge)
 │       └── validation/           # Shared form validators & regex patterns
 └── tests/
-    ├── unit/                     # Vitest unit test suites (*.logic.test.ts)
-    └── e2e/                      # Playwright browser end-to-end test suites
+    ├── setup.ts                  # Testing Library & Vitest DOM matchers setup
+    ├── unit/                     # Pure logic unit tests (*.logic.test.ts)
+    ├── component/                # React Testing Library component tests (*.test.tsx)
+    └── e2e/                      # Playwright browser end-to-end test suites (*.spec.ts)
+├── vitest.config.ts              # Vitest configuration with jsdom & path aliases
+└── playwright.config.ts          # Playwright E2E configuration & local webServer
 ```
 
 ### Where a New Feature Goes
@@ -149,6 +153,16 @@ These rules are direct preventatives for recurring mistakes observed during AI c
 - **The Mistake**: The AI used arbitrary Tailwind hex classes (e.g. `bg-[#1a2b3c]` or `text-gray-700`) instead of semantic tokens. This broke dark/light modes and violated the *Akari Desk Atelier* aesthetic.
 - **The Rule**: **Always use semantic design tokens and shadcn/ui CSS variable mappings**. Use `bg-background`, `text-primary`, `bg-warm-stone`, `text-deep-emerald`, `border-border`. Extend Tailwind theme tokens strictly via CSS variables configured in `src/app/globals.css`.
 
+### Mistake 9: Modifying or Weakening Tests When Implementation Breaks (The Never-Edit-Tests Rule)
+
+- **The Mistake**: When code changes caused unit or component tests to fail, the AI edited the test assertions or relaxed expectations (e.g. changing `expect(shipping).toBe(25)` to `expect(shipping).toBe(99)`) to force the suite green. This masked regression bugs, destroyed test integrity, and broke contractual invariants.
+- **The Rule**: **The Never-Edit-Tests Rule**: Never modify or weaken existing test assertions when code breaks. Tests define the immutable contract of what must be true. When a test fails, you must fix the implementation code to satisfy the test, never rewrite or relax the test to match broken behavior. Tests may only be edited if product requirements themselves are deliberately changed by human instruction.
+
+### Mistake 10: Querying DOM Elements by Fragile CSS Selectors in Tests
+
+- **The Mistake**: The AI wrote tests looking for elements using internal CSS classes (`.btn-primary`, `.checkout-card`) or arbitrary IDs (`#submit-btn`). When class names changed during styling refactors, tests broke despite the UI remaining fully functional and accessible.
+- **The Rule**: **Tests must always find elements by accessible role or label** (`screen.getByRole('button', { name: ... })`, `screen.getByLabelText(...)`, `page.getByRole(...)`, `page.getByLabel(...)`). This ensures tests reflect actual user interaction and validates semantic WCAG accessibility.
+
 ---
 
 ## 4. Core Engineering Rules & Conventions
@@ -175,6 +189,14 @@ These rules are direct preventatives for recurring mistakes observed during AI c
 7. **Strict React Hook Dependencies & Cleanup**:
    - Always declare complete dependency arrays for `useEffect`, `useCallback`, and `useMemo`.
    - Any subscription, event listener, or Three.js animation loop initialized in `useEffect` must return an explicit cleanup function to prevent memory leaks.
+8. **The Never-Edit-Tests Rule**:
+   - Never modify or weaken existing test assertions when code breaks.
+   - Tests define the immutable contract of what must be true.
+   - If a test fails, fix the implementation code to satisfy the test, never rewrite or relax the test to match broken behavior.
+9. **Accessible Role & Label Querying in Tests**:
+   - All component and E2E tests must locate elements using accessibility primitives (`getByRole`, `getByLabelText`, `getByLabel`), never by brittle CSS class selectors or query selectors.
+10. **Test Naming Convention ("What Must Be True")**:
+   - Every test case name must clearly declare the expected truth or invariant (e.g., `it('cart subtotal under 300 SAR must charge 25 SAR shipping...')`, `it('submitting empty required fields must display validation error alerts...')`).
 
 ---
 
