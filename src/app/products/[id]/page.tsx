@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, Share2, Heart, Star, ShieldCheck, Check } from 'lucide-react';
+import { ArrowRight, Star, ShieldCheck, Check } from 'lucide-react';
 import { ALL_PRODUCTS } from '@/modules/products/products.api';
 import { getDiscountPercent } from '@/modules/products/products.logic';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/shared/components/Footer/Footer';
 import { ProductDetailActions } from '@/modules/products/components/ProductDetailActions';
+import { ProductHeaderActions } from '@/modules/products/components/ProductHeaderActions';
 
 interface ProductDetailPageProps {
   params: Promise<{ id: string }>;
@@ -63,22 +64,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             <span>العودة للكتالوج</span>
           </Link>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="w-9 h-9 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors shadow-xs"
-              aria-label="مشاركة المنتج"
-            >
-              <Share2 className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              className="w-9 h-9 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--accent-coral)] transition-colors shadow-xs"
-              aria-label="المفضلة"
-            >
-              <Heart className="w-4 h-4" />
-            </button>
-          </div>
+          <ProductHeaderActions productName={product.name} />
         </div>
 
         {/* Product Details Main Grid */}
@@ -89,7 +75,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
+                className="w-full h-full object-cover aspect-square transition-transform duration-500 hover:scale-105"
               />
             </figure>
 

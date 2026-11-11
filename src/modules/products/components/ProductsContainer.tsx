@@ -5,10 +5,6 @@ import {
   RefreshCw,
   Package,
   Search,
-  FlaskConical,
-  CheckCircle2,
-  Clock,
-  XCircle,
 } from 'lucide-react';
 import { useProducts } from '../context/useProducts';
 import { useCart } from '../../cart/context/useCart';
@@ -23,14 +19,11 @@ export const ProductsContainer: React.FC = () => {
     filteredProducts,
     filters,
     loadState,
-    activeTestState,
     setCategory,
     setSearchQuery,
     setMaxPrice,
     setSortBy,
-    setTestState,
     openQuickView,
-    fetchApiProducts,
     resetToDefault,
   } = useProducts();
 
@@ -139,91 +132,19 @@ export const ProductsContainer: React.FC = () => {
       />
 
       <section className="catalog-section" aria-labelledby="catalog-title">
-        <header className="catalog-header">
+        <header className="catalog-header flex items-center justify-between pb-4 mb-6 border-b border-[var(--border)]">
           <div>
-            <h2 id="catalog-title">كتالوج معدات المكتب الاحترافية</h2>
-            <p className="catalog-subtitle">قطع هندسية مختارة بعناية لبيئة عمل هادئة ومنظمة</p>
+            <h2 id="catalog-title" className="text-xl sm:text-2xl font-bold font-readex text-[var(--foreground)]">
+              كتالوج المنتجات
+            </h2>
+            <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">قطع هندسية مختارة بعناية لبيئة عمل هادئة ومنظمة</p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <button
-              type="button"
-              id="btn-fetch-api"
-              className="btn btn-secondary"
-              style={{
-                fontSize: '0.82rem',
-                padding: '0.4rem 0.85rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-              }}
-              onClick={fetchApiProducts}
-            >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>سحب منتجات الـ API</span>
-            </button>
-            <p id="products-count" className="products-count" aria-live="polite">
+          <div>
+            <p id="products-count" className="text-xs sm:text-sm font-semibold text-[var(--muted-foreground)]" aria-live="polite">
               {countText}
             </p>
           </div>
         </header>
-
-        {/* 4 UI States Interactive Test Toolbar */}
-        <div className="state-test-toolbar" role="group" aria-label="اختبار حالات الواجهة الأربعة">
-          <span className="state-test-title inline-flex items-center gap-1.5">
-            <FlaskConical className="w-3.5 h-3.5 text-[var(--accent-coral)]" />
-            <span>اختبار الحالات (4 States):</span>
-          </span>
-          <button
-            type="button"
-            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'success' ? 'is-active' : ''}`}
-            data-test-state="success"
-            title="جلب طبيعي ناجح للبيانات"
-            onClick={() => setTestState('success')}
-          >
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>نجاح (Success)</span>
-          </button>
-          <button
-            type="button"
-            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'loading' ? 'is-active' : ''}`}
-            data-test-state="loading"
-            title="تأخير 3 ثوان لرؤية السكيلتون"
-            onClick={() => setTestState('loading')}
-          >
-            <Clock className="w-3.5 h-3.5 text-amber-500" />
-            <span>تحميل مؤقت (Loading)</span>
-          </button>
-          <button
-            type="button"
-            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'error' ? 'is-active' : ''}`}
-            data-test-state="error"
-            title="محاكاة خطأ 500 مع زر إعادة المحاولة"
-            onClick={() => setTestState('error')}
-          >
-            <XCircle className="w-3.5 h-3.5 text-rose-500" />
-            <span>خطأ 500 (Error + Try Again)</span>
-          </button>
-          <button
-            type="button"
-            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'empty-products' ? 'is-active' : ''}`}
-            data-test-state="empty-products"
-            title="خادم بدون منتجات مسجلة"
-            onClick={() => setTestState('empty-products')}
-          >
-            <Package className="w-3.5 h-3.5" />
-            <span>فارغ: خادم (Empty: No Products)</span>
-          </button>
-          <button
-            type="button"
-            className={`state-pill-btn inline-flex items-center gap-1.5 ${activeTestState === 'empty-match' ? 'is-active' : ''}`}
-            data-test-state="empty-match"
-            title="بحث بدون نتائج مطابقة"
-            onClick={() => setTestState('empty-match')}
-          >
-            <Search className="w-3.5 h-3.5" />
-            <span>فارغ: بحث (Empty: No Match)</span>
-          </button>
-        </div>
 
         {renderContent()}
       </section>

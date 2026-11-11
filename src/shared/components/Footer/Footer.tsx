@@ -76,49 +76,49 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
           <h3 className="footer-heading">أقسام الأتيليه</h3>
           <ul className="footer-links">
             <li>
-              <a
-                href="#products-section"
+              <Link
+                href="/products#products-section"
                 data-footer-cat="الكل"
                 onClick={() => onSelectCategory?.('الكل')}
               >
                 جميع معدات المكتب
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#products-section"
+              <Link
+                href="/products#products-section"
                 data-footer-cat="لوحات مفاتيح"
                 onClick={() => onSelectCategory?.('لوحات مفاتيح')}
               >
                 لوحات المفاتيح الميكانيكية
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#products-section"
+              <Link
+                href="/products#products-section"
                 data-footer-cat="صوتيات المكتب"
                 onClick={() => onSelectCategory?.('صوتيات المكتب')}
               >
                 صوتيات الاستوديو
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#products-section"
+              <Link
+                href="/products#products-section"
                 data-footer-cat="إضاءة المكتب"
                 onClick={() => onSelectCategory?.('إضاءة المكتب')}
               >
                 إضاءة المكتب المعمارية
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#products-section"
+              <Link
+                href="/products#products-section"
                 data-footer-cat="تنظيم المكتب"
                 onClick={() => onSelectCategory?.('تنظيم المكتب')}
               >
                 أدوات تنظيم المكتب
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

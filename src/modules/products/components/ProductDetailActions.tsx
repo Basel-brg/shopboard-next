@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ShoppingCart, Heart, Minus, Plus, Check, Ruler } from 'lucide-react';
 import type { Product } from '../products.types';
 import { useCart } from '@/modules/cart/context/useCart';
+import { useToast } from '@/shared/components/Toast/ToastContext';
 
 interface ProductDetailActionsProps {
   product: Product;
@@ -16,6 +17,7 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const { addItem } = useCart();
+  const { showToast } = useToast();
 
   const colors = [
     { name: 'عاجي طبيعي', hex: '#f2eada', ring: 'ring-[#ccb693]' },
@@ -74,7 +76,11 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
           <span className="text-xs font-bold text-[var(--foreground)] font-readex">
             المواصفات / القياس:
           </span>
-          <button type="button" className="inline-flex items-center gap-1 text-[11px] text-[var(--muted-foreground)] hover:text-[var(--accent-coral)]">
+          <button
+            type="button"
+            onClick={() => showToast('دليل المقاسات: الأبعاد القياسية للمنتج موضحة في تفاصيل المواصفات الفنية أدناه')}
+            className="inline-flex items-center gap-1 text-[11px] text-[var(--muted-foreground)] hover:text-[var(--accent-coral)] cursor-pointer"
+          >
             <Ruler className="w-3 h-3" />
             <span>دليل المقاسات</span>
           </button>
@@ -154,7 +160,15 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
 
         <button
           type="button"
-          onClick={() => setIsWishlisted(!isWishlisted)}
+          onClick={() => {
+            const next = !isWishlisted;
+            setIsWishlisted(next);
+            showToast(
+              next
+                ? `تمت إضافة "${product.name}" إلى المفضلة`
+                : `تمت إزالة "${product.name}" من المفضلة`,
+            );
+          }}
           className="w-full py-3.5 rounded-full font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 bg-white dark:bg-[#1a1917] hover:bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] transition-colors cursor-pointer"
         >
           <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-[var(--accent-coral)] text-[var(--accent-coral)]' : 'text-[var(--muted-foreground)]'}`} />

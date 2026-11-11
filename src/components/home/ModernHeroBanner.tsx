@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 interface ModernHeroBannerProps {
   onExploreClick?: () => void;
@@ -14,11 +14,6 @@ export function ModernHeroBanner({ onExploreClick }: ModernHeroBannerProps) {
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-12">
         {/* Right Content (RTL Leading) */}
         <div className="flex-1 text-center lg:text-right space-y-4 max-w-xl">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[var(--accent-coral)]/10 text-[var(--accent-coral)] border border-[var(--accent-coral)]/20 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>موسم جديد • تشكيلة 2026</span>
-          </div>
-
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-readex text-[var(--foreground)] tracking-tight leading-[1.2]">
             تشكيلات عصرية <br />
             <span className="text-[var(--accent-coral)]">تناسب أسلوبك</span>
@@ -57,16 +52,16 @@ export function ModernHeroBanner({ onExploreClick }: ModernHeroBannerProps) {
         {/* Left Hero Visual (Product with Glow Circle) */}
         <div className="flex-1 relative flex items-center justify-center w-full max-w-md lg:max-w-none">
           {/* Circular Glow backdrop */}
-          <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-full bg-gradient-to-tr from-[#f4dfc8] to-[#fcefe3] dark:from-[#2a2620] dark:to-[#352f28] absolute z-0 scale-90 sm:scale-100 animate-pulse duration-1000" />
+          <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-full bg-gradient-to-tr from-[#f4dfc8] to-[#fcefe3] dark:from-[#2a2620] dark:to-[#352f28] absolute z-0 scale-90 sm:scale-100" />
 
           {/* Product Cutout / Hero Stage Image */}
           <div className="relative z-10 p-2 transition-transform duration-300 hover:scale-105">
             <img
-              src="/assets/plates/hero-desk-photo.png"
+              src="/assets/products/keyboard.jpg"
               alt="ركن عمل احترافي بتنسيق أكاري الهادئ"
-              className="w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[440px] h-auto object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.15)] rounded-2xl"
-              width={440}
-              height={320}
+              className="w-full max-w-[300px] sm:max-w-[360px] lg:max-w-[400px] aspect-square object-cover drop-shadow-[0_20px_25px_rgba(0,0,0,0.12)] rounded-3xl"
+              width={400}
+              height={400}
             />
             {/* Floating Tag */}
             <div className="absolute top-4 left-4 bg-[var(--accent-coral)] text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-md">

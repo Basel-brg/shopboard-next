@@ -1,6 +1,6 @@
 # ShopBoard (Next.js Edition) — Engineering Standards & UI Architecture
 
-This document serves as the primary technical specification, UI rules reference, and architecture guide for ShopBoard on Next.js 15, matching the assignment criteria.
+This document serves as the primary technical specification, UI rules reference, and architecture guide for ShopBoard on Next.js 15, matching the assignment criteria and the modern StyleNest mobile & desktop redesign.
 
 ---
 
@@ -8,11 +8,13 @@ This document serves as the primary technical specification, UI rules reference,
 
 - **Framework**: Next.js 15 (App Router with `src/app/`), React 19, TypeScript (Strict mode, zero `any` policy).
 - **Styling**: Tailwind CSS v4 only — no CSS files except `src/app/globals.css`.
-- **Design Tokens**: Defined in `@theme` block in `globals.css` (Akari Desk Atelier aesthetic: Warm Stone, Washi Ivory, Bamboo Tan, Charcoal Ink, Vermilion Seal).
+- **Design Tokens**: Defined in `@theme` block in `globals.css` (StyleNest / Akari Atelier aesthetic: Clean Warm Ivory `#faf7f2`, White Surface `#ffffff`, Terracotta / Coral Accent `#ea5e3c`, Deep Charcoal Ink `#191817`).
 - **UI Components**: Canonical `components/ui/` design system (`Button`, `Input`, `Card`, `Badge`, `Modal`) built with Radix UI and Class Variance Authority (`cva`).
 - **Dark Mode**: Native Tailwind dark mode (`@custom-variant dark`), with smooth color inversion and persistent theme switching (`ThemeToggle`).
 - **State Management**: React Context API + Custom Hooks per feature module; zero external state dependencies.
 - **Data Flow & Logic**: Pure logic isolated in `*.logic.ts` with unit test coverage; single unified API client (`src/shared/api/client.ts`).
+- **Permanent Store Catalog**: 22 products loaded permanently into the store state (original catalog + API-sourced products) with Next.js Route Handler (`/api/products`).
+- **Zero Emojis Policy**: 100% pure SVG vector icons using `lucide-react` across all pages, badges, and status indicators.
 - **Localization**: Native RTL Arabic (`lang="ar" dir="rtl"`), styled with Readex Pro and IBM Plex Sans Arabic.
 
 ---
@@ -31,12 +33,13 @@ src/app/
 ├── icon.svg                 # SVG dynamic Favicon
 ├── apple-icon.svg           # Apple touch icon
 ├── manifest.ts              # PWA Web Manifest
+├── api/
+│   └── products/
+│       └── route.ts         # Native Next.js Route Handler (REST GET endpoint)
 ├── auth/
 │   └── page.tsx             # Full authentication page (Login & Register)
 ├── cart/
 │   └── page.tsx             # Full shopping cart, coupon application & checkout
-├── desk-builder/
-│   └── page.tsx             # 3D WebGL Desk Atelier (Client Component, ssr: false)
 ├── orders/
 │   └── page.tsx             # Order management, KPIs, status filtering & search
 ├── products/
@@ -59,18 +62,20 @@ All tokens are declared in `src/app/globals.css` using Tailwind v4 `@theme`:
 ```css
 @theme {
   /* Palette Colors */
-  --color-washi-ivory: #f2eada;
-  --color-washi-cream: #f6efe1;
-  --color-paper-ash: #eae5d8;
-  --color-well-ash: #e5dfd2;
-  --color-bamboo-tan: #ccb693;
-  --color-bamboo-border: #d4be9b;
-  --color-rib-shadow: #c3b5a2;
-  --color-charcoal-ink: #252522;
-  --color-charcoal-deep: #12100f;
-  --color-muted-umeboshi: #686358;
-  --color-vermilion-seal: #c23828;
-  --color-bamboo-green: #2e6f40;
+  --color-washi-ivory: #faf7f2;
+  --color-washi-cream: #ffffff;
+  --color-paper-ash: #f5f0e6;
+  --color-well-ash: #eae3d6;
+  --color-bamboo-tan: #ea5e3c;
+  --color-bamboo-border: #eae3d6;
+  --color-rib-shadow: #e2d9ca;
+  --color-charcoal-ink: #191817;
+  --color-charcoal-deep: #100f0e;
+  --color-muted-umeboshi: #787165;
+  --color-vermilion-seal: #ea5e3c;
+  --color-bamboo-green: #2e7d4a;
+  --color-accent-coral: #ea5e3c;
+  --color-accent-coral-soft: #fdf0ec;
 
   /* Semantic UI Colors mapped to CSS variables */
   --color-background: var(--background);
@@ -108,8 +113,8 @@ All tokens are declared in `src/app/globals.css` using Tailwind v4 `@theme`:
 
 ### Dark Mode Mechanics
 - Defined via `@custom-variant dark (&:where(.dark, .dark *));`.
-- In light mode (`:root`), background is warm Washi Ivory (`#f2eada`) and foreground is Charcoal Ink (`#252522`).
-- In dark mode (`.dark`), background is Deep Charcoal Ink (`#12100f`), cards are Warm Obsidian (`#1a1816`), and text is Washi Ivory (`#f2eada`).
+- In light mode (`:root`), background is soft warm ivory (`#faf7f2`), cards are pure white (`#ffffff`), accent is coral (`#ea5e3c`), and text is Charcoal Ink (`#191817`).
+- In dark mode (`.dark`), background is Deep Charcoal Ink (`#121110`), cards are Warm Obsidian (`#1c1a17`), and text is Ivory (`#f5f0e6`).
 - `ThemeToggle` component in `src/components/ui/theme-toggle.tsx` synchronizes `localStorage.theme` and updates the `dark` class on `document.documentElement` without layout shift or flash of unstyled content.
 
 ---
@@ -147,7 +152,7 @@ src/modules/<feature-name>/
 
 ### Feature Breakdown:
 1. **`auth`**: User registration, credential validation, session persistence, and profile management.
-2. **`cart`**: Slide-over and full `/cart` page with delta item mutation (`updateQuantity(id, +1/-1)`), coupon validation, and subtotal calculation.
+2. **`cart`**: Full `/cart` page with delta item mutation (`updateQuantity(id, +1/-1)`), coupon validation, and subtotal calculation.
 3. **`orders`**: Order management, 4-state async lifecycle, order KPIs, status filtering, and modal receipt preview.
 4. **`products`**: Catalog browsing, multi-criteria filtering (category, price range, search query, sorting), and dynamic detail route.
 5. **`settings`**: Atelier preferences, notification toggles, address management, and currency/language switching.
@@ -169,8 +174,8 @@ src/modules/<feature-name>/
      - `success`: Rendered list/cards.
 4. **Delta Cart Mutators**:
    - Cart quantities must always use delta semantics (`updateQuantity(id, +1)` or `updateQuantity(id, -1)`) to avoid stale state races.
-5. **Three.js / WebGL SSR Isolation**:
-   - 3D interactive canvas components (`@react-three/fiber`) must reside inside client components and be dynamically imported with `ssr: false`.
+5. **Zero Emojis Policy**:
+   - Strictly use stroke-based SVG vector icons (`lucide-react`) across all components, badges, and modals.
 6. **Zero `any` Policy**:
    - Use strict interfaces and runtime type guards (`if ('id' in item)`) across all modules.
 
@@ -188,6 +193,8 @@ When presenting any component in this codebase:
   - To respect Next.js and Tailwind v4 best practices, eliminating stylesheet sprawl and specificity conflicts. All design tokens are compiled via `@theme` into high-performance utility classes.
 - **How is Dark Mode implemented?**
   - We use Tailwind's `@custom-variant dark` along with CSS variable token re-mapping. When `.dark` is added to `<html>`, all components automatically adopt dark palette tokens without requiring component-level conditional classes. An inline script in `src/app/layout.tsx` eliminates theme flashing (FOUC).
+- **Why are products permanently preserved in the store?**
+  - Combining `API_PRODUCTS` and `PRODUCTS` into `ALL_PRODUCTS` inside `ProductsContext` ensures consistent browsing, direct URL access (`/products/[id]`), and uninterrupted offline/session resilience.
 
 ---
 
@@ -198,11 +205,11 @@ When presenting any component in this codebase:
 npm run dev          # Start local dev server (Turbopack)
 
 # Quality Gates
-npm test             # Run Vitest unit & logic test suite
+npm test             # Run Vitest unit & logic test suite (14 passing tests)
+npm run typecheck    # Run TypeScript compiler check (0 errors)
 npm run lint         # Run ESLint code checks
 
 # Production & Vercel
-npm run build        # Build optimized production bundle
+npm run build        # Build optimized production bundle (.next)
 npm run start        # Start production server
 ```
-

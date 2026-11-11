@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Star, Heart, Plus, Check } from 'lucide-react';
 import type { Product } from '../products.types';
 import { getDiscountPercent } from '../products.logic';
+import { useToast } from '@/shared/components/Toast/ToastContext';
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const { showToast } = useToast();
   const discountPct = getDiscountPercent(product.price, product.originalPrice);
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -28,7 +30,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
   const toggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
+    const next = !isWishlisted;
+    setIsWishlisted(next);
+    showToast(
+      next
+        ? `تمت إضافة "${product.name}" إلى المفضلة`
+        : `تمت إزالة "${product.name}" من المفضلة`,
+    );
   };
 
   return (
@@ -42,7 +50,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-cover aspect-square transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
             width="320"
             height="320"
@@ -51,11 +59,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
 
         {/* Floating Discount Badge (Top Right in RTL) */}
         {discountPct > 0 ? (
-          <span className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 rounded-full bg-[var(--accent-coral)] text-white text-[11px] font-bold shadow-xs">
+          <span className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-full bg-[var(--accent-coral)] text-white text-[11px] font-bold shadow-xs">
             خصم {discountPct}%-
           </span>
         ) : product.tag ? (
-          <span className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 rounded-full bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] text-[11px] font-semibold">
+          <span className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-full bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] text-[11px] font-semibold">
             {product.tag}
           </span>
         ) : null}
@@ -73,14 +81,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
         >
           <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-white' : ''}`} />
         </button>
-
-        {/* API Badge indicator */}
-        {product.isFromApi && (
-          <div className="absolute bottom-2 right-2.5 z-10 flex items-center gap-1 px-1.5 py-0.5 rounded bg-black/70 text-white text-[10px] backdrop-blur-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>API</span>
-          </div>
-        )}
       </div>
 
       {/* Product Content Details */}
