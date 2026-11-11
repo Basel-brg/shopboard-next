@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../context/useCart';
-import { useOrders } from '../../orders/context/useOrders';
 import { CartItemRow } from './CartItemRow';
 import { CheckoutForm } from './CheckoutForm';
+import { OrderConfirmationModal, type ConfirmedOrderData } from './OrderConfirmationModal';
 import { IconBag, IconTrash } from '@/shared/components/Icons/Icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +24,7 @@ export function CartPageContainer() {
     removeCoupon,
   } = useCart();
 
-  const { createOrder } = useOrders();
+  const [confirmedOrder, setConfirmedOrder] = useState<ConfirmedOrderData | null>(null);
   const [couponCode, setCouponCode] = useState('');
 
   const handleApplyCoupon = (e: React.FormEvent) => {
@@ -40,45 +40,48 @@ export function CartPageContainer() {
     customerCity: string;
     paymentMethod: string;
   }) => {
-    createOrder({
-      ...formData,
-      items: state.items.map((item) => ({
-        id: item.id,
-        productId: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        image: item.image,
-      })),
-      subtotal: state.subtotal,
-      discount: state.discountAmount,
-      shipping: state.shipping,
+    const orderData: ConfirmedOrderData = {
+      orderNumber: 'SB-' + Math.floor(1000 + Math.random() * 9000),
+      customerName: formData.customerName,
+      customerCity: formData.customerCity,
+      itemsCount: state.count,
       total: state.total,
-    });
+    };
 
+    setConfirmedOrder(orderData);
     clearCart();
-    router.push('/orders');
   };
 
   if (state.items.length === 0) {
     return (
-      <Card className="flex min-h-[50vh] flex-col items-center justify-center p-8 text-center bg-[var(--washi-cream)] border-[var(--bamboo-border)]">
-        <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--bamboo-tan)]/20 text-[var(--charcoal-ink)]">
-          <IconBag size={36} />
-        </div>
-        <h2 className="text-2xl font-bold tracking-tight text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-          سلة المشتريات فارغة
-        </h2>
-        <p className="mt-2 text-sm text-[var(--muted-umeboshi)] max-w-sm font-[family-name:var(--font-ibm-plex)]">
-          لم تقم بإضافة أي قطع من أثاث أو إكسسوارات الأتيليه بعد.
-        </p>
-        <Button asChild className="mt-6 gap-2 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)]">
-          <Link href="/products">
-            <span>←</span>
-            <span>تصفح كتالوج الأتيليه</span>
-          </Link>
-        </Button>
-      </Card>
+      <>
+        {confirmedOrder && (
+          <OrderConfirmationModal
+            order={confirmedOrder}
+            onClose={() => {
+              setConfirmedOrder(null);
+              router.push('/products');
+            }}
+          />
+        )}
+        <Card className="flex min-h-[50vh] flex-col items-center justify-center p-8 text-center bg-[var(--washi-cream)] border-[var(--bamboo-border)]">
+          <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--bamboo-tan)]/20 text-[var(--charcoal-ink)]">
+            <IconBag size={36} />
+          </div>
+          <h2 className="text-2xl font-bold tracking-tight text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
+            سلة المشتريات فارغة
+          </h2>
+          <p className="mt-2 text-sm text-[var(--muted-umeboshi)] max-w-sm font-[family-name:var(--font-ibm-plex)]">
+            لم تقم بإضافة أي قطع من أثاث أو إكسسوارات الأتيليه بعد.
+          </p>
+          <Button asChild className="mt-6 gap-2 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)]">
+            <Link href="/products">
+              <span>←</span>
+              <span>تصفح كتالوج الأتيليه</span>
+            </Link>
+          </Button>
+        </Card>
+      </>
     );
   }
 
@@ -145,6 +148,7 @@ export function CartPageContainer() {
                 <Input
                   type="text"
                   placeholder="أدخل رمز الكوبون (مثل: AKARI10)"
+                  aria-label="رمز قسيمة التخفيض"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="flex-1 bg-white border-[var(--bamboo-border)]"

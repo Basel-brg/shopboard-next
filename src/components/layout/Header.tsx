@@ -7,7 +7,6 @@ import { useCart } from '@/modules/cart/context/useCart';
 import {
   IconLogo,
   IconCart,
-  IconOrders,
   IconStore,
   IconHome,
 } from '@/shared/components/Icons/Icons';
@@ -20,7 +19,6 @@ export function Header() {
   const navLinks = [
     { href: '/', label: 'الرئيسية', icon: IconHome },
     { href: '/products', label: 'المتجر والمنتجات', icon: IconStore },
-    { href: '/orders', label: 'طلباتي', icon: IconOrders },
     { href: '/cart', label: 'السلة', icon: IconCart },
   ];
 
