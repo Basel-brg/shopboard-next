@@ -1,3 +1,21 @@
+export interface ProductColor {
+  name: string;
+  hex: string;
+  border?: string;
+}
+
+export interface ProductVariantOption {
+  id: string;
+  label: string;
+  priceModifier?: number;
+}
+
+export interface ProductVariantGroup {
+  id: string;
+  title: string;
+  options: ProductVariantOption[];
+}
+
 export interface Product {
   id: number;
   sku: string;
@@ -12,6 +30,8 @@ export interface Product {
   specs?: string[];
   warranty?: string;
   image: string;
+  colors?: ProductColor[];
+  variantGroups?: ProductVariantGroup[];
   plateId?: string;
   tag?: string;
   tone?: string;

@@ -8,6 +8,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/shared/components/Footer/Footer';
 import { ProductDetailActions } from '@/modules/products/components/ProductDetailActions';
 import { ProductHeaderActions } from '@/modules/products/components/ProductHeaderActions';
+import { ReviewsSection } from '@/modules/reviews/components/ReviewsSection';
 
 interface ProductDetailPageProps {
   params: Promise<{ id: string }>;
@@ -175,6 +176,9 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             <ProductDetailActions product={product} />
           </div>
         </div>
+
+        {/* Customer Reviews & Ratings Section */}
+        <ReviewsSection productId={product.id} productName={product.name} />
       </main>
 
       <Footer />

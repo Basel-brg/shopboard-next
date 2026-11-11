@@ -23,6 +23,30 @@ export const PRODUCTS: readonly Product[] = [
     image: '/assets/products/keyboard.jpg',
     plateId: 'card-1',
     tag: 'الأعلى تقييماً',
+    colors: [
+      { name: 'عاجي ريترو Vintage Ivory', hex: '#f5f0e6' },
+      { name: 'رمادي جرافيت فلكي Graphite Gray', hex: '#2d3139' },
+      { name: 'أخضر خيزران غابات Forest Sage', hex: '#3b4e43' },
+    ],
+    variantGroups: [
+      {
+        id: 'switches',
+        title: 'نوع المفاتيح (Switches)',
+        options: [
+          { id: 'red', label: 'مفاتيح حمراء خطية صامتة (Linear Red)' },
+          { id: 'brown', label: 'مفاتيح بنية لمسية ناعمة (Tactile Brown)' },
+          { id: 'blue', label: 'مفاتيح زرقاء نقرية (Clicky Blue)' },
+        ],
+      },
+      {
+        id: 'layout',
+        title: 'تخطيط لغة الأحرف',
+        options: [
+          { id: 'ar-en', label: 'عربي + إنجليزي ليزر دائم' },
+          { id: 'en', label: 'إنجليزي فقط مينيماليست' },
+        ],
+      },
+    ],
   },
   {
     id: 2,
@@ -41,6 +65,29 @@ export const PRODUCTS: readonly Product[] = [
     image: '/assets/products/headphones.jpg',
     plateId: 'card-2',
     tag: 'الأكثر مبيعاً',
+    colors: [
+      { name: 'أسود أونيكس غير لامع Matte Black', hex: '#18181b' },
+      { name: 'فضي بلاتيني ناصع Platinum Silver', hex: '#d1d5db' },
+      { name: 'كحلي ليلي عميق Midnight Navy', hex: '#1e293b' },
+    ],
+    variantGroups: [
+      {
+        id: 'pads',
+        title: 'نوع وسائد الأذن',
+        options: [
+          { id: 'leather', label: 'جلد بروتيني عازل للضوضاء' },
+          { id: 'velour', label: 'قماش مخملي مهوّى للتنفس (Velour)' },
+        ],
+      },
+      {
+        id: 'bundle',
+        title: 'الملحقات الإضافية',
+        options: [
+          { id: 'std', label: 'الحزمة القياسية (كيبل + محول 6.3mm)' },
+          { id: 'stand', label: 'مع حامل سماعة نحاسي فاخر للمكتب', priceModifier: 75 },
+        ],
+      },
+    ],
   },
   {
     id: 3,
@@ -59,6 +106,29 @@ export const PRODUCTS: readonly Product[] = [
     image: '/assets/products/lamp.jpg',
     plateId: 'card-3',
     tag: 'إصدار خاص',
+    colors: [
+      { name: 'نحاس أصفر مصقول Brushed Brass', hex: '#d4af37' },
+      { name: 'نحاس برونزي معتق Antique Bronze', hex: '#785434' },
+      { name: 'أسود فحمي بلمسات نحاسية Black/Brass', hex: '#1c1917' },
+    ],
+    variantGroups: [
+      {
+        id: 'mount',
+        title: 'طريقة التثبيت',
+        options: [
+          { id: 'base', label: 'قاعدة دائرية مصمتة ثقيلة' },
+          { id: 'clamp', label: 'مشبك تثبيت جانبي (Desk Clamp)' },
+        ],
+      },
+      {
+        id: 'kelvin',
+        title: 'درجة حرارة الإضاءة',
+        options: [
+          { id: '2700k', label: 'إضاءة دافئة مريحة 2700K' },
+          { id: '4000k', label: 'إضاءة نهارية محايدة 4000K' },
+        ],
+      },
+    ],
   },
   {
     id: 4,
@@ -77,6 +147,29 @@ export const PRODUCTS: readonly Product[] = [
     image: '/assets/products/mouse.jpg',
     plateId: 'card-4',
     tag: 'تصميم هندسي',
+    colors: [
+      { name: 'رمادي حجري ناعم Slate Gray', hex: '#4b5563' },
+      { name: 'أبيض عاجي Off-White', hex: '#f3f4f6' },
+      { name: 'أسود كربوني Carbon Black', hex: '#111827' },
+    ],
+    variantGroups: [
+      {
+        id: 'hand',
+        title: 'جهة الاستخدام',
+        options: [
+          { id: 'right', label: 'يد يمنى قياسية (Right Hand)' },
+          { id: 'left', label: 'يد يسرى مخصصة (Left Hand)' },
+        ],
+      },
+      {
+        id: 'connectivity',
+        title: 'نوع الاتصال والشحن',
+        options: [
+          { id: 'std', label: 'بلوتوث + 2.4GHz وشحن Type-C' },
+          { id: 'qi', label: 'مع دعم الشحن اللاسلكي السريع Qi', priceModifier: 45 },
+        ],
+      },
+    ],
   },
   {
     id: 5,
@@ -99,6 +192,20 @@ export const PRODUCTS: readonly Product[] = [
     image: '/assets/products/brass-organizer.jpg',
     plateId: 'sidebar-featured',
     tag: 'قطعة مختارة',
+    colors: [
+      { name: 'نحاس أصفر طبيعي Natural Brass', hex: '#d4af37' },
+      { name: 'نحاس أسود داكن Gunmetal Brass', hex: '#374151' },
+    ],
+    variantGroups: [
+      {
+        id: 'design',
+        title: 'شكل المنظم والتصميم',
+        options: [
+          { id: 'single', label: 'أسطوانة أقلام فردية مدمجة' },
+          { id: 'tray', label: 'صينية أدوات ومذكرات مكتبية متكاملة', priceModifier: 35 },
+        ],
+      },
+    ],
   },
   {
     id: 6,
@@ -116,6 +223,29 @@ export const PRODUCTS: readonly Product[] = [
     warranty: 'ضمان سنتين شامل',
     image: '/assets/products/monitor-stand.jpg',
     tag: 'وصل حديثاً',
+    colors: [
+      { name: 'خشب بلوط طبيعي فاتح Natural Oak', hex: '#c8a575' },
+      { name: 'خشب جوز داكن فاخر Dark Walnut', hex: '#4a3728' },
+      { name: 'خشب أسود رمادي Ash Black', hex: '#1f2421' },
+    ],
+    variantGroups: [
+      {
+        id: 'width',
+        title: 'عرض الحامل والمقاس',
+        options: [
+          { id: '80cm', label: 'شاشة واحدة (عرض 80 سم)' },
+          { id: '115cm', label: 'شاشتان أو شاشة عريضة (عرض 115 سم)', priceModifier: 80 },
+        ],
+      },
+      {
+        id: 'drawer',
+        title: 'درج التخزين السفلي',
+        options: [
+          { id: 'none', label: 'بدون درج (مساحة مفتوحة للوحة المفاتيح)' },
+          { id: 'felt', label: 'مع درج سحب مبطن باللباد الصوفي', priceModifier: 60 },
+        ],
+      },
+    ],
   },
   {
     id: 7,
@@ -137,6 +267,20 @@ export const PRODUCTS: readonly Product[] = [
     warranty: 'ضمان سنتين شامل',
     image: '/assets/products/dock.jpg',
     tag: 'أداء فائق',
+    colors: [
+      { name: 'رمادي فلكي Space Gray', hex: '#4b5563' },
+      { name: 'فضي ألمنيوم مؤكسد Silver', hex: '#e5e7eb' },
+    ],
+    variantGroups: [
+      {
+        id: 'cable',
+        title: 'طول كيبل Thunderbolt 4 المرفق',
+        options: [
+          { id: '0.8m', label: 'كيبل بطول 0.8 متر عالي السرعة 40Gbps' },
+          { id: '1.8m', label: 'كيبل بطول 1.8 متر مضفر فائق المتانة', priceModifier: 90 },
+        ],
+      },
+    ],
   },
   {
     id: 8,
@@ -154,6 +298,22 @@ export const PRODUCTS: readonly Product[] = [
     warranty: 'ضمان سنة شاملة',
     image: '/assets/products/desk-mat.jpg',
     tag: '',
+    colors: [
+      { name: 'رمادي صوف فحمي Anthracite', hex: '#33373b' },
+      { name: 'رمادي صوف فاتح Heather Gray', hex: '#9ca3af' },
+      { name: 'بيج قمح دافئ Oat Beige', hex: '#d2b48c' },
+    ],
+    variantGroups: [
+      {
+        id: 'size',
+        title: 'المقاس المكتبي',
+        options: [
+          { id: 'm', label: 'قياسي متوسط (80 × 30 سم)' },
+          { id: 'l', label: 'كبير واسع (90 × 40 سم)', priceModifier: 35 },
+          { id: 'xl', label: 'كامل سطح المكتب (100 × 50 سم)', priceModifier: 65 },
+        ],
+      },
+    ],
   },
   {
     id: 9,
@@ -175,6 +335,28 @@ export const PRODUCTS: readonly Product[] = [
     warranty: 'ضمان سنتين شامل',
     image: '/assets/products/pc-case.jpg',
     tag: 'الأعلى أداءً',
+    colors: [
+      { name: 'أسود أونيكس مع زجاج مقسّى Dark Glass Black', hex: '#111111' },
+      { name: 'أبيض جليدي Glacier White', hex: '#f8fafc' },
+    ],
+    variantGroups: [
+      {
+        id: 'cooling',
+        title: 'نظام التبريد المسبق',
+        options: [
+          { id: 'air', label: '3 مراوح ARGB 120mm أمامية عالية التدفق' },
+          { id: 'aio', label: 'نظام تبريد مائي مغلق AIO 360mm متزامن', priceModifier: 450 },
+        ],
+      },
+      {
+        id: 'panel',
+        title: 'اللوحة الجانبية',
+        options: [
+          { id: 'glass', label: 'زجاج مقسّى فائق الشفافية' },
+          { id: 'mesh', label: 'شبكة تهوية هوائية تبريدية Mesh' },
+        ],
+      },
+    ],
   },
   {
     id: 10,
@@ -196,6 +378,19 @@ export const PRODUCTS: readonly Product[] = [
     warranty: 'ضمان ثلاث سنوات شامل',
     image: '/assets/products/curved-monitor.jpg',
     tag: 'سيت أب احترافي',
+    colors: [
+      { name: 'أسود استوديو غير عاكس Matte Black', hex: '#18181b' },
+    ],
+    variantGroups: [
+      {
+        id: 'mount',
+        title: 'خيار الحامل والتثبيت',
+        options: [
+          { id: 'desk-stand', label: 'حامل مكتبي هيدروليكي أصلي قابل لضبط الارتفاع' },
+          { id: 'vesa-arm', label: 'مع ذراع تثبيت VESA غازي يثبت على حافة المكتب', priceModifier: 190 },
+        ],
+      },
+    ],
   },
 ];
 
@@ -235,6 +430,62 @@ export function toProduct(api: ApiProduct): Product {
   const image = API_PRODUCT_IMAGES[api.id] || '/assets/products/api-leather-tote.jpg';
   const category = CATEGORY_NAMES_AR[api.category_name] || api.category_name;
 
+  let colors: { name: string; hex: string }[] | undefined;
+  let variantGroups: { id: string; title: string; options: { id: string; label: string; priceModifier?: number }[] }[] | undefined;
+
+  if (api.category_name === 'Bags') {
+    colors = [
+      { name: 'جملي طبيعي Classic Tan', hex: '#c28b58' },
+      { name: 'أسود ملكي Royal Black', hex: '#1c1917' },
+      { name: 'بني إسبريسو Espresso', hex: '#452c1e' },
+    ];
+    variantGroups = [
+      {
+        id: 'size',
+        title: 'مقاس الحقيبة وسعة الحاسب',
+        options: [
+          { id: '13', label: 'حجم 13-14 بوصة مدمج' },
+          { id: '15', label: 'حجم 15-16 بوصة احترافي', priceModifier: 40 },
+        ],
+      },
+    ];
+  } else if (api.category_name === 'Shoes') {
+    colors = [
+      { name: 'أبيض كلاسيكي Crisp White', hex: '#f8fafc' },
+      { name: 'أسود فحمي Charcoal Black', hex: '#18181b' },
+      { name: 'بني جلدي Warm Leather', hex: '#5c3d2e' },
+    ];
+    variantGroups = [
+      {
+        id: 'size',
+        title: 'المقاس (EU)',
+        options: [
+          { id: '40', label: '40 EU' },
+          { id: '41', label: '41 EU' },
+          { id: '42', label: '42 EU' },
+          { id: '43', label: '43 EU' },
+          { id: '44', label: '44 EU' },
+        ],
+      },
+    ];
+  } else {
+    colors = [
+      { name: 'فضي بلاتيني Platinum', hex: '#cbd5e1' },
+      { name: 'ذهبي دافئ Brass/Gold', hex: '#d4af37' },
+      { name: 'أسود مطفي Matte Black', hex: '#27272a' },
+    ];
+    variantGroups = [
+      {
+        id: 'edition',
+        title: 'طراز الإصدار',
+        options: [
+          { id: 'std', label: 'إصدار قياسي' },
+          { id: 'gift', label: 'طراز إهداء مع علبة خشبية مخصصة', priceModifier: 35 },
+        ],
+      },
+    ];
+  }
+
   return {
     id: 1000 + api.id,
     sku: `SB-API-${api.id}`,
@@ -248,6 +499,8 @@ export function toProduct(api: ApiProduct): Product {
     reviewsCount: 15 + api.id * 3,
     description: `منتج عالي الجودة بتصميم أنيق وخامات متينة تناسب مساحة العمل اليومية.`,
     image,
+    colors,
+    variantGroups,
     specs: ['خامات متينة عالية الجودة', api.in_stock ? 'متوفر للشحن الفوري' : 'غير متوفر حالياً'],
     tag: api.in_stock ? 'جديد' : undefined,
     badge: api.in_stock ? 'متوفر' : 'غير متوفر',
