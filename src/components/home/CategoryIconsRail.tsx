@@ -1,67 +1,75 @@
 'use client';
 
 import React from 'react';
-import { LayoutGrid, Keyboard, Headphones, Sparkles, Package } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { LayoutGrid, Keyboard, Headphones, Sparkles, Package, ArrowLeft } from 'lucide-react';
 import { useProducts } from '@/modules/products/context/useProducts';
 
 export function CategoryIconsRail() {
+  const router = useRouter();
   const { filters, setCategory } = useProducts();
 
   const categories = [
     {
       id: 'الكل',
-      label: 'الكل',
+      label: 'كافة التصنيفات',
       icon: LayoutGrid,
-      bgLight: 'bg-[#fef3c7]',
-      textColor: 'text-[#b45309] dark:text-[#fde68a]',
-      darkBg: 'dark:bg-[#78350f]/30',
+      count: '12 منتج',
     },
     {
       id: 'لوحات مفاتيح',
-      label: 'كيبورد',
+      label: 'لوحات المفاتيح',
       icon: Keyboard,
-      bgLight: 'bg-[#ffe4e6]',
-      textColor: 'text-[#e11d48] dark:text-[#fecdd3]',
-      darkBg: 'dark:bg-[#881337]/30',
+      count: 'ميكانيكية ولاسلكية',
     },
     {
       id: 'صوتيات المكتب',
-      label: 'صوتيات',
+      label: 'صوتيات وعزل',
       icon: Headphones,
-      bgLight: 'bg-[#dbeafe]',
-      textColor: 'text-[#1d4ed8] dark:text-[#bfdbfe]',
-      darkBg: 'dark:bg-[#1e3a8a]/30',
+      count: 'سماعات احترافية',
     },
     {
       id: 'إضاءة المكتب',
-      label: 'إضاءة',
+      label: 'إضاءة معمارية',
       icon: Sparkles,
-      bgLight: 'bg-[#d1fae5]',
-      textColor: 'text-[#047857] dark:text-[#a7f3d0]',
-      darkBg: 'dark:bg-[#064e3b]/30',
+      count: 'دافئة 3000K',
     },
     {
       id: 'تنظيم المكتب',
-      label: 'تنظيم',
+      label: 'تنظيم وإكسسوارات',
       icon: Package,
-      bgLight: 'bg-[#ede9fe]',
-      textColor: 'text-[#6d28d9] dark:text-[#ddd6fe]',
-      darkBg: 'dark:bg-[#4c1d95]/30',
+      count: 'حوامل ولباد طبيعي',
     },
   ];
 
   const handleCategorySelect = (catId: string) => {
     setCategory(catId);
-    // Smooth scroll to catalog section
-    const catalogElem = document.getElementById('products-section');
-    if (catalogElem) {
-      catalogElem.scrollIntoView({ behavior: 'smooth' });
-    }
+    router.push('/products');
   };
 
   return (
-    <section className="my-8" aria-label="أقسام المتجر السريعة">
-      <div className="flex items-center justify-between gap-3 overflow-x-auto pb-2 scrollbar-none px-1">
+    <section className="py-2" aria-label="أقسام المنتجات السريعة">
+      <div className="flex items-center justify-between mb-4">
+        <div className="space-y-0.5">
+          <span className="text-xs font-bold text-[var(--accent-coral)] flex items-center gap-1.5">
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>تصفح حسب القسم</span>
+          </span>
+          <h2 className="text-lg sm:text-xl font-bold font-readex text-[var(--foreground)]">
+            أقسام المتجر المتخصصة
+          </h2>
+        </div>
+
+        <button
+          onClick={() => handleCategorySelect('الكل')}
+          className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--accent-coral)] hover:underline cursor-pointer"
+        >
+          <span>تصفح كل الأقسام</span>
+          <ArrowLeft className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         {categories.map((cat) => {
           const Icon = cat.icon;
           const isSelected = filters.category === cat.id;
@@ -71,34 +79,43 @@ export function CategoryIconsRail() {
               key={cat.id}
               type="button"
               onClick={() => handleCategorySelect(cat.id)}
-              className={`flex flex-col items-center gap-2 min-w-[70px] sm:min-w-[85px] p-2 rounded-2xl transition-all duration-200 cursor-pointer ${
+              className={`group p-4 rounded-3xl border transition-all duration-300 text-right cursor-pointer flex flex-col justify-between min-h-[110px] ${
                 isSelected
-                  ? 'scale-105'
-                  : 'hover:opacity-85 opacity-90'
+                  ? 'bg-[var(--accent-coral)] text-white border-[var(--accent-coral)] shadow-md'
+                  : 'bg-[var(--card)] text-[var(--foreground)] border-[var(--border)] hover:border-[var(--accent-coral)]/60 hover:shadow-xs hover:-translate-y-0.5'
               }`}
-              aria-label={`تصفية حسب ${cat.label}`}
-              aria-pressed={isSelected}
             >
-              <div
-                className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all shadow-xs ${
-                  cat.bgLight
-                } ${cat.darkBg} ${
-                  isSelected
-                    ? 'ring-3 ring-[var(--accent-coral)] shadow-md'
-                    : 'border border-[var(--border)]'
-                }`}
-              >
-                <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${cat.textColor}`} strokeWidth={2.2} />
+              <div className="flex items-center justify-between">
+                <div
+                  className={`p-2.5 rounded-2xl transition-all ${
+                    isSelected
+                      ? 'bg-white/20 text-white'
+                      : 'bg-[var(--accent)] text-[var(--accent-coral)] group-hover:scale-110'
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
+                <ArrowLeft
+                  className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                    isSelected
+                      ? 'text-white'
+                      : 'text-[var(--muted-foreground)] group-hover:-translate-x-1 group-hover:text-[var(--accent-coral)]'
+                  }`}
+                />
               </div>
-              <span
-                className={`text-xs font-semibold text-center transition-colors font-readex ${
-                  isSelected
-                    ? 'text-[var(--accent-coral)] font-bold'
-                    : 'text-[var(--foreground)]'
-                }`}
-              >
-                {cat.label}
-              </span>
+
+              <div className="mt-3">
+                <span className="block text-xs sm:text-sm font-bold font-readex truncate">
+                  {cat.label}
+                </span>
+                <span
+                  className={`block text-[10px] mt-0.5 truncate ${
+                    isSelected ? 'text-white/80' : 'text-[var(--muted-foreground)]'
+                  }`}
+                >
+                  {cat.count}
+                </span>
+              </div>
             </button>
           );
         })}
@@ -106,4 +123,3 @@ export function CategoryIconsRail() {
     </section>
   );
 }
-

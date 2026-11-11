@@ -7,11 +7,11 @@ import { useCart } from '../context/useCart';
 import { CartItemRow } from './CartItemRow';
 import { CheckoutForm } from './CheckoutForm';
 import { OrderConfirmationModal, type ConfirmedOrderData } from './OrderConfirmationModal';
-import { IconBag, IconTrash } from '@/shared/components/Icons/Icons';
+import { IconTrash } from '@/shared/components/Icons/Icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { ShoppingBag, Truck, Tag, Sparkles } from 'lucide-react';
 
 export function CartPageContainer() {
   const router = useRouter();
@@ -26,6 +26,10 @@ export function CartPageContainer() {
 
   const [confirmedOrder, setConfirmedOrder] = useState<ConfirmedOrderData | null>(null);
   const [couponCode, setCouponCode] = useState('');
+
+  const FREE_SHIPPING_THRESHOLD = 300;
+  const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - state.subtotal);
+  const freeShippingProgress = Math.min(100, (state.subtotal / FREE_SHIPPING_THRESHOLD) * 100);
 
   const handleApplyCoupon = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,163 +68,228 @@ export function CartPageContainer() {
             }}
           />
         )}
-        <Card className="flex min-h-[50vh] flex-col items-center justify-center p-8 text-center bg-[var(--washi-cream)] border-[var(--bamboo-border)]">
-          <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--bamboo-tan)]/20 text-[var(--charcoal-ink)]">
-            <IconBag size={36} />
+
+        <div className="py-20 text-center max-w-md mx-auto space-y-6">
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-[var(--accent)] text-[var(--accent-coral)] flex items-center justify-center shadow-xs">
+            <ShoppingBag className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-            سلة المشتريات فارغة
-          </h2>
-          <p className="mt-2 text-sm text-[var(--muted-umeboshi)] max-w-sm font-[family-name:var(--font-ibm-plex)]">
-            لم تقم بإضافة أي قطع من أثاث أو إكسسوارات متجر ShopBoard بعد.
-          </p>
-          <Button asChild className="mt-6 gap-2 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)]">
-            <Link href="/products">
-              <span>←</span>
-              <span>تصفح كتالوج ShopBoard</span>
+
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold font-readex text-[var(--foreground)]">
+              سلة المشتريات فارغة
+            </h2>
+            <p className="text-sm text-[var(--muted-foreground)]">
+              لم تقم بإضافة أي قطع بعد. استكشف بيئات العمل المنسقة أو تصفح الكتالوج لاختيار ما يناسب مكتبك.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <Link
+              href="/setups"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[var(--accent-coral)] text-white text-xs sm:text-sm font-bold shadow-xs hover:opacity-90 transition-opacity"
+            >
+              استكشف بيئات العمل (Shop The Look)
             </Link>
-          </Button>
-        </Card>
+            <Link
+              href="/products"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] text-xs sm:text-sm font-semibold hover:bg-[var(--accent)] transition-colors"
+            >
+              تصفح كتالوج ShopBoard
+            </Link>
+          </div>
+        </div>
       </>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      {/* Items Section (Right side in RTL) */}
-      <div className="lg:col-span-7 space-y-6">
-        <div className="flex items-center justify-between pb-4 border-b border-[var(--bamboo-border)]">
+    <>
+      {confirmedOrder && (
+        <OrderConfirmationModal
+          order={confirmedOrder}
+          onClose={() => {
+            setConfirmedOrder(null);
+            router.push('/products');
+          }}
+        />
+      )}
+
+      {/* Free Shipping Progress Alert */}
+      <div className="mb-8 p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
+        <div className="flex items-center justify-between text-xs font-semibold mb-2">
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-              المنتجات المحددة
-            </h2>
-            <Badge variant="secondary" className="font-mono">
-              {state.count}
-            </Badge>
-          </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={clearCart}
-            className="text-xs text-[var(--vermilion-seal)] hover:text-[var(--vermilion-seal)] hover:bg-[var(--vermilion-seal)]/10 gap-1.5 cursor-pointer h-8"
-          >
-            <IconTrash size={14} />
-            <span>تفريغ السلة بالكامل</span>
-          </Button>
-        </div>
-
-        {/* Items List */}
-        <ul className="space-y-4" aria-label="قائمة عناصر السلة">
-          {state.items.map((item) => (
-            <CartItemRow
-              key={item.id}
-              item={item}
-              onUpdateQuantity={updateQuantity}
-              onRemoveItem={removeItem}
-            />
-          ))}
-        </ul>
-
-        {/* Coupon Code Section */}
-        <Card className="border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-none">
-          <CardContent className="p-4 space-y-3">
-            <label
-              htmlFor="coupon-code-input"
-              className="block text-xs font-bold uppercase tracking-wider text-[var(--muted-umeboshi)]"
-            >
-              قسيمة التخفيض أو الرمز الترويجي
-            </label>
-            {state.appliedCoupon ? (
-              <div className="flex items-center justify-between p-3 rounded-lg border border-[var(--bamboo-green)] bg-[var(--bamboo-green)]/10 text-[var(--bamboo-green)]">
-                <span className="text-sm font-bold font-mono">
-                  كوبون نشط: {state.appliedCoupon.code} ({state.appliedCoupon.percent}% خصم)
-                </span>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={removeCoupon}
-                  className="h-7 text-xs text-[var(--vermilion-seal)] hover:text-[var(--vermilion-seal)] hover:bg-[var(--vermilion-seal)]/10"
-                >
-                  إلغاء
-                </Button>
-              </div>
+            <Truck className="w-4 h-4 text-[var(--accent-coral)]" />
+            {remainingForFreeShipping > 0 ? (
+              <span>
+                أضف بقيمة <strong className="text-[var(--accent-coral)] font-mono">{remainingForFreeShipping} ر.س</strong> إضافية للحصول على <strong className="text-emerald-600">شحن مجاني</strong>!
+              </span>
             ) : (
-              <form onSubmit={handleApplyCoupon} className="flex gap-2">
-                <Input
-                  id="coupon-code-input"
-                  type="text"
-                  placeholder="أدخل رمز الكوبون (مثل: SHOP20)"
-                  aria-label="أدخل رمز الكوبون"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  className="flex-1 bg-white border-[var(--bamboo-border)]"
-                />
-                <Button
-                  type="submit"
-                  className="bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)] px-5 text-xs font-bold"
-                >
-                  تطبيق
-                </Button>
-              </form>
+              <span className="text-emerald-600 font-bold flex items-center gap-1">
+                <span>مبروك! لقد حصلت على شحن مجاني لكافة مدن المملكة</span>
+              </span>
             )}
-          </CardContent>
-        </Card>
+          </div>
+          <span className="font-mono text-[var(--muted-foreground)]">
+            {state.subtotal} / {FREE_SHIPPING_THRESHOLD} ر.س
+          </span>
+        </div>
+        <div className="w-full h-2 rounded-full bg-[var(--secondary)] overflow-hidden">
+          <div
+            className="h-full rounded-full bg-[var(--accent-coral)] transition-all duration-500"
+            style={{ width: `${freeShippingProgress}%` }}
+          />
+        </div>
       </div>
 
-      {/* Summary & Checkout Section (Left side in RTL) */}
-      <div className="lg:col-span-5 space-y-6">
-        {/* Order Totals Card */}
-        <Card className="border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-xs">
-          <CardHeader className="pb-3 border-b border-[var(--bamboo-border)]">
-            <CardTitle className="text-lg font-bold text-[var(--charcoal-ink)] font-[family-name:var(--font-readex)]">
-              ملخص الحساب
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent className="pt-4 space-y-3 text-sm font-[family-name:var(--font-ibm-plex)]">
-            <div className="flex justify-between text-[var(--muted-umeboshi)]">
-              <span>المجموع الفرعي:</span>
-              <span className="font-mono font-semibold text-[var(--charcoal-ink)]">
-                {state.subtotal} ر.س
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column (7 cols): Items List & Coupon */}
+        <div className="lg:col-span-7 space-y-6">
+          {/* Header & Clear Button */}
+          <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold font-readex text-[var(--foreground)]">
+                المنتجات المحددة
+              </h2>
+              <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--accent)] text-[var(--accent-coral)]">
+                {state.count}
               </span>
             </div>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={clearCart}
+              className="text-xs text-red-500 hover:text-red-600 hover:bg-red-500/10 gap-1.5 cursor-pointer h-8"
+            >
+              <IconTrash size={14} />
+              <span>تفريغ السلة بالكامل</span>
+            </Button>
+          </div>
 
-            {state.discountAmount > 0 && (
-              <div className="flex justify-between text-[var(--vermilion-seal)] font-semibold">
-                <span>الخصم المطبق:</span>
-                <span className="font-mono">- {state.discountAmount} ر.س</span>
+          {/* Items List */}
+          <ul className="space-y-3" aria-label="قائمة عناصر السلة">
+            {state.items.map((item) => (
+              <CartItemRow
+                key={item.id}
+                item={item}
+                onUpdateQuantity={updateQuantity}
+                onRemoveItem={removeItem}
+              />
+            ))}
+          </ul>
+
+          {/* Coupon Code Section */}
+          <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-xs">
+            <CardContent className="p-4 space-y-3">
+              <label
+                htmlFor="coupon-code-input"
+                className="block text-xs font-bold text-[var(--foreground)] flex items-center gap-1.5"
+              >
+                <Tag className="w-3.5 h-3.5 text-[var(--accent-coral)]" />
+                <span>قسيمة التخفيض أو الرمز الترويجي</span>
+              </label>
+
+              {state.appliedCoupon ? (
+                <div className="flex items-center justify-between p-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-600">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    <span className="text-xs sm:text-sm font-bold font-mono">
+                      كوبون نشط: {state.appliedCoupon.code} (خصم {state.appliedCoupon.percent}%)
+                    </span>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={removeCoupon}
+                    className="h-7 text-xs text-red-500 hover:text-red-600 hover:bg-red-500/10 cursor-pointer"
+                  >
+                    إلغاء الكوبون
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleApplyCoupon} className="flex gap-2">
+                  <Input
+                    id="coupon-code-input"
+                    type="text"
+                    placeholder="أدخل رمز الكوبون (مثل: WELCOME10)"
+                    aria-label="أدخل رمز الكوبون"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    className="flex-1 bg-[var(--background)] border-[var(--border)] text-xs sm:text-sm"
+                  />
+                  <Button
+                    type="submit"
+                    className="px-5 rounded-xl bg-[var(--foreground)] text-[var(--background)] text-xs sm:text-sm font-bold hover:opacity-90 cursor-pointer"
+                  >
+                    تطبيق
+                  </Button>
+                </form>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right Column (5 cols): Order Summary & Checkout Form */}
+        <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+          {/* Order Summary Card */}
+          <Card className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-xs space-y-4">
+            <CardHeader className="p-0 pb-3 border-b border-[var(--border)]">
+              <CardTitle className="text-base font-bold font-readex text-[var(--foreground)]">
+                ملخص الطلب والحساب
+              </CardTitle>
+            </CardHeader>
+
+            <div className="space-y-2.5 text-xs sm:text-sm">
+              <div className="flex justify-between text-[var(--muted-foreground)]">
+                <span>المجموع الفرعي ({state.count} قطع):</span>
+                <span className="font-mono font-bold text-[var(--foreground)]">{state.subtotal} ر.س</span>
               </div>
-            )}
 
-            <div className="flex justify-between text-[var(--muted-umeboshi)]">
-              <span>الشحن والتوصيل:</span>
-              <span className="font-mono">
-                {state.shipping === 0 ? (
-                  <Badge variant="secondary" className="bg-[var(--bamboo-green)]/15 text-[var(--bamboo-green)] font-semibold">
-                    شحن مجاني
-                  </Badge>
-                ) : (
-                  `${state.shipping} ر.س`
-                )}
-              </span>
+              {state.discountAmount > 0 && (
+                <div className="flex justify-between text-emerald-600 font-semibold">
+                  <span className="flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>قيمة الخصم</span>
+                  </span>
+                  <span className="font-mono">-{state.discountAmount} ر.س</span>
+                </div>
+              )}
+
+              <div className="flex justify-between text-[var(--muted-foreground)]">
+                <span>قيمة الشحن والتوصيل:</span>
+                <span className="font-mono font-bold text-[var(--foreground)]">
+                  {state.shipping === 0 ? (
+                    <span className="text-emerald-600 font-bold">مجاني</span>
+                  ) : (
+                    `${state.shipping} ر.س`
+                  )}
+                </span>
+              </div>
+
+              <div className="pt-3 border-t border-[var(--border)] flex justify-between items-baseline">
+                <div>
+                  <span className="text-sm font-bold text-[var(--foreground)] block">
+                    المجموع النهائي:
+                  </span>
+                  <span className="text-[11px] text-[var(--muted-foreground)]">
+                    شامل ضريبة القيمة المضافة (15%)
+                  </span>
+                </div>
+                <div className="text-left">
+                  <span className="text-2xl font-black font-readex text-[var(--accent-coral)]">
+                    {state.total}
+                  </span>
+                  <span className="text-xs font-bold text-[var(--foreground)] mr-1">ر.س</span>
+                </div>
+              </div>
             </div>
+          </Card>
 
-            <div className="pt-3 border-t border-[var(--bamboo-border)] flex justify-between items-baseline text-base font-bold text-[var(--charcoal-ink)]">
-              <span>الإجمالي النهائي:</span>
-              <span className="text-2xl font-black font-mono text-[var(--charcoal-ink)]">
-                {state.total} ر.س
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Embedded Checkout Form */}
-        <div className="p-6 rounded-2xl border border-[var(--bamboo-border)] bg-[var(--washi-cream)] shadow-xs">
+          {/* Checkout Form */}
           <CheckoutForm onSubmitOrder={handleOrderSubmit} />
         </div>
       </div>
-    </div>
+    </>
   );
 }

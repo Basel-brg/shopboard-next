@@ -4,6 +4,7 @@ import React from 'react';
 import { useProducts } from '@/modules/products/context/useProducts';
 import { Header } from '@/components/layout/Header';
 import { ModernHeroBanner } from '@/components/home/ModernHeroBanner';
+import { HomeTrustGuarantees } from '@/components/home/HomeTrustGuarantees';
 import { CategoryIconsRail } from '@/components/home/CategoryIconsRail';
 import { HomeSetupsSection } from '@/components/home/HomeSetupsSection';
 import { HomeGiftGuidePromo } from '@/components/home/HomeGiftGuidePromo';
@@ -19,9 +20,12 @@ export function ShopBoardApp() {
       <Header />
 
       {/* Main Experience Layout */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-12">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-12 sm:space-y-16">
         {/* StyleNest-Inspired Hero Stage Banner */}
         <ModernHeroBanner />
+
+        {/* 4 Pillars Trust Guarantees */}
+        <HomeTrustGuarantees />
 
         {/* Quick Category Icons Rail */}
         <CategoryIconsRail />

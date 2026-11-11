@@ -18,44 +18,46 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
 }) => {
   return (
     <li
-      className="flex items-center gap-4 p-4 rounded-xl border border-[var(--bamboo-border)] bg-[var(--washi-cream)] transition-all hover:border-[var(--charcoal-ink)]/20"
+      className="flex items-center gap-4 p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] transition-all hover:border-[var(--accent-coral)]/40 shadow-xs"
       data-id={item.id}
     >
-      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-[var(--bamboo-border)] bg-white/60 p-1 flex items-center justify-center">
+      {/* Product Thumbnail */}
+      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--secondary)] p-1 flex items-center justify-center">
         <img
           src={item.image}
           alt={item.name}
-          className="h-full w-full object-contain"
+          className="h-full w-full object-cover rounded-lg aspect-square"
           loading="lazy"
           width="64"
           height="64"
         />
       </div>
 
+      {/* Info */}
       <div className="flex-1 min-w-0">
-        <h4 className="font-bold text-sm text-[var(--charcoal-ink)] truncate font-[family-name:var(--font-readex)]">
+        <h4 className="font-bold text-sm text-[var(--foreground)] truncate font-readex">
           {item.name}
         </h4>
-        <span className="text-xs text-[var(--muted-umeboshi)] mt-0.5 block font-[family-name:var(--font-ibm-plex)]">
+        <span className="text-xs text-[var(--muted-foreground)] mt-0.5 block font-sans">
           <span className="font-mono">{item.price}</span> ر.س × <span className="font-mono">{item.quantity}</span> ={' '}
-          <strong className="text-[var(--charcoal-ink)] font-mono">{item.price * item.quantity} ر.س</strong>
+          <strong className="text-[var(--foreground)] font-mono">{item.price * item.quantity} ر.س</strong>
         </span>
 
         <div className="flex items-center gap-3 mt-3">
           {/* Quantity Controls */}
-          <div className="flex items-center border border-[var(--bamboo-border)] rounded-md bg-white">
+          <div className="flex items-center border border-[var(--border)] rounded-lg bg-[var(--background)] overflow-hidden">
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="h-7 w-7 rounded-none text-[var(--charcoal-ink)] hover:bg-black/5"
+              className="h-7 w-7 rounded-none text-[var(--foreground)] hover:bg-[var(--accent)]/15 cursor-pointer"
               aria-label={`إنقاص الكمية لمنتج ${item.name}`}
               onClick={() => onUpdateQuantity(item.id, -1)}
             >
               <IconMinus size={12} />
             </Button>
             <span
-              className="w-8 text-center text-xs font-mono font-bold text-[var(--charcoal-ink)]"
+              className="w-8 text-center text-xs font-mono font-bold text-[var(--foreground)]"
               aria-label="الكمية الحالية"
             >
               {item.quantity}
@@ -64,24 +66,25 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
               type="button"
               variant="ghost"
               size="icon"
-              className="h-7 w-7 rounded-none text-[var(--charcoal-ink)] hover:bg-black/5"
+              className="h-7 w-7 rounded-none text-[var(--foreground)] hover:bg-[var(--accent)]/15 cursor-pointer"
               aria-label={`زيادة الكمية لمنتج ${item.name}`}
-              onClick={() => onUpdateQuantity(item.id, 1)}
+              onClick={() => onUpdateQuantity(item.id, +1)}
             >
               <IconPlus size={12} />
             </Button>
           </div>
 
+          {/* Remove Button */}
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="h-7 text-xs text-[var(--vermilion-seal)] hover:text-[var(--vermilion-seal)] hover:bg-[var(--vermilion-seal)]/10 gap-1 px-2 cursor-pointer"
+            className="text-xs text-[var(--muted-foreground)] hover:text-red-500 hover:bg-red-500/10 h-7 gap-1 px-2 cursor-pointer transition-colors"
             aria-label={`حذف منتج ${item.name} من السلة`}
             onClick={() => onRemoveItem(item.id)}
           >
             <IconTrash size={13} />
-            <span>حذف</span>
+            <span className="hidden sm:inline">حذف</span>
           </Button>
         </div>
       </div>

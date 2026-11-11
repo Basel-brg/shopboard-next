@@ -41,7 +41,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
         <Button
           type="button"
           onClick={onClose}
-          className="w-full h-11 bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)] font-bold text-sm cursor-pointer"
+          className="w-full h-11 rounded-2xl bg-[var(--accent-coral)] hover:bg-[#d95232] text-white font-bold text-sm cursor-pointer shadow-xs"
         >
           متابعة التسوق
         </Button>

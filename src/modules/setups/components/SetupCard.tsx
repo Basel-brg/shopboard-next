@@ -93,9 +93,9 @@ export function SetupCard({ setup }: SetupCardProps) {
 
           <Link
             href={`/setups/${setup.id}`}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[var(--charcoal-ink)] hover:bg-[var(--charcoal-deep)] text-[var(--washi-ivory)] text-xs font-semibold transition-all shadow-xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[var(--foreground)] hover:opacity-90 text-[var(--background)] text-xs font-bold transition-all shadow-xs cursor-pointer group-hover:scale-102"
           >
-            <span>استعراض وشراء</span>
+            <span>استعراض وتخصيص الحزمة</span>
             <ArrowLeft className="w-3.5 h-3.5" />
           </Link>
         </div>

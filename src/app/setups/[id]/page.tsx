@@ -3,6 +3,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { fetchSetupById, fetchAllSetups } from '@/modules/setups/setups.api';
 import { SetupDetailView } from '@/modules/setups/components/SetupDetailView';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/shared/components/Footer/Footer';
+import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 
 interface SetupDetailPageProps {
   params: Promise<{ id: string }>;
@@ -48,9 +51,15 @@ export default async function SetupDetailPage({ params }: SetupDetailPageProps) 
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 sm:py-12 max-w-7xl">
-      <SetupDetailView setup={setup} />
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+      <Header />
+
+      <main className="flex-1 container mx-auto px-4 py-8 sm:py-12 max-w-7xl">
+        <SetupDetailView setup={setup} />
+      </main>
+
+      <Footer />
+      <MobileBottomNav />
     </div>
   );
 }
-
