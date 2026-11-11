@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useSettings } from '../context/useSettings';
-import { useAuth } from '../../auth/context/useAuth';
 import { IconCheck, IconSettings } from '../../../shared/components/Icons/Icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +19,6 @@ import type { AtelierAmbiance } from '../settings.types';
 export const SettingsContainer: React.FC = () => {
   const { settings, isLoaded, updateProfile, updatePreferences, updateNotifications, resetSettings } =
     useSettings();
-  const { user, logout } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'profile' | 'atelier' | 'notifications' | 'system'>('profile');
 
@@ -457,27 +455,6 @@ export const SettingsContainer: React.FC = () => {
                 استعادة الضبط الافتراضي
               </Button>
             </div>
-
-            {user && (
-              <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <span className="block text-sm font-semibold text-[var(--vermilion-seal)]">
-                    تسجيل الخروج من الحساب
-                  </span>
-                  <span className="block text-xs text-red-700/80">
-                    أنت مسجل الدخول حالياً بحساب: {user.name} ({user.email})
-                  </span>
-                </div>
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={logout}
-                >
-                  تسجيل الخروج
-                </Button>
-              </div>
-            )}
           </CardContent>
         </Card>
       )}

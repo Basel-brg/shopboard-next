@@ -34,7 +34,7 @@ export function MobileBottomNav() {
       href: '/settings',
       label: 'حسابي',
       icon: User,
-      isActive: pathname.startsWith('/settings') || pathname.startsWith('/orders') || pathname.startsWith('/auth'),
+      isActive: pathname.startsWith('/settings') || pathname.startsWith('/orders'),
     },
   ];
 

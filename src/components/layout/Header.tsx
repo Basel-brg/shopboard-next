@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/modules/cart/context/useCart';
-import { useAuth } from '@/modules/auth/context/useAuth';
 import {
   IconLogo,
   IconCart,
@@ -18,7 +17,6 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 export function Header() {
   const pathname = usePathname();
   const { state: cartState } = useCart();
-  const { user } = useAuth();
 
   const navLinks = [
     { href: '/', label: 'الرئيسية', icon: IconHome },
@@ -75,19 +73,9 @@ export function Header() {
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-2">
           {/* Dark / Light Mode Toggle */}
           <ThemeToggle />
-
-          {/* Auth Link */}
-          <Link
-            href={user ? '/settings' : '/auth'}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--bamboo-border)] bg-[var(--washi-cream)] text-[var(--charcoal-ink)] hover:bg-black/5 transition-colors cursor-pointer"
-            aria-label={user ? `حساب ${user.name}` : 'تسجيل الدخول'}
-          >
-            <span className="h-2 w-2 rounded-full bg-[var(--bamboo-green)] shrink-0" aria-hidden="true" />
-            <span className="max-w-[70px] sm:max-w-[100px] truncate">{user ? user.name : 'دخول'}</span>
-          </Link>
 
           {/* Cart Link */}
           <Link

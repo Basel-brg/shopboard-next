@@ -66,9 +66,6 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
             <li>
               <Link href="/settings">إعدادات الحساب وتفضيلات الأتيليه</Link>
             </li>
-            <li>
-              <Link href="/auth">تسجيل الدخول وبوابة العضوية</Link>
-            </li>
           </ul>
         </div>
 
